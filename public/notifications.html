@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Healthy Harvest</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --lighter-green: #c8e6c9;
+            --accent-yellow: #ffd54f;
+            --accent-red: #ef5350;
+            --accent-blue: #2196f3;
+            --dark-gray: #333;
+            --light-gray: #f5f5f5;
+            --border-color: #ddd;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--primary-green), var(--light-green));
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .main-nav a:hover, .main-nav a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .user-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-nav a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .user-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .notification-badge {
+            background-color: var(--accent-red);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Notification Filters */
+        .notification-filters {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.2rem;
+            background: var(--light-gray);
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn:hover {
+            background: var(--lighter-green);
+        }
+
+        .filter-btn.active {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .filter-btn .count {
+            background: white;
+            color: var(--primary-green);
+            padding: 0.1rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+
+        .filter-btn.active .count {
+            background: white;
+            color: var(--primary-green);
+        }
+
+        .notification-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .action-btn:hover {
+            background: #1976D2;
+        }
+
+        .action-btn.secondary {
+            background: var(--light-gray);
+            color: var(--dark-gray);
+        }
+
+        .action-btn.secondary:hover {
+            background: #e0e0e0;
+        }
+
+        /* Notification List */
+        .notification-list {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .notification-item {
+            display: flex;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+            transition: background-color 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .notification-item:hover {
+            background: #f9f9f9;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-item.unread {
+            background: #f0f7ff;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .notification-item.important {
+            background: #fff8e1;
+            border-left: 4px solid var(--accent-yellow);
+        }
+
+        .notification-item.emergency {
+            background: #ffebee;
+            border-left: 4px solid var(--accent-red);
+        }
+
+        .notification-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .notification-item.unread .notification-icon {
+            background: rgba(33, 150, 243, 0.1);
+            color: var(--accent-blue);
+        }
+
+        .notification-item.important .notification-icon {
+            background: rgba(255, 213, 79, 0.1);
+            color: var(--accent-yellow);
+        }
+
+        .notification-item.emergency .notification-icon {
+            background: rgba(239, 83, 80, 0.1);
+            color: var(--accent-red);
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification-message {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .notification-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .notification-time {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .notification-category {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: var(--lighter-green);
+            color: var(--primary-green);
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .notification-actions-item {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .item-btn {
+            padding: 0.3rem 0.8rem;
+            background: var(--light-gray);
+            border: none;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .item-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .item-btn.primary {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .item-btn.primary:hover {
+            background: var(--light-green);
+        }
+
+        .notification-mark {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            color: var(--accent-blue);
+            cursor: pointer;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            color: var(--light-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Settings Section */
+        .settings-section {
+            margin-top: 3rem;
+        }
+
+        .settings-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .settings-group {
+            margin-bottom: 2rem;
+        }
+
+        .settings-title {
+            font-size: 1.3rem;
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .settings-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settings-label-text {
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .settings-label-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.2rem;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-green);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Notification Types */
+        .notification-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .type-item {
+            background: var(--light-gray);
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .type-item.active {
+            background: var(--lighter-green);
+            border: 2px solid var(--primary-green);
+        }
+
+        .type-icon {
+            font-size: 1.5rem;
+            color: var(--primary-green);
+        }
+
+        .type-info {
+            flex: 1;
+        }
+
+        .type-name {
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .type-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-gray);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-yellow);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .main-nav, .user-nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--primary-green);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+            
+            .main-nav.active, .user-nav.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .notification-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .notification-actions {
+                margin-left: 0;
+                justify-content: center;
+            }
+            
+            .notification-item {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .notification-icon {
+                margin-right: 0;
+            }
+        }
+
+        /* Badge Styles */
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-new {
+            background: var(--accent-red);
+            color: white;
+        }
+
+        .badge-weather {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .badge-farming {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .badge-expert {
+            background: var(--accent-yellow);
+            color: var(--dark-gray);
+        }
+
+        .badge-system {
+            background: #9c27b0;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo">
+            <i class="fas fa-seedling"></i>
+            <span>Healthy Harvest</span>
+        </a>
+        
+        <nav class="main-nav">
+            <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="help.html"><i class="fas fa-question-circle"></i> Help</a>
+            <a href="contact.html"><i class="fas fa-users"></i> Contact Experts</a>
+            <a href="history.html"><i class="fas fa-history"></i> Weather History</a>
+            <a href="glossary.html"><i class="fas fa-book"></i> Glossary</a>
+            <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+            <a href="notifications.html" class="active"><i class="fas fa-bell"></i> Notifications</a>
+        </nav>
+        
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="user-nav" id="userNav">
+            <div style="position: relative;">
+                <a href="profile.html" id="notificationsUserName"><i class="fas fa-user"></i> Healthy Harvest User</a>
+            </div>
+            <div style="position: relative;">
+                <a href="notifications.html"><i class="fas fa-bell"></i></a>
+                <span class="notification-badge">12</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1><i class="fas fa-bell"></i> Notifications Center</h1>
+            <p>Stay updated with weather alerts, farming recommendations, and system notifications</p>
+        </div>
+
+        <!-- Notification Filters -->
+        <div class="notification-filters">
+            <button class="filter-btn active" data-filter="all">
+                <i class="fas fa-globe"></i> All Notifications
+                <span class="count">24</span>
+            </button>
+            <button class="filter-btn" data-filter="unread">
+                <i class="fas fa-envelope"></i> Unread
+                <span class="count">12</span>
+            </button>
+            <button class="filter-btn" data-filter="weather">
+                <i class="fas fa-cloud-sun"></i> Weather Alerts
+                <span class="count">8</span>
+            </button>
+            <button class="filter-btn" data-filter="farming">
+                <i class="fas fa-tractor"></i> Farming Tips
+                <span class="count">10</span>
+            </button>
+            <button class="filter-btn" data-filter="expert">
+                <i class="fas fa-user-tie"></i> Expert Updates
+                <span class="count">4</span>
+            </button>
+            <button class="filter-btn" data-filter="system">
+                <i class="fas fa-cog"></i> System
+                <span class="count">2</span>
+            </button>
+            
+            <div class="notification-actions">
+                <button class="action-btn secondary" onclick="markAllAsRead()">
+                    <i class="fas fa-check-double"></i> Mark All Read
+                </button>
+                <button class="action-btn" onclick="clearAllNotifications()">
+                    <i class="fas fa-trash"></i> Clear All
+                </button>
+            </div>
+        </div>
+
+        <!-- Notification List -->
+        <div class="notification-list" id="notificationList">
+            <!-- Notification 1: Emergency Weather Alert -->
+            <div class="notification-item unread emergency" data-category="weather">
+                <div class="notification-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">
+                        <span>⚠️ URGENT: Heavy Rainfall Alert</span>
+                        <span class="badge badge-new">NEW</span>
+                        <span class="badge badge-weather">WEATHER</span>
+                    </div>
+                    <div class="notification-message">
+                        Heavy rainfall (45-60mm) predicted for April 25-27. Expected wind speeds: 25-35 km/h. Prepare drainage systems and delay outdoor activities.
+                    </div>
+                    <div class="notification-meta">
+                        <div class="notification-time">
+                            <i class="far fa-clock"></i> 2 hours ago
+                        </div>
+                        <div>Severity: <strong>High</strong></div>
+                        <div>Location: Nakasongola District</div>
+                    </div>
+                    <div class="notification-actions-item">
+                        <button class="item-btn primary" onclick="viewWeatherDetails()">
+                            <i class="fas fa-cloud-sun-rain"></i> View Forecast
+                        </button>
+                        <button class="item-btn" onclick="dismissNotification(this)">
+                            <i class="fas fa-times"></i> Dismiss
+                        </button>
+                    </div>
+                </div>
+                <div class="notification-mark" onclick="markAsRead(this)">
+                    <i class="far fa-envelope"></i>
+                </div>
+            </div>
+
+            <!-- Notification 2: Farming Recommendation -->
+            <div class="notification-item unread" data-category="farming">
+                <div class="notification-icon">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">
+                        <span>🌱 Optimal Planting Window</span>
+                        <span class="badge badge-new">NEW</span>
+                        <span class="badge badge-farming">FARMING</span>
+                    </div>
+                    <div class="notification-message">
+                        Perfect conditions detected for planting groundnuts. Soil moisture at 65%, temperature 25-30°C. Next 3 days ideal for planting.
+                    </div>
+                    <div class="notification-meta">
+                        <div class="notification-time">
+                            <i class="far fa-clock"></i> 5 hours ago
+                        </div>
+                        <div>Crop: Groundnut (Serenut 2)</div>
+                        <div>Field: 2 Acres</div>
+                    </div>
+                    <div class="notification-actions-item">
+                        <button class="item-btn primary" onclick="viewPlantingPlan()">
+                            <i class="fas fa-calendar-check"></i> View Planting Plan
+                        </button>
+                        <button class="item-btn" onclick="snoozeNotification(this, '24h')">
+                            <i class="fas fa-clock"></i> Remind Later
+                        </button>
+                    </div>
+                </div>
+                <div class="notification-mark" onclick="markAsRead(this)">
+                    <i class="far fa-envelope"></i>
+                </div>
+            </div>
+
+            <!-- Notification 3: Expert Advice -->
+            <div class="notification-item" data-category="expert">
+                <div class="notification-icon">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">
+                        <span>👨‍🌾 Expert Response Received</span>
+                        <span class="badge badge-expert">EXPERT</span>
+                    </div>
+                    <div class="notification-message">
+                        Dr. Sarah Kintu responded to your soil quality question: "Based on your soil test results, I recommend applying 50kg of lime per acre before planting."
+                    </div>
+                    <div class="notification-meta">
+                        <div class="notification-time">
+                            <i class="far fa-clock"></i> 1 day ago
+                        </div>
+                        <div>Expert: Dr. Sarah Kintu</div>
+                        <div>Topic: Soil Management</div>
+                    </div>
+                    <div class="notification-actions-item">
+                        <button class="item-btn primary" onclick="viewExpertResponse()">
+                            <i class="fas fa-comment-medical"></i> View Response
+                        </button>
+                        <button class="item-btn" onclick="replyToExpert()">
+                            <i class="fas fa-reply"></i> Reply
+                        </button>
+                    </div>
+                </div>
+                <div class="notification-mark" onclick="markAsRead(this)">
+                    <i class="far fa-envelope-open"></i>
+                </div>
+            </div>
+
+            <!-- Notification 4: Irrigation Alert -->
+            <div class="notification-item important" data-category="farming">
+                <div class="notification-icon">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">
+                        <span>💧 Irrigation Reminder</span>
+                        <span class="badge badge-farming">FARMING</span>
+                    </div>
+                    <div class="notification-message">
+                        Soil moisture dropping to 45%. Recommended irrigation: 5000 liters per acre. Best time: Tomorrow morning (6-8 AM).
+                    </div>
+                    <div class="notification-meta">
+                        <div class="notification-time">
+                            <i class="far fa-clock"></i> 2 days ago
+                        </div>
+                        <div>Field: North Section</div>
+                        <div>Crop: Maize (Vegetative Stage)</div>
+                    </div>
+                    <div class="notification-actions-item">
+                        <button class="item-btn primary" onclick="scheduleIrrigation()">
+                            <i class="fas fa-calendar-plus"></i> Schedule Irrigation
+                        </button>
+                        <button class="item-btn" onclick="dismissNotification(this)">
+                            Skip This Time
+                        </button>
+                    </div>
+                </div>
+                <div class="notification-mark" onclick="markAsRead(this)">
+                    <i class="far fa-envelope-open"></i>
+                </div>
+            </div>
+
+            <!-- Notification 5: Weather Update -->
+            <div class="notification-item" data-category="weather">
+                <div class="notification-icon">
+                    <i class="fas fa-wind"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">
+                        <span>🌬️ Wind Advisory</span>
+                        <span class="badge badge-weather">WEATHER</span>
+                    </div>
+                    <div class="notification-message">
+                        Strong winds (20-30 km/h) expected tomorrow. Secure loose equipment, harvest vulnerable crops, and protect young plants.
+                    </div>
+                    <div class="notification-meta">
+                        <div class="notification-time">
+                            <i class="far fa-clock"></i> 3 days ago
+                        </div>
+                        <div>Wind Speed: 20-30 km/h</div>
+                        <div>Direction: Northeast</div>
+                    </div>
+                    <div class="notification-actions-item">
+                        <button class="item-btn" onclick="viewWindForecast()">
+                            <i class="fas fa-wind"></i> Wind Forecast
+                        </button>
+                        <button class="item-btn primary" onclick="addToTaskList()">
+                            <i class="fas fa-tasks"></i> Add to Tasks
+                        </button>
+                    </div>
+                </div>
+                <div class="notification-mark" onclick="markAsRead(this)">
+                    <i class="far fa-envelope-open"></i>
+                </div>
+            </div>
+
+            <!-- Notification 6: System Update -->
+            <div class="notification-item" data-category="system">
+                <div class="notification-icon">
+                    <i class="fas fa-sync-alt"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">
+                        <span>🔄 System Update Available</span>
+                        <span class="badge badge-system">SYSTEM</span>
+                    </div>
+                    <div class="notification-message">
+                        New AI model update available. Improved weather prediction accuracy by 15%. Update includes enhanced crop disease detection.
+                    </div>
+                    <div class="notification-meta">
+                        <div class="notification-time">
+                            <i class="far fa-clock"></i> 1 week ago
+                        </div>
+                        <div>Version: 2.1.5</div>
+                        <div>Size: 45 MB</div>
+                    </div>
+                    <div class="notification-actions-item">
+                        <button class="item-btn primary" onclick="updateSystem()">
+                            <i class="fas fa-download"></i> Update Now
+                        </button>
+                        <button class="item-btn" onclick="remindLater()">
+                            <i class="fas fa-clock"></i> Remind Later
+                        </button>
+                    </div>
+                </div>
+                <div class="notification-mark" onclick="markAsRead(this)">
+                    <i class="far fa-envelope-open"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State (Hidden by default) -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-icon">
+                <i class="far fa-bell-slash"></i>
+            </div>
+            <h3 style="color: #666; margin-bottom: 1rem;">No Notifications</h3>
+            <p style="color: #888; max-width: 500px; margin: 0 auto;">
+                You're all caught up! When you have new weather alerts, farming tips, or expert messages, they'll appear here.
+            </p>
+            <button class="action-btn" onclick="loadSampleNotifications()" style="margin-top: 1.5rem;">
+                <i class="fas fa-redo"></i> Load Sample Notifications
+            </button>
+        </div>
+
+        <!-- Notification Settings -->
+        <div class="settings-section">
+            <div class="settings-card">
+                <h2 class="settings-title"><i class="fas fa-cog"></i> Notification Settings</h2>
+                
+                <div class="settings-group">
+                    <h3 class="settings-title" style="font-size: 1.2rem;"><i class="fas fa-bell"></i> Delivery Methods</h3>
+                    <div class="settings-item">
+                        <div class="settings-label">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <div class="settings-label-text">Email Notifications</div>
+                                <div class="settings-label-desc">Receive notifications via email</div>
+                            </div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="settings-item">
+                        <div class="settings-label">
+                            <i class="fas fa-sms"></i>
+                            <div>
+                                <div class="settings-label-text">SMS Alerts</div>
+                                <div class="settings-label-desc">Critical alerts via SMS (emergency only)</div>
+                            </div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="settings-item">
+                        <div class="settings-label">
+                            <i class="fas fa-mobile-alt"></i>
+                            <div>
+                                <div class="settings-label-text">Push Notifications</div>
+                                <div class="settings-label-desc">App notifications on your device</div>
+                            </div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3 class="settings-title" style="font-size: 1.2rem;"><i class="fas fa-filter"></i> Notification Types</h3>
+                    <div class="notification-types">
+                        <div class="type-item active">
+                            <i class="fas fa-cloud-sun-rain type-icon"></i>
+                            <div class="type-info">
+                                <div class="type-name">Weather Alerts</div>
+                                <div class="type-desc">Rainfall, temperature, wind alerts</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="type-item active">
+                            <i class="fas fa-seedling type-icon"></i>
+                            <div class="type-info">
+                                <div class="type-name">Farming Tips</div>
+                                <div class="type-desc">Planting, irrigation, harvesting advice</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="type-item active">
+                            <i class="fas fa-user-md type-icon"></i>
+                            <div class="type-info">
+                                <div class="type-name">Expert Updates</div>
+                                <div class="type-desc">Messages from agricultural experts</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="type-item">
+                            <i class="fas fa-chart-line type-icon"></i>
+                            <div class="type-info">
+                                <div class="type-name">Market Prices</div>
+                                <div class="type-desc">Daily crop price updates</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3 class="settings-title" style="font-size: 1.2rem;"><i class="fas fa-clock"></i> Quiet Hours</h3>
+                    <div class="settings-item">
+                        <div class="settings-label">
+                            <i class="fas fa-moon"></i>
+                            <div>
+                                <div class="settings-label-text">Enable Quiet Hours</div>
+                                <div class="settings-label-desc">Mute notifications during specific hours</div>
+                            </div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="settings-item">
+                        <div class="settings-label">
+                            <i class="far fa-clock"></i>
+                            <div>
+                                <div class="settings-label-text">Quiet Hours Schedule</div>
+                                <div class="settings-label-desc">10:00 PM - 6:00 AM (no notifications)</div>
+                            </div>
+                        </div>
+                        <button class="action-btn secondary" onclick="editQuietHours()">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                    </div>
+                </div>
+                
+                <button class="action-btn" onclick="saveNotificationSettings()" style="width: 100%; margin-top: 2rem;">
+                    <i class="fas fa-save"></i> Save Settings
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>Healthy Harvest</span>
+                </div>
+                <p style="color: #aaa; margin-top: 1rem;">Never miss important updates with smart notification management.</p>
+                <p style="color: #aaa; margin-top: 0.5rem;">UICT | Farmer Support System</p>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="help.html"><i class="fas fa-question-circle"></i> Help Center</a></li>
+                    <li><a href="contact.html"><i class="fas fa-users"></i> Contact Experts</a></li>
+                    <li><a href="history.html"><i class="fas fa-history"></i> Weather History</a></li>
+                    <li><a href="glossary.html"><i class="fas fa-book"></i> Glossary</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Account</h3>
+                <ul>
+                    <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a href="notifications.html"><i class="fas fa-bell"></i> Notifications</a></li>
+                    <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Notification Management
+        let notifications = [
+            // This array would be populated from a backend in a real application
+        ];
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeLoggedInUser();
+
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Update notification counts
+            updateNotificationCounts();
+            
+            // Set up filter functionality
+            setupFilters();
+        });
+
+        function initializeLoggedInUser() {
+            const isLoggedIn = localStorage.getItem('healthyHarvestLoggedIn') === 'true';
+            const currentUser = JSON.parse(localStorage.getItem('healthyHarvestCurrentUser') || 'null');
+
+            if (!isLoggedIn || !currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const displayName = currentUser.fullName || currentUser.phone || 'Healthy Harvest User';
+            document.getElementById('notificationsUserName').innerHTML = `<i class="fas fa-user"></i> ${displayName}`;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Filter buttons
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update active filter
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filter notifications
+                    const filter = this.dataset.filter;
+                    filterNotifications(filter);
+                });
+            });
+            
+            // Mobile menu
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mainNav = document.getElementById('mainNav');
+            const userNav = document.getElementById('userNav');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                userNav.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('header')) {
+                    mainNav.classList.remove('active');
+                    userNav.classList.remove('active');
+                }
+            });
+        }
+
+        // Setup filter functionality
+        function setupFilters() {
+            // This function would connect filter buttons to actual filtering logic
+        }
+
+        // Update notification counts
+        function updateNotificationCounts() {
+            // Count notifications by category
+            const allCount = document.querySelectorAll('.notification-item').length;
+            const unreadCount = document.querySelectorAll('.notification-item.unread').length;
+            const weatherCount = document.querySelectorAll('.notification-item[data-category="weather"]').length;
+            const farmingCount = document.querySelectorAll('.notification-item[data-category="farming"]').length;
+            const expertCount = document.querySelectorAll('.notification-item[data-category="expert"]').length;
+            const systemCount = document.querySelectorAll('.notification-item[data-category="system"]').length;
+            
+            // Update count badges
+            document.querySelector('[data-filter="all"] .count').textContent = allCount;
+            document.querySelector('[data-filter="unread"] .count').textContent = unreadCount;
+            document.querySelector('[data-filter="weather"] .count').textContent = weatherCount;
+            document.querySelector('[data-filter="farming"] .count').textContent = farmingCount;
+            document.querySelector('[data-filter="expert"] .count').textContent = expertCount;
+            document.querySelector('[data-filter="system"] .count').textContent = systemCount;
+            
+            // Update header badge
+            document.querySelector('.notification-badge').textContent = unreadCount;
+        }
+
+        // Filter notifications by category
+        function filterNotifications(filter) {
+            const notifications = document.querySelectorAll('.notification-item');
+            let visibleCount = 0;
+            
+            notifications.forEach(notification => {
+                const category = notification.dataset.category;
+                const isUnread = notification.classList.contains('unread');
+                
+                if (filter === 'all') {
+                    notification.style.display = 'flex';
+                    visibleCount++;
+                } else if (filter === 'unread') {
+                    if (isUnread) {
+                        notification.style.display = 'flex';
+                        visibleCount++;
+                    } else {
+                        notification.style.display = 'none';
+                    }
+                } else if (category === filter) {
+                    notification.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    notification.style.display = 'none';
+                }
+            });
+            
+            // Show empty state if no notifications
+            const emptyState = document.getElementById('emptyState');
+            const notificationList = document.getElementById('notificationList');
+            
+            if (visibleCount === 0) {
+                emptyState.style.display = 'block';
+                notificationList.style.display = 'none';
+            } else {
+                emptyState.style.display = 'none';
+                notificationList.style.display = 'block';
+            }
+        }
+
+        // Mark notification as read
+        function markAsRead(element) {
+            const notification = element.closest('.notification-item');
+            notification.classList.remove('unread');
+            
+            // Update icon
+            element.innerHTML = '<i class="far fa-envelope-open"></i>';
+            
+            // Update counts
+            updateNotificationCounts();
+            
+            // Show confirmation
+            showToast('Notification marked as read');
+        }
+
+        // Mark all notifications as read
+        function markAllAsRead() {
+            document.querySelectorAll('.notification-item.unread').forEach(notification => {
+                notification.classList.remove('unread');
+                const markButton = notification.querySelector('.notification-mark');
+                if (markButton) {
+                    markButton.innerHTML = '<i class="far fa-envelope-open"></i>';
+                }
+            });
+            
+            // Update counts
+            updateNotificationCounts();
+            
+            // Show confirmation
+            showToast('All notifications marked as read');
+        }
+
+        // Clear all notifications
+        function clearAllNotifications() {
+            if (confirm('Are you sure you want to clear all notifications? This action cannot be undone.')) {
+                const notificationList = document.getElementById('notificationList');
+                notificationList.innerHTML = '';
+                
+                // Show empty state
+                document.getElementById('emptyState').style.display = 'block';
+                notificationList.style.display = 'none';
+                
+                // Update counts
+                updateNotificationCounts();
+                
+                // Show confirmation
+                showToast('All notifications cleared');
+            }
+        }
+
+        // Dismiss a single notification
+        function dismissNotification(button) {
+            const notification = button.closest('.notification-item');
+            notification.style.opacity = '0';
+            notification.style.height = notification.offsetHeight + 'px';
+            
+            setTimeout(() => {
+                notification.style.height = '0';
+                notification.style.margin = '0';
+                notification.style.padding = '0';
+                
+                setTimeout(() => {
+                    notification.remove();
+                    updateNotificationCounts();
+                    
+                    // Check if all notifications are gone
+                    const remaining = document.querySelectorAll('.notification-item').length;
+                    if (remaining === 0) {
+                        document.getElementById('emptyState').style.display = 'block';
+                    }
+                }, 300);
+            }, 200);
+            
+            showToast('Notification dismissed');
+        }
+
+        // Snooze notification
+        function snoozeNotification(button, duration) {
+            const notification = button.closest('.notification-item');
+            notification.style.opacity = '0.5';
+            
+            showToast(`Notification snoozed for ${duration}`);
+            
+            // In a real app, this would schedule the notification to reappear
+            setTimeout(() => {
+                notification.style.opacity = '1';
+            }, 1000);
+        }
+
+        // Load sample notifications
+        function loadSampleNotifications() {
+            // This would reload sample notifications in a real app
+            location.reload();
+        }
+
+        // Save notification settings
+        function saveNotificationSettings() {
+            // Collect settings
+            const settings = {
+                email: document.querySelector('input[type="checkbox"]').checked,
+                sms: document.querySelectorAll('input[type="checkbox"]')[1].checked,
+                push: document.querySelectorAll('input[type="checkbox"]')[2].checked,
+                // Add more settings as needed
+            };
+            
+            // Save to localStorage (in a real app, this would go to a backend)
+            localStorage.setItem('notificationSettings', JSON.stringify(settings));
+            
+            showToast('Notification settings saved successfully');
+        }
+
+        // Edit quiet hours
+        function editQuietHours() {
+            const start = prompt('Enter quiet hours start time (HH:MM):', '22:00');
+            const end = prompt('Enter quiet hours end time (HH:MM):', '06:00');
+            
+            if (start && end) {
+                // Update display
+                const descElement = document.querySelector('.settings-label-desc');
+                if (descElement) {
+                    descElement.textContent = `${start} - ${end} (no notifications)`;
+                }
+                
+                showToast('Quiet hours updated');
+            }
+        }
+
+        // Show toast message
+        function showToast(message) {
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: var(--primary-green);
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            `;
+            
+            toast.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Remove toast after 3 seconds
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 3000);
+            
+            // Add CSS for animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Action functions for notification buttons
+        function viewWeatherDetails() {
+            alert('Opening weather forecast details...\n\nIn a real application, this would navigate to the weather dashboard.');
+        }
+
+        function viewPlantingPlan() {
+            alert('Opening planting plan...\n\nIn a real application, this would show the detailed planting calendar.');
+        }
+
+        function viewExpertResponse() {
+            alert('Opening expert response...\n\nIn a real application, this would open the chat with the expert.');
+        }
+
+        function scheduleIrrigation() {
+            alert('Opening irrigation scheduler...\n\nIn a real application, this would open the irrigation planning tool.');
+        }
+
+        function viewWindForecast() {
+            alert('Opening wind forecast...\n\nIn a real application, this would show detailed wind predictions.');
+        }
+
+        function addToTaskList() {
+            alert('Adding to task list...\n\nIn a real application, this would add "Secure equipment" to your farming tasks.');
+        }
+
+        function updateSystem() {
+            alert('Updating system...\n\nIn a real application, this would download and install the latest update.');
+        }
+
+        function replyToExpert() {
+            alert('Opening reply interface...\n\nIn a real application, this would open a message composer.');
+        }
+
+        function remindLater() {
+            alert('Reminder set for 24 hours from now.\n\nIn a real application, this would schedule the notification to reappear.');
+        }
+    </script>
+</body>
+</html>

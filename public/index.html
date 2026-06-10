@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthy Harvest - Groundnut Advisory System</title>
+    <link rel="stylesheet" href="style.css">
+   <link rel="icon" type="image/png" sizes="32x32" href="images/ChatGPT Image Jan 8, 2026, 04_04_11 PM.png">
+    <script type="text/javascript" src="https://unpkg.com/parse/dist/parse.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header/Navigation -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">🌱</div>
+                <h1>Healthy Harvest</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="advice.html">Get Advice</a></li>
+                    <li><a href="diagnose.html">Diagnose</a></li>
+                    <li><a href="weather.html">Weather</a></li>
+                    <li><a href="market.html">Market</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <select class="lang-select">
+                    <option value="en">EN</option>
+                    <option value="lg">LG</option>
+                </select>
+                <a href="login.html" class="btn btn-outline">Login</a>
+                <a href="login.html?register=true" class="btn btn-primary">Register</a>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <div class="logo-icon">🌱</div>
+                <h2>Healthy Harvest</h2>
+            </div>
+            <button class="close-menu" id="closeMenuBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <nav class="mobile-nav">
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="advice.html">Get Advice</a></li>
+                <li><a href="diagnose.html">Diagnose</a></li>
+                <li><a href="weather.html">Weather</a></li>
+                <li><a href="market.html">Market</a></li>
+                <li><a href="profile.html">My Profile</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="login.html?register=true">Register</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>SMART WEB-BASED ADVISORY SYSTEM FOR GROUNDNUT FARMERS</h2>
+                <p class="hero-subtitle">Get personalized farming advice, disease diagnosis, weather forecasts, and market information for your groundnut farm.</p>
+                <div class="hero-buttons">
+                    <a href="advice.html" class="btn btn-primary btn-large">Get Farming Advice</a>
+                    <a href="login.html?register=true" class="btn btn-secondary btn-large">Register Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3>Disease Diagnosis</h3>
+                    <p>Upload photos of your plants for instant disease detection and treatment recommendations.</p>
+                    <a href="diagnose.html" class="feature-link">Diagnose Now <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cloud-sun"></i>
+                    </div>
+                    <h3>Weather Advisory</h3>
+                    <p>Get personalized weather forecasts and planting recommendations for your location.</p>
+                    <a href="weather.html" class="feature-link">Check Weather <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <h3>Pest Control Tips</h3>
+                    <p>Expert advice on pest management using both traditional and modern methods.</p>
+                    <a href="advice.html" class="feature-link">Get Tips <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Market Information</h3>
+                    <p>Real-time market prices and storage advice to maximize your profits.</p>
+                    <a href="market.html" class="feature-link">View Prices <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Register Your Farm</h3>
+                    <p>Create an account and provide details about your farm location, size, and crop variety.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Get Personalized Advice</h3>
+                    <p>Receive customized recommendations based on your location and farming practices.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Monitor & Improve</h3>
+                    <p>Track your progress, receive alerts, and improve your yields over time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Farmers Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"This system helped me identify groundnut rosette disease early. I saved my entire crop!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <h4>John Okello</h4>
+                        <p>Nakasongola District</p>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The weather forecasts are very accurate. I now know exactly when to plant and harvest."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <h4>Sarah Nakato</h4>
+                        <p>Lira District</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <div class="logo-icon">🌱</div>
+                        <h2>Healthy Harvest</h2>
+                    </div>
+                    <p class="footer-description">Smart advisory system for groundnut farmers in Uganda.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="advice.html">Get Advice</a></li>
+                        <li><a href="diagnose.html">Disease Diagnosis</a></li>
+                        <li><a href="weather.html">Weather Advisory</a></li>
+                        <li><a href="market.html">Market Info</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-envelope"></i> info@healthyharvest.ug</li>
+                        <li><i class="fas fa-phone"></i> +256 768103829</li>
+                        <li><i class="fas fa-map-marker-alt"></i> UICT, Kampala</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Partners</h3>
+                    <p>Gradon Media</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Healthy Harvest. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="Privacy.html">Privacy Policy</a>
+                    <a href="Terms of Service.html">Terms of Service</a>
+                    <a href="Help Center.html">Help Center</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="shared-footer.js"></script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Healthy Harvest</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">🌱</div>
+                    <h2>Admin Panel</h2>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="#users"><i class="fas fa-users"></i> Users</a></li>
+                    <li><a href="#disease-reports"><i class="fas fa-leaf"></i> Disease Reports</a></li>
+                    <li><a href="#advisories"><i class="fas fa-lightbulb"></i> Advisories</a></li>
+                    <li><a href="#sms"><i class="fas fa-sms"></i> SMS Campaign</a></li>
+                    <li><a href="#analytics"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Back to Site</a></li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">AD</div>
+                    <div>
+                        <h4>Admin User</h4>
+                        <p>System Administrator</p>
+                    </div>
+                </div>
+                <button onclick="logout()" class="btn btn-outline btn-small">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="admin-section active">
+                <div class="section-header">
+                    <h1>Admin Dashboard</h1>
+                    <p>System Overview and Statistics</p>
+                </div>
+                
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalUsers">0</h3>
+                            <p>Total Users</p>
+                        </div>
+                        <div class="stat-trend up">
+                            <i class="fas fa-arrow-up"></i> 12%
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalFarms">0</h3>
+                            <p>Registered Farms</p>
+                        </div>
+                        <div class="stat-trend up">
+                            <i class="fas fa-arrow-up"></i> 8%
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-stethoscope"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="diseaseReports">0</h3>
+                            <p>Disease Reports</p>
+                        </div>
+                        <div class="stat-trend down">
+                            <i class="fas fa-arrow-down"></i> 3%
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="unreadAlerts">0</h3>
+                            <p>Unread Alerts</p>
+                        </div>
+                        <div class="stat-trend up">
+                            <i class="fas fa-arrow-up"></i> 5%
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <h3>User Growth</h3>
+                        <canvas id="userGrowthChart"></canvas>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <h3>Disease Distribution</h3>
+                        <canvas id="diseaseChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="activity-section">
+                    <h3>Recent Disease Reports</h3>
+                    <div class="table-container">
+                        <table id="recentReportsTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Farmer</th>
+                                    <th>Disease</th>
+                                    <th>Confidence</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Users Section -->
+            <section id="users" class="admin-section">
+                <div class="section-header">
+                    <h1>User Management</h1>
+                    <p>Manage farmers and extension officers</p>
+                </div>
+                
+                <div class="table-container">
+                    <table id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>District</th>
+                                <th>Role</th>
+                                <th>Joined</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Disease Reports Section -->
+            <section id="disease-reports" class="admin-section">
+                <div class="section-header">
+                    <h1>Disease Reports</h1>
+                    <p>Review and manage disease reports</p>
+                </div>
+                
+                <div class="filters">
+                    <select id="reportFilter" class="form-control">
+                        <option value="all">All Reports</option>
+                        <option value="pending">Pending Review</option>
+                        <option value="diagnosed">Diagnosed</option>
+                        <option value="treated">Treated</option>
+                    </select>
+                    <input type="date" id="dateFilter" class="form-control">
+                    <button onclick="filterReports()" class="btn btn-primary">Filter</button>
+                </div>
+                
+                <div class="table-container">
+                    <table id="diseaseReportsTable">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Farmer</th>
+                                <th>Disease</th>
+                                <th>Confidence</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SMS Campaign Section -->
+            <section id="sms" class="admin-section">
+                <div class="section-header">
+                    <h1>SMS Campaign</h1>
+                    <p>Send bulk SMS to farmers</p>
+                </div>
+                
+                <div class="sms-form">
+                    <div class="form-group">
+                        <label>Recipients</label>
+                        <div class="recipient-options">
+                            <label>
+                                <input type="radio" name="recipients" value="all" checked> All Farmers
+                            </label>
+                            <label>
+                                <input type="radio" name="recipients" value="district"> By District
+                            </label>
+                            <select id="districtSelect" class="form-control" disabled>
+                                <option value="">Select District</option>
+                                <option value="Nakasongola">Nakasongola</option>
+                                <option value="Lira">Lira</option>
+                                <option value="Gulu">Gulu</option>
+                                <option value="Masindi">Masindi</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea id="smsMessage" class="form-control" rows="6" 
+                                  placeholder="Enter your message here... (160 character limit)" 
+                                  maxlength="160"></textarea>
+                        <div class="char-count">
+                            <span id="charCount">0</span>/160 characters
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Preview</label>
+                        <div class="sms-preview">
+                            <div class="sms-header">
+                                <strong>Healthy Harvest</strong>
+                            </div>
+                            <div id="smsPreview" class="sms-body">
+                                Your message will appear here...
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button onclick="sendBulkSMS()" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Send SMS
+                        </button>
+                        <button onclick="previewSMS()" class="btn btn-outline">
+                            Preview
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="sms-history">
+                    <h3>SMS History</h3>
+                    <div class="table-container">
+                        <table id="smsHistoryTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Recipients</th>
+                                    <th>Message</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for Report Details -->
+    <div id="reportModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Disease Report Details</h3>
+                <button onclick="closeModal()" class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="reportDetails">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-script.js"></script>
+    <script src="shared-footer.js"></script>
+</body>
+</html>

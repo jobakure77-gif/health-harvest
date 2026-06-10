@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Healthy Harvest</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="container">
+                <div class="logo">
+                    <div class="logo-icon">🌱</div>
+                    <h1>Healthy Harvest</h1>
+                </div>
+                <a href="index.html" class="btn btn-outline">Back to Home</a>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="form-container" id="loginFormContainer">
+                <h2 class="form-title" id="formTitle">USER LOGIN</h2>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="phoneNumber" class="form-label">Phone Number</label>
+                        <input type="tel" id="phoneNumber" class="form-control" placeholder="Enter your phone number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">Login</button>
+                    </div>
+                    
+                    <div class="form-footer">
+                        <p>Don't have an account? <a href="#" id="toggleRegister">Register Here</a></p>
+                    </div>
+                </form>
+
+                <form id="registerForm" style="display: none;">
+                    <div class="form-group">
+                        <label for="fullName" class="form-label">Full Name</label>
+                        <input type="text" id="fullName" class="form-control" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerPhone" class="form-label">Phone Number</label>
+                        <input type="tel" id="registerPhone" class="form-control" placeholder="Enter your phone number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="district" class="form-label">District</label>
+                        <select id="district" class="form-control" required>
+                            <option value="">Select your district</option>
+                            <option value="nakasongola">Nakasongola</option>
+                            <option value="lira">Lira</option>
+                            <option value="gulu">Gulu</option>
+                            <option value="masindi">Masindi</option>
+                            <option value="kampala">Kampala</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="farmSize" class="form-label">Farm Size (Acres)</label>
+                        <input type="number" id="farmSize" class="form-control" placeholder="Enter farm size in acres" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="variety" class="form-label">Groundnut Variety</label>
+                        <select id="variety" class="form-control" required>
+                            <option value="">Select variety</option>
+                            <option value="serenut2">Serenut 2</option>
+                            <option value="serenut4">Serenut 4</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerPassword" class="form-label">Password</label>
+                        <input type="password" id="registerPassword" class="form-control" placeholder="Create a password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-large" style="width: 100%;">Register</button>
+                    </div>
+                    
+                    <div class="form-footer">
+                        <p>Already have an account? <a href="#" id="toggleLogin">Login Here</a></p>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginFormContainer = document.getElementById('loginFormContainer');
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const toggleRegister = document.getElementById('toggleRegister');
+            const toggleLogin = document.getElementById('toggleLogin');
+            const formTitle = document.getElementById('formTitle');
+            
+            // Check if URL has register parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('register') === 'true') {
+                showRegisterForm();
+            }
+            
+            // Toggle between login and register forms
+            toggleRegister.addEventListener('click', function(e) {
+                e.preventDefault();
+                showRegisterForm();
+            });
+            
+            toggleLogin.addEventListener('click', function(e) {
+                e.preventDefault();
+                showLoginForm();
+            });
+            
+            function showRegisterForm() {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+                formTitle.textContent = 'REGISTER ACCOUNT';
+                toggleRegister.style.display = 'none';
+            }
+            
+            function showLoginForm() {
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+                formTitle.textContent = 'USER LOGIN';
+                toggleRegister.style.display = 'inline';
+            }
+            
+            // Password confirmation validation
+            const confirmPassword = document.getElementById('confirmPassword');
+            if (confirmPassword) {
+                confirmPassword.addEventListener('input', function() {
+                    const password = document.getElementById('registerPassword');
+                    if (password.value !== confirmPassword.value) {
+                        confirmPassword.style.borderColor = 'var(--danger-color)';
+                    } else {
+                        confirmPassword.style.borderColor = '';
+                    }
+                });
+            }
+            
+            // Form submission
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const phoneNumber = document.getElementById('phoneNumber').value.trim();
+                const password = document.getElementById('password').value.trim();
+
+                if (!phoneNumber || !password) {
+                    alert('Please enter your phone number and password.');
+                    return;
+                }
+
+                const registeredUser = JSON.parse(localStorage.getItem('healthyHarvestRegisteredUser'));
+
+                if (registeredUser) {
+                    if (registeredUser.phone !== phoneNumber || registeredUser.password !== password) {
+                        alert('Invalid phone number or password.');
+                        return;
+                    }
+
+                    localStorage.setItem('healthyHarvestCurrentUser', JSON.stringify({
+                        fullName: registeredUser.fullName,
+                        phone: registeredUser.phone,
+                        district: registeredUser.district
+                    }));
+                } else {
+                    localStorage.setItem('healthyHarvestCurrentUser', JSON.stringify({
+                        fullName: 'Healthy Harvest User',
+                        phone: phoneNumber
+                    }));
+                }
+
+                localStorage.setItem('healthyHarvestLoggedIn', 'true');
+
+                const redirectPage = urlParams.get('redirect');
+                const allowedRedirects = ['advice.html', 'diagnose.html', 'weather.html', 'market.html', 'dashboard.html', 'profile.html', 'notifications.html', 'history.html'];
+                const targetPage = allowedRedirects.includes(redirectPage) ? redirectPage : 'advice.html';
+
+                window.location.href = targetPage;
+            });
+
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate password match
+                const password = document.getElementById('registerPassword');
+                const confirm = document.getElementById('confirmPassword');
+                
+                if (password.value !== confirm.value) {
+                    alert('Passwords do not match!');
+                    return;
+                }
+
+                localStorage.setItem('healthyHarvestRegisteredUser', JSON.stringify({
+                    fullName: document.getElementById('fullName').value.trim(),
+                    phone: document.getElementById('registerPhone').value.trim(),
+                    district: document.getElementById('district').value,
+                    farmSize: document.getElementById('farmSize').value,
+                    variety: document.getElementById('variety').value,
+                    password: password.value
+                }));
+
+                alert('Registration successful! You can now login.');
+                registerForm.reset();
+                showLoginForm();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center | Healthy Harvest</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            color: #ffeb3b;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: #ffeb3b;
+        }
+        
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Main Content */
+        main {
+            padding: 3rem 0;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .page-header h1 {
+            color: #2e7d32;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .page-header p {
+            color: #666;
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .search-container {
+            max-width: 600px;
+            margin: 2rem auto 3rem;
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 1rem 1.5rem 1rem 3rem;
+            border: 2px solid #ddd;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #4caf50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        /* Help Categories */
+        .help-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .category-icon {
+            width: 70px;
+            height: 70px;
+            background-color: #e8f5e9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: #2e7d32;
+            font-size: 1.8rem;
+        }
+        
+        .category-card h3 {
+            color: #2e7d32;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        
+        .category-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        
+        .category-link {
+            display: inline-block;
+            color: #4caf50;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .category-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* FAQs Section */
+        .faq-section {
+            background: white;
+            border-radius: 10px;
+            padding: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 4rem;
+        }
+        
+        .section-title {
+            color: #2e7d32;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #4caf50;
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid #eee;
+            padding: 1.5rem 0;
+        }
+        
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .faq-question h3 {
+            color: #333;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+        
+        .faq-toggle {
+            color: #4caf50;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            color: #666;
+            line-height: 1.7;
+        }
+        
+        .faq-answer.active {
+            max-height: 500px;
+            margin-top: 1rem;
+        }
+        
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+        
+        /* Support Section */
+        .support-section {
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+            color: white;
+            border-radius: 10px;
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .support-section h2 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .support-section p {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .support-options {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .support-option {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 2rem;
+            width: 250px;
+            transition: transform 0.3s, background 0.3s;
+        }
+        
+        .support-option:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .support-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #ffeb3b;
+        }
+        
+        .support-option h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .support-option p {
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .support-btn {
+            display: inline-block;
+            background: white;
+            color: #2e7d32;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .support-btn:hover {
+            background: #ffeb3b;
+            transform: scale(1.05);
+        }
+        
+        /* Contact Form */
+        .contact-form-section {
+            background: white;
+            border-radius: 10px;
+            padding: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            flex: 1;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4caf50;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: block;
+            margin: 2rem auto 0;
+        }
+        
+        .submit-btn:hover {
+            background: #388e3c;
+        }
+        
+      
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #bdbdbd;
+            font-size: 0.9rem;
+        } 
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .mobile-menu {
+                display: block;
+                position: absolute;
+                top: 1.5rem;
+                right: 20px;
+            }
+            
+            nav {
+                display: none;
+                width: 100%;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .faq-section,
+            .support-section,
+            .contact-form-section {
+                padding: 2rem 1.5rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .support-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .support-option {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>Healthy Harvest</span>
+                </div>
+                
+                <div class="mobile-menu" id="mobileMenu">
+                    <i class="fas fa-bars"></i>
+                </div>
+                
+                <nav id="mainNav">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="help-center.html" class="active">Help Center</a></li>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="page-header">
+                <h1>Help Center</h1>
+                <p>Welcome to our Help Center. We're here to support you with any questions about using Healthy Harvest.</p>
+            </div>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search for answers...">
+                </div>
+            </div>
+            
+            <!-- Help Categories -->
+            <div class="help-categories">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3>Account & Registration</h3>
+                    <p>Learn how to create an account, manage your profile, and troubleshoot login issues.</p>
+                    <a href="#account" class="category-link">View Help Articles →</a>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3>Disease Diagnosis</h3>
+                    <p>Get help with uploading plant images, understanding results, and using AI diagnosis.</p>
+                    <a href="#diagnosis" class="category-link">View Help Articles →</a>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-cloud-sun"></i>
+                    </div>
+                    <h3>Weather & Forecasts</h3>
+                    <p>Learn how to access weather data, interpret forecasts, and set up alerts.</p>
+                    <a href="#weather" class="category-link">View Help Articles →</a>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Market Prices</h3>
+                    <p>Understand how to check crop prices, market trends, and pricing information.</p>
+                    <a href="#market" class="category-link">View Help Articles →</a>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Notifications & Alerts</h3>
+                    <p>Set up and manage SMS alerts, email notifications, and in-app alerts.</p>
+                    <a href="#alerts" class="category-link">View Help Articles →</a>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Technical Support</h3>
+                    <p>Get help with app installation, browser issues, and technical problems.</p>
+                    <a href="#technical" class="category-link">View Help Articles →</a>
+                </div>
+            </div>
+            
+            <!-- FAQs Section -->
+            <div class="faq-section">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                
+                <div class="faq-container">
+                    <div class="faq-item" id="faq1">
+                        <div class="faq-question" onclick="toggleFaq('faq1')">
+                            <h3>What does Healthy Harvest do?</h3>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Healthy Harvest is an agricultural platform that helps farmers with:</p>
+                            <ul>
+                                <li><strong>AI-Powered Disease Detection:</strong> Upload photos of your plants to get instant diagnosis and treatment recommendations</li>
+                                <li><strong>Weather Forecasts:</strong> Access real-time and forecasted weather data tailored to your location</li>
+                                <li><strong>Market Prices:</strong> Check current crop prices and market trends</li>
+                                <li><strong>SMS Alerts:</strong> Receive important agricultural notifications on your phone</li>
+                                <li><strong>Agricultural Advice:</strong> Get personalized farming recommendations based on your crops and location</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item" id="faq2">
+                        <div class="faq-question" onclick="toggleFaq('faq2')">
+                            <h3>Is Healthy Harvest free to use?</h3>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes! Most features of Healthy Harvest are completely free for farmers:</p>
+                            <ul>
+                                <li><strong>Free Features:</strong> Disease diagnosis, weather forecasts, market prices, and basic alerts</li>
+                                <li><strong>Premium Features (Optional):</strong> Advanced analytics, historical data, and priority support</li>
+                                <li><strong>No Hidden Costs:</strong> We believe in supporting farmers, so core features will always remain free</li>
+                            </ul>
+                            <p>If we introduce any paid features in the future, we will always offer a free alternative.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item" id="faq3">
+                        <div class="faq-question" onclick="toggleFaq('faq3')">
+                            <h3>Do I need to create an account?</h3>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>You can access some basic features without an account, but we recommend creating one for the best experience:</p>
+                            <ul>
+                                <li><strong>Without Account:</strong> View general information, access basic weather data</li>
+                                <li><strong>With Account:</strong> Save your farm location, track disease history, receive personalized alerts, save favorite crops</li>
+                                <li><strong>Account Benefits:</strong> Your data is saved across devices, you get personalized recommendations, and you can access your history anytime</li>
+                            </ul>
+                            <p>Creating an account is quick, free, and requires only basic information.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item" id="faq4">
+                        <div class="faq-question" onclick="toggleFaq('faq4')">
+                            <h3>How accurate is the disease diagnosis?</h3>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Our AI-based disease diagnosis has an accuracy rate of approximately 85-90% for common plant diseases:</p>
+                            <ul>
+                                <li><strong>Trained on Thousands of Images:</strong> Our model has been trained on a large dataset of plant disease images</li>
+                                <li><strong>Regular Updates:</strong> We continuously improve our AI with new data</li>
+                                <li><strong>Limitations:</strong> Accuracy depends on image quality, lighting, and plant type</li>
+                                <li><strong>Important:</strong> AI diagnosis is a tool to assist farmers, not replace professional agricultural experts</li>
+                            </ul>
+                            <p>For critical farming decisions, always consult with local agricultural extension officers.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item" id="faq5">
+                        <div class="faq-question" onclick="toggleFaq('faq5')">
+                            <h3>How do I receive SMS alerts?</h3>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>To receive SMS alerts on your phone:</p>
+                            <ol>
+                                <li>Create an account and verify your email</li>
+                                <li>Go to your Profile Settings</li>
+                                <li>Add and verify your phone number</li>
+                                <li>Select the types of alerts you want to receive (weather warnings, price changes, disease alerts)</li>
+                                <li>Choose alert frequency (immediate, daily digest, or weekly summary)</li>
+                            </ol>
+                            <p><strong>Note:</strong> Standard SMS rates may apply depending on your mobile carrier. We don't charge for sending alerts, but your carrier might.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item" id="faq6">
+                        <div class="faq-question" onclick="toggleFaq('faq6')">
+                            <h3>What crops and regions are supported?</h3>
+                            <div class="faq-toggle">+</div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Healthy Harvest currently supports:</p>
+                            <ul>
+                                <li><strong>Major Crops:</strong> Maize, rice, wheat, potatoes, tomatoes, beans, coffee, tea, and various vegetables</li>
+                                <li><strong>Regions:</strong> Available in most countries with focus on agricultural regions</li>
+                                <li><strong>Language:</strong> Currently available in English, with more languages coming soon</li>
+                                <li><strong>Expansion:</strong> We're continuously adding support for more crops and regions</li>
+                            </ul>
+                            <p>If your crop or region isn't fully supported yet, you can still use many features like weather forecasts and market prices.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Support Options -->
+            <div class="support-section">
+                <h2>Need More Help?</h2>
+                <p>We're here to support you. Choose the best way to get in touch with our support team.</p>
+                
+                <div class="support-options">
+                    <div class="support-option">
+                        <div class="support-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>Email Support</h3>
+                        <p>Send us an email and we'll respond within 24 hours</p>
+                        <a href="mailto:support@healthyharvest.com" class="support-btn">Email Us</a>
+                    </div>
+                    
+                    <div class="support-option">
+                        <div class="support-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h3>Phone Support</h3>
+                        <p>Call us during business hours for immediate assistance</p>
+                        <a href="tel:+15551234567" class="support-btn">Call Now</a>
+                    </div>
+                    
+                    <div class="support-option">
+                        <div class="support-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Live Chat</h3>
+                        <p>Chat with our support team in real-time (available 9am-5pm)</p>
+                        <a href="#chat" class="support-btn" onclick="openChat()">Start Chat</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Form -->
+            <div class="contact-form-section" id="contact">
+                <h2 class="section-title">Contact Our Support Team</h2>
+                <p>Can't find what you're looking for? Send us a message and we'll get back to you as soon as possible.</p>
+                
+                <form id="supportForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select an issue</option>
+                                <option value="account">Account & Registration</option>
+                                <option value="diagnosis">Disease Diagnosis</option>
+                                <option value="weather">Weather & Forecasts</option>
+                                <option value="market">Market Prices</option>
+                                <option value="alerts">Notifications & Alerts</option>
+                                <option value="technical">Technical Issues</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" placeholder="Please describe your issue in detail..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+  <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <div class="logo-icon">🌱</div>
+                        <h2>Healthy Harvest</h2>
+                    </div>
+                    <p class="footer-description">Smart advisory system for groundnut farmers in Uganda.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="advice.html">Get Advice</a></li>
+                        <li><a href="diagnose.html">Disease Diagnosis</a></li>
+                        <li><a href="weather.html">Weather Advisory</a></li>
+                        <li><a href="market.html">Market Info</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-envelope"></i> info@healthyharvest.ug</li>
+                        <li><i class="fas fa-phone"></i> +256 768103829</li>
+                        <li><i class="fas fa-map-marker-alt"></i> UICT, Kampala</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Partners</h3>
+                    <p>Gradon Media</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Healthy Harvest. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="Privacy.html">Privacy Policy</a>
+                    <a href="Terms of Service.html">Terms of Service</a>
+                    <a href="Help Center.html">Help Center</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Mobile menu toggle
+        document.getElementById('mobileMenu').addEventListener('click', function() {
+            document.getElementById('mainNav').classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking a link
+        const navLinks = document.querySelectorAll('#mainNav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                document.getElementById('mainNav').classList.remove('active');
+            });
+        });
+        
+        // FAQ Toggle Function
+        function toggleFaq(id) {
+            const faqItem = document.getElementById(id);
+            const answer = faqItem.querySelector('.faq-answer');
+            const toggle = faqItem.querySelector('.faq-toggle');
+            
+            faqItem.classList.toggle('active');
+            
+            if (faqItem.classList.contains('active')) {
+                answer.classList.add('active');
+                toggle.textContent = '−';
+            } else {
+                answer.classList.remove('active');
+                toggle.textContent = '+';
+            }
+        }
+        
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question h3').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                    
+                    // Auto-open if search term found in answer
+                    if (answer.includes(searchTerm) && !item.classList.contains('active')) {
+                        toggleFaq(item.id);
+                    }
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+        
+        // Form submission
+        document.getElementById('supportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            
+            // In a real application, you would send this data to your server
+            // For now, we'll just show a confirmation message
+            
+            alert(`Thank you, ${name}! Your message has been submitted. We'll respond to ${email} within 24 hours regarding "${subject}".`);
+            
+            // Reset form
+            document.getElementById('supportForm').reset();
+        });
+        
+        // Live chat simulation
+        function openChat() {
+            alert("Live chat feature would open here. In a real implementation, this would connect to a chat service like Intercom, Zendesk, or a custom solution.");
+        }
+    </script>
+    <script src="shared-footer.js"></script>
+</body>
+</html>

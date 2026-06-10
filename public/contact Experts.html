@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Experts - Healthy Harvest</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --lighter-green: #c8e6c9;
+            --accent-yellow: #ffd54f;
+            --accent-red: #ef5350;
+            --accent-blue: #2196f3;
+            --dark-gray: #333;
+            --light-gray: #f5f5f5;
+            --border-color: #ddd;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--primary-green), var(--light-green));
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .main-nav a:hover, .main-nav a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .user-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-nav a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .user-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .notification-badge {
+            background-color: var(--accent-red);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Two Column Layout */
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        @media (max-width: 900px) {
+            .contact-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Expert Cards */
+        .experts-section h2 {
+            font-size: 2rem;
+            color: var(--primary-green);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 3px solid var(--lighter-green);
+            padding-bottom: 0.5rem;
+        }
+
+        .expert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .expert-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .expert-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .expert-header {
+            padding: 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: white;
+            position: relative;
+        }
+
+        .expert-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4CAF50;
+        }
+
+        .status-dot.offline {
+            background: #f44336;
+        }
+
+        .expert-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            border: 5px solid white;
+        }
+
+        .expert-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .expert-title {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .expert-body {
+            padding: 2rem;
+        }
+
+        .expert-specialties {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .specialty-tag {
+            background: var(--lighter-green);
+            color: var(--primary-green);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .expert-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 0.8rem;
+            background: var(--light-gray);
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .expert-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .call-btn {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .call-btn:hover {
+            background: var(--light-green);
+        }
+
+        .message-btn {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .message-btn:hover {
+            background: #1976D2;
+        }
+
+        /* Chat Interface */
+        .chat-section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--accent-blue), #1976D2);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .chat-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .chat-container {
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 1rem;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .message.received {
+            background: var(--light-gray);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.sent {
+            background: var(--lighter-green);
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.5rem;
+            text-align: right;
+        }
+
+        .chat-input-container {
+            padding: 1.5rem;
+            border-top: 2px solid var(--light-gray);
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .chat-input:focus {
+            border-color: var(--primary-green);
+        }
+
+        .send-btn {
+            padding: 0.8rem 2rem;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .send-btn:hover {
+            background: var(--light-green);
+        }
+
+        .send-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Appointment Form */
+        .appointment-section {
+            margin-top: 3rem;
+        }
+
+        .appointment-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-green);
+            outline: none;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: var(--light-green);
+        }
+
+        /* Expert Selection */
+        .expert-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .expert-select-card {
+            background: var(--light-gray);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .expert-select-card:hover {
+            background: var(--lighter-green);
+            transform: translateY(-3px);
+        }
+
+        .expert-select-card.selected {
+            background: var(--lighter-green);
+            border-color: var(--primary-green);
+        }
+
+        .expert-select-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-gray);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-yellow);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .main-nav, .user-nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--primary-green);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+            
+            .main-nav.active, .user-nav.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .expert-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-green);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo">
+            <i class="fas fa-seedling"></i>
+            <span>Healthy Harvest</span>
+        </a>
+        
+        <nav class="main-nav">
+            <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="help.html"><i class="fas fa-question-circle"></i> Help</a>
+            <a href="contact.html" class="active"><i class="fas fa-users"></i> Contact Experts</a>
+            <a href="history.html"><i class="fas fa-history"></i> Weather History</a>
+            <a href="glossary.html"><i class="fas fa-book"></i> Glossary</a>
+        </nav>
+        
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="user-nav" id="userNav">
+            <div style="position: relative;">
+                <a href="#"><i class="fas fa-user"></i> John Farmer</a>
+            </div>
+            <div style="position: relative;">
+                <a href="#"><i class="fas fa-bell"></i></a>
+                <span class="notification-badge">2</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1><i class="fas fa-users"></i> Connect with Agricultural Experts</h1>
+            <p>Get personalized advice from certified agricultural experts. Schedule appointments, chat live, or get emergency consultations.</p>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="contact-layout">
+            <!-- Left Column: Experts List -->
+            <div class="experts-section">
+                <h2><i class="fas fa-user-tie"></i> Available Experts</h2>
+                
+                <div class="expert-grid">
+                    <!-- Expert 1 -->
+                    <div class="expert-card" data-expert="1">
+                        <div class="expert-header">
+                            <div class="expert-status">
+                                <span class="status-dot"></span>
+                                <span>Online Now</span>
+                            </div>
+                            <div class="expert-avatar">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <h3 class="expert-name">Dr. Sarah Kintu</h3>
+                            <p class="expert-title">Senior Crop Scientist</p>
+                        </div>
+                        <div class="expert-body">
+                            <div class="expert-specialties">
+                                <span class="specialty-tag">Crop Science</span>
+                                <span class="specialty-tag">Soil Health</span>
+                                <span class="specialty-tag">Fertilizer Management</span>
+                            </div>
+                            <p style="margin-bottom: 1.5rem; color: #666;">
+                                PhD in Agriculture with 15 years experience in tropical crop management. Specializes in sustainable farming practices.
+                            </p>
+                            <div class="expert-stats">
+                                <div class="stat-item">
+                                    <div class="stat-number">342</div>
+                                    <div class="stat-label">Farmers Helped</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">15</div>
+                                    <div class="stat-label">Years Experience</div>
+                                </div>
+                            </div>
+                            <div class="expert-actions">
+                                <button class="action-btn call-btn" onclick="callExpert('Dr. Sarah Kintu')">
+                                    <i class="fas fa-phone"></i> Call
+                                </button>
+                                <button class="action-btn message-btn" onclick="selectExpert(1)">
+                                    <i class="fas fa-comment"></i> Message
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Expert 2 -->
+                    <div class="expert-card" data-expert="2">
+                        <div class="expert-header">
+                            <div class="expert-status">
+                                <span class="status-dot"></span>
+                                <span>Online Now</span>
+                            </div>
+                            <div class="expert-avatar">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <h3 class="expert-name">James Omondi</h3>
+                            <p class="expert-title">Water Management Specialist</p>
+                        </div>
+                        <div class="expert-body">
+                            <div class="expert-specialties">
+                                <span class="specialty-tag">Irrigation</span>
+                                <span class="specialty-tag">Water Conservation</span>
+                                <span class="specialty-tag">Drought Management</span>
+                            </div>
+                            <p style="margin-bottom: 1.5rem; color: #666;">
+                                MSc in Environmental Science with 12 years experience in water resource management for agriculture.
+                            </p>
+                            <div class="expert-stats">
+                                <div class="stat-item">
+                                    <div class="stat-number">287</div>
+                                    <div class="stat-label">Farmers Helped</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">12</div>
+                                    <div class="stat-label">Years Experience</div>
+                                </div>
+                            </div>
+                            <div class="expert-actions">
+                                <button class="action-btn call-btn" onclick="callExpert('James Omondi')">
+                                    <i class="fas fa-phone"></i> Call
+                                </button>
+                                <button class="action-btn message-btn" onclick="selectExpert(2)">
+                                    <i class="fas fa-comment"></i> Message
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- More Experts Grid -->
+                <div class="expert-grid">
+                    <!-- Expert 3 -->
+                    <div class="expert-card" data-expert="3">
+                        <div class="expert-header">
+                            <div class="expert-status">
+                                <span class="status-dot offline"></span>
+                                <span>Offline</span>
+                            </div>
+                            <div class="expert-avatar">
+                                <i class="fas fa-bug"></i>
+                            </div>
+                            <h3 class="expert-name">Maria Nakato</h3>
+                            <p class="expert-title">Pest Control Expert</p>
+                        </div>
+                        <div class="expert-body">
+                            <div class="expert-specialties">
+                                <span class="specialty-tag">Pest Management</span>
+                                <span class="specialty-tag">Organic Solutions</span>
+                                <span class="specialty-tag">Disease Control</span>
+                            </div>
+                            <p style="margin-bottom: 1.5rem; color: #666;">
+                                NARO certified pest control specialist with 8 years experience in integrated pest management.
+                            </p>
+                            <div class="expert-stats">
+                                <div class="stat-item">
+                                    <div class="stat-number">156</div>
+                                    <div class="stat-label">Farmers Helped</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">8</div>
+                                    <div class="stat-label">Years Experience</div>
+                                </div>
+                            </div>
+                            <div class="expert-actions">
+                                <button class="action-btn call-btn" onclick="callExpert('Maria Nakato')">
+                                    <i class="fas fa-phone"></i> Call
+                                </button>
+                                <button class="action-btn message-btn" onclick="selectExpert(3)">
+                                    <i class="fas fa-comment"></i> Message
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Expert 4 -->
+                    <div class="expert-card" data-expert="4">
+                        <div class="expert-header">
+                            <div class="expert-status">
+                                <span class="status-dot"></span>
+                                <span>Online Now</span>
+                            </div>
+                            <div class="expert-avatar">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <h3 class="expert-name">David Ssali</h3>
+                            <p class="expert-title">Organic Farming Specialist</p>
+                        </div>
+                        <div class="expert-body">
+                            <div class="expert-specialties">
+                                <span class="specialty-tag">Organic Farming</span>
+                                <span class="specialty-tag">Composting</span>
+                                <span class="specialty-tag">Sustainable Practices</span>
+                            </div>
+                            <p style="margin-bottom: 1.5rem; color: #666;">
+                                10 years experience in organic farming methods and certification processes for local markets.
+                            </p>
+                            <div class="expert-stats">
+                                <div class="stat-item">
+                                    <div class="stat-number">213</div>
+                                    <div class="stat-label">Farmers Helped</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">10</div>
+                                    <div class="stat-label">Years Experience</div>
+                                </div>
+                            </div>
+                            <div class="expert-actions">
+                                <button class="action-btn call-btn" onclick="callExpert('David Ssali')">
+                                    <i class="fas fa-phone"></i> Call
+                                </button>
+                                <button class="action-btn message-btn" onclick="selectExpert(4)">
+                                    <i class="fas fa-comment"></i> Message
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Chat Interface -->
+            <div class="chat-section">
+                <div class="chat-header">
+                    <h2><i class="fas fa-comments"></i> Live Chat with Expert</h2>
+                    <p id="selectedExpert">Select an expert to start chatting</p>
+                </div>
+                
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="welcome-message" style="text-align: center; color: #666; padding: 2rem;">
+                            <i class="fas fa-comments" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                            <p>Select an expert from the left panel to start a conversation.</p>
+                            <p>Our experts are here to help you with:</p>
+                            <ul style="text-align: left; display: inline-block; margin-top: 1rem;">
+                                <li>Crop management advice</li>
+                                <li>Weather impact analysis</li>
+                                <li>Pest and disease control</li>
+                                <li>Irrigation planning</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-container">
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Type your message here..." disabled>
+                        <button class="send-btn" id="sendBtn" disabled>
+                            <i class="fas fa-paper-plane"></i> Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appointment Section -->
+        <div class="appointment-section">
+            <h2 style="font-size: 2rem; color: var(--primary-green); margin-bottom: 2rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-calendar-check"></i> Schedule Expert Appointment
+            </h2>
+            
+            <div class="appointment-card">
+                <div class="expert-selection" id="expertSelection">
+                    <div class="expert-select-card" onclick="selectExpertForAppointment(1)">
+                        <div class="expert-select-avatar">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h4>Dr. Sarah Kintu</h4>
+                        <p style="font-size: 0.9rem; color: #666;">Crop Science</p>
+                    </div>
+                    
+                    <div class="expert-select-card" onclick="selectExpertForAppointment(2)">
+                        <div class="expert-select-avatar">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <h4>James Omondi</h4>
+                        <p style="font-size: 0.9rem; color: #666;">Water Management</p>
+                    </div>
+                    
+                    <div class="expert-select-card" onclick="selectExpertForAppointment(3)">
+                        <div class="expert-select-avatar">
+                            <i class="fas fa-bug"></i>
+                        </div>
+                        <h4>Maria Nakato</h4>
+                        <p style="font-size: 0.9rem; color: #666;">Pest Control</p>
+                    </div>
+                    
+                    <div class="expert-select-card" onclick="selectExpertForAppointment(4)">
+                        <div class="expert-select-avatar">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h4>David Ssali</h4>
+                        <p style="font-size: 0.9rem; color: #666;">Organic Farming</p>
+                    </div>
+                </div>
+                
+                <form id="appointmentForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="appointmentDate"><i class="fas fa-calendar-alt"></i> Preferred Date</label>
+                            <input type="date" id="appointmentDate" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="appointmentTime"><i class="fas fa-clock"></i> Preferred Time</label>
+                            <select id="appointmentTime" class="form-control" required>
+                                <option value="">Select time slot</option>
+                                <option value="09:00">9:00 AM</option>
+                                <option value="10:30">10:30 AM</option>
+                                <option value="14:00">2:00 PM</option>
+                                <option value="15:30">3:30 PM</option>
+                                <option value="17:00">5:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="appointmentReason"><i class="fas fa-clipboard-list"></i> Reason for Consultation</label>
+                        <select id="appointmentReason" class="form-control" required>
+                            <option value="">Select consultation type</option>
+                            <option value="crop_planning">Crop Planning & Selection</option>
+                            <option value="pest_control">Pest & Disease Control</option>
+                            <option value="water_management">Irrigation & Water Management</option>
+                            <option value="soil_health">Soil Health & Fertilization</option>
+                            <option value="weather_impact">Weather Impact Assessment</option>
+                            <option value="harvest_planning">Harvest & Post-Harvest Planning</option>
+                            <option value="emergency">Emergency Consultation</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="appointmentDetails"><i class="fas fa-edit"></i> Additional Details</label>
+                        <textarea id="appointmentDetails" class="form-control" rows="4" placeholder="Please provide any additional details about your farm, crops, or specific concerns..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contactMethod"><i class="fas fa-phone-alt"></i> Preferred Contact Method</label>
+                        <div style="display: flex; gap: 1rem;">
+                            <label style="display: flex; align-items: center; gap: 5px;">
+                                <input type="radio" name="contactMethod" value="phone" checked> Phone Call
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px;">
+                                <input type="radio" name="contactMethod" value="video"> Video Call
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 5px;">
+                                <input type="radio" name="contactMethod" value="in_person"> In-Person Visit
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-calendar-plus"></i> Schedule Appointment
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>Healthy Harvest</span>
+                </div>
+                <p style="color: #aaa; margin-top: 1rem;">Connecting farmers with expert agricultural advice for better yields and sustainable farming.</p>
+                <p style="color: #aaa; margin-top: 0.5rem;">UICT | Farmer Support System</p>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="help.html"><i class="fas fa-question-circle"></i> Help Center</a></li>
+                    <li><a href="contact.html"><i class="fas fa-users"></i> Contact Experts</a></li>
+                    <li><a href="history.html"><i class="fas fa-history"></i> Weather History</a></li>
+                    <li><a href="glossary.html"><i class="fas fa-book"></i> Glossary</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Emergency Contacts</h3>
+                <ul>
+                    <li><a href="tel:+256700123456"><i class="fas fa-phone"></i> Emergency: +256 700 123 456</a></li>
+                    <li><a href="tel:+256800200300"><i class="fas fa-phone-alt"></i> Toll Free: 0800 200 300</a></li>
+                    <li><a href="mailto:emergency@healthyharvest.ug"><i class="fas fa-envelope"></i> Emergency Email</a></li>
+                    <li><a href="#"><i class="fas fa-ambulance"></i> Disaster Response</a></li>
+                    <li><a href="#"><i class="fas fa-first-aid"></i> Crop Emergency</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Chat and Appointment Management
+        let selectedExpert = null;
+        let selectedExpertForAppointment = null;
+        const experts = {
+            1: { name: "Dr. Sarah Kintu", specialty: "Crop Science", online: true },
+            2: { name: "James Omondi", specialty: "Water Management", online: true },
+            3: { name: "Maria Nakato", specialty: "Pest Control", online: false },
+            4: { name: "David Ssali", specialty: "Organic Farming", online: true }
+        };
+
+        // Select Expert for Chat
+        function selectExpert(expertId) {
+            selectedExpert = expertId;
+            const expert = experts[expertId];
+            
+            // Update chat header
+            document.getElementById('selectedExpert').textContent = `Chatting with: ${expert.name} (${expert.specialty})`;
+            
+            // Enable chat input
+            document.getElementById('chatInput').disabled = false;
+            document.getElementById('sendBtn').disabled = false;
+            
+            // Clear and add welcome message
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = '';
+            
+            if (expert.online) {
+                addMessage('received', `${expert.name}: Hello! I'm ${expert.name}, your ${expert.specialty} expert. How can I help you today?`);
+                addMessage('received', `${expert.name}: I'm here to provide personalized advice for your farming needs. Please describe your situation or ask any questions.`);
+            } else {
+                addMessage('received', `${expert.name}: I'm currently offline. Please leave a message and I'll respond when I'm back online. You can also schedule an appointment for a consultation.`);
+            }
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Highlight selected expert card
+            document.querySelectorAll('.expert-card').forEach(card => {
+                card.style.border = card.dataset.expert == expertId ? '3px solid var(--primary-green)' : 'none';
+            });
+        }
+
+        // Select Expert for Appointment
+        function selectExpertForAppointment(expertId) {
+            selectedExpertForAppointment = expertId;
+            
+            // Update selection UI
+            document.querySelectorAll('.expert-select-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+        }
+
+        // Send Chat Message
+        document.getElementById('sendBtn').addEventListener('click', sendMessage);
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message || !selectedExpert) return;
+            
+            // Add user message
+            addMessage('sent', message);
+            input.value = '';
+            
+            // Simulate expert response after delay
+            if (experts[selectedExpert].online) {
+                setTimeout(() => {
+                    const responses = [
+                        "That's a great question. Based on your location and current weather, I recommend...",
+                        "I understand your concern. Many farmers in your area are facing similar challenges. Here's what has worked for them...",
+                        "Let me check the latest data for your region. Based on historical patterns, you should consider...",
+                        "For that specific crop variety, here's what I suggest based on current conditions...",
+                        "Have you considered this alternative approach? It has shown good results in similar situations...",
+                        "Based on the weather forecast, I would recommend adjusting your schedule as follows...",
+                        "That's an important consideration. Let me provide some specific recommendations for your situation..."
+                    ];
+                    
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addMessage('received', `${experts[selectedExpert].name}: ${randomResponse}`);
+                }, 1000 + Math.random() * 2000);
+            } else {
+                setTimeout(() => {
+                    addMessage('received', `${experts[selectedExpert].name}: Thank you for your message. I'm currently offline, but I'll respond as soon as I'm back. In the meantime, you might want to check our FAQ section or schedule an appointment.`);
+                }, 2000);
+            }
+        }
+
+        // Add Message to Chat
+        function addMessage(type, text) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            messageDiv.innerHTML = `
+                <div>${text}</div>
+                <div class="message-time">${timeString}</div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Call Expert Function
+        function callExpert(expertName) {
+            const phoneNumber = prompt(`Enter your phone number to call ${expertName}:`);
+            if (phoneNumber) {
+                alert(`Connecting you to ${expertName} at ${phoneNumber}...\n\nIn a real application, this would initiate a phone call.`);
+            }
+        }
+
+        // Appointment Form Submission
+        document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!selectedExpertForAppointment) {
+                alert('Please select an expert for the appointment.');
+                return;
+            }
+            
+            const date = document.getElementById('appointmentDate').value;
+            const time = document.getElementById('appointmentTime').value;
+            const reason = document.getElementById('appointmentReason').value;
+            const details = document.getElementById('appointmentDetails').value;
+            const contactMethod = document.querySelector('input[name="contactMethod"]:checked').value;
+            
+            if (!date || !time || !reason) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            const appointmentDate = new Date(date);
+            const today = new Date();
+            
+            if (appointmentDate < today) {
+                alert('Please select a future date for your appointment.');
+                return;
+            }
+            
+            const expertName = experts[selectedExpertForAppointment].name;
+            const reasonText = document.getElementById('appointmentReason').options[document.getElementById('appointmentReason').selectedIndex].text;
+            
+            // Show confirmation
+            const confirmation = `
+                Appointment Scheduled Successfully!
+                
+                Expert: ${expertName}
+                Date: ${date}
+                Time: ${time}
+                Consultation Type: ${reasonText}
+                Contact Method: ${contactMethod.replace('_', ' ')}
+                
+                You will receive a confirmation call/SMS shortly.
+                Please be available 5 minutes before your scheduled time.
+            `;
+            
+            alert(confirmation);
+            
+            // Reset form
+            this.reset();
+            document.querySelectorAll('.expert-select-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            selectedExpertForAppointment = null;
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mainNav = document.getElementById('mainNav');
+        const userNav = document.getElementById('userNav');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            userNav.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('header')) {
+                mainNav.classList.remove('active');
+                userNav.classList.remove('active');
+            }
+        });
+
+        // Set minimum date for appointment to today
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('appointmentDate').min = today;
+            
+            // Auto-select first expert for appointment
+            selectExpertForAppointment(1);
+            document.querySelector('.expert-select-card').classList.add('selected');
+        });
+    </script>
+    <script src="shared-footer.js"></script>
+</body>
+</html>

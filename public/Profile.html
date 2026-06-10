@@ -1,0 +1,1992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Healthy Harvest</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --lighter-green: #c8e6c9;
+            --accent-yellow: #ffd54f;
+            --accent-red: #ef5350;
+            --accent-blue: #2196f3;
+            --dark-gray: #333;
+            --light-gray: #f5f5f5;
+            --border-color: #ddd;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--primary-green), var(--light-green));
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .main-nav a:hover, .main-nav a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .user-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-nav a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .user-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .notification-badge {
+            background-color: var(--accent-red);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Profile Layout */
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 900px) {
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Profile Sidebar */
+        .profile-sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+        }
+
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-upload {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--accent-blue);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 3px solid white;
+        }
+
+        .profile-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-role {
+            color: var(--primary-green);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+            padding: 1rem 0;
+            border-top: 1px solid var(--light-gray);
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .profile-badges {
+            margin: 2rem 0;
+        }
+
+        .badges-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .badges-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0.4rem 0.8rem;
+            background: var(--lighter-green);
+            color: var(--primary-green);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge i {
+            font-size: 0.9rem;
+        }
+
+        /* Profile Actions */
+        .profile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 2rem;
+        }
+
+        .profile-btn {
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .profile-btn.primary {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .profile-btn.primary:hover {
+            background: var(--light-green);
+        }
+
+        .profile-btn.secondary {
+            background: var(--light-gray);
+            color: var(--dark-gray);
+        }
+
+        .profile-btn.secondary:hover {
+            background: #e0e0e0;
+        }
+
+        /* Profile Content */
+        .profile-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Tabs Navigation */
+        .profile-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--light-gray);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab:hover {
+            color: var(--primary-green);
+        }
+
+        .tab.active {
+            color: var(--primary-green);
+            border-bottom-color: var(--primary-green);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Personal Information Form */
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--lighter-green);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-green);
+            outline: none;
+        }
+
+        .form-control[readonly] {
+            background: var(--light-gray);
+            cursor: not-allowed;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--light-gray);
+        }
+
+        /* Farm Information */
+        .farm-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .farm-card {
+            background: var(--light-gray);
+            border-radius: 10px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary-green);
+            transition: transform 0.3s;
+        }
+
+        .farm-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .farm-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .farm-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .farm-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark-gray);
+        }
+
+        .farm-details {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .farm-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        /* Crop Progress */
+        .crop-progress {
+            margin-bottom: 2rem;
+        }
+
+        .progress-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: var(--light-gray);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-green);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        /* Activity Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--light-gray);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -23px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px var(--lighter-green);
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .timeline-content {
+            background: var(--light-gray);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        /* Settings */
+        .settings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: var(--light-gray);
+            border-radius: 8px;
+        }
+
+        .settings-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .settings-icon {
+            color: var(--primary-green);
+            font-size: 1.2rem;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-green);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-gray);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-yellow);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .main-nav, .user-nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--primary-green);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+            
+            .main-nav.active, .user-nav.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .profile-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab {
+                flex: 1;
+                min-width: 120px;
+                text-align: center;
+            }
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--primary-green);
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-green);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo">
+            <i class="fas fa-seedling"></i>
+            <span>Healthy Harvest</span>
+        </a>
+        
+        <nav class="main-nav">
+            <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="help.html"><i class="fas fa-question-circle"></i> Help</a>
+            <a href="contact Experts.html"><i class="fas fa-users"></i> Contact Experts</a>
+            <a href="history.html"><i class="fas fa-history"></i> Weather History</a>
+            <a href="glossary.html"><i class="fas fa-book"></i> Glossary</a>
+            <a href="profile.html" class="active"><i class="fas fa-user"></i> Profile</a>
+            <a href="notifications.html"><i class="fas fa-bell"></i> Notifications</a>
+        </nav>
+        
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="user-nav" id="userNav">
+            <div style="position: relative;">
+                <a href="profile.html" class="active" id="profileHeaderUserName"><i class="fas fa-user"></i> Healthy Harvest User</a>
+            </div>
+            <div style="position: relative;">
+                <a href="notifications.html"><i class="fas fa-bell"></i></a>
+                <span class="notification-badge">12</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1><i class="fas fa-user-circle"></i> My Profile</h1>
+            <p>Manage your account, farms, and personal settings</p>
+        </div>
+
+        <!-- Profile Layout -->
+        <div class="profile-layout">
+            <!-- Profile Sidebar -->
+            <div class="profile-sidebar">
+                <div class="profile-avatar">
+                    <div class="avatar-placeholder" id="profileAvatarInitials">HH</div>
+                    <div class="avatar-upload" onclick="openAvatarUpload()">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+                
+                <h2 class="profile-name" id="profileDisplayName">Healthy Harvest User</h2>
+                <div class="profile-role">
+                    <i class="fas fa-user-tie"></i>
+                    Commercial Farmer
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Farms</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">45</span>
+                        <span class="stat-label">Acres</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2</span>
+                        <span class="stat-label">Years</span>
+                    </div>
+                </div>
+                
+                <div class="profile-badges">
+                    <div class="badges-title">
+                        <i class="fas fa-award"></i>
+                        Achievements
+                    </div>
+                    <div class="badges-grid">
+                        <div class="badge">
+                            <i class="fas fa-seedling"></i> Early Adopter
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-cloud-sun"></i> Weather Pro
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-chart-line"></i> Data Master
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-users"></i> Community Leader
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-actions">
+                    <button class="profile-btn primary" onclick="editProfile()">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                    <button class="profile-btn secondary" onclick="downloadData()">
+                        <i class="fas fa-download"></i> Export Data
+                    </button>
+                    <button class="profile-btn secondary" onclick="shareProfile()">
+                        <i class="fas fa-share-alt"></i> Share Profile
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile Content -->
+            <div class="profile-content">
+                <!-- Tabs Navigation -->
+                <div class="profile-tabs">
+                    <button class="tab active" data-tab="personal">Personal Info</button>
+                    <button class="tab" data-tab="farms">My Farms</button>
+                    <button class="tab" data-tab="crops">Crops & Progress</button>
+                    <button class="tab" data-tab="activity">Activity</button>
+                    <button class="tab" data-tab="settings">Settings</button>
+                    <button class="tab" data-tab="security">Security</button>
+                </div>
+
+                <!-- Personal Information Tab -->
+                <div class="tab-content active" id="personal-tab">
+                    <div class="form-section">
+                        <h3 class="section-title"><i class="fas fa-user"></i> Basic Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="firstName"><i class="fas fa-signature"></i> First Name</label>
+                                <input type="text" id="firstName" class="form-control" value="" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName"><i class="fas fa-signature"></i> Last Name</label>
+                                <input type="text" id="lastName" class="form-control" value="" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+                                <input type="email" id="email" class="form-control" value="john.farmer@example.com" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone"><i class="fas fa-phone"></i> Phone Number</label>
+                                <input type="tel" id="phone" class="form-control" value="" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title"><i class="fas fa-map-marker-alt"></i> Location Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="country"><i class="fas fa-globe"></i> Country</label>
+                                <input type="text" id="country" class="form-control" value="Uganda" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="region"><i class="fas fa-map"></i> Region</label>
+                                <input type="text" id="region" class="form-control" value="Central Region" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="district"><i class="fas fa-map-pin"></i> District</label>
+                                <input type="text" id="district" class="form-control" value="" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="village"><i class="fas fa-home"></i> Village/Sub-county</label>
+                                <input type="text" id="village" class="form-control" value="Kakooge" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title"><i class="fas fa-business-time"></i> Farming Profile</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="farmingExperience"><i class="fas fa-clock"></i> Farming Experience</label>
+                                <input type="text" id="farmingExperience" class="form-control" value="15 years" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="farmSize"><i class="fas fa-ruler-combined"></i> Total Farm Size</label>
+                                <input type="text" id="farmSize" class="form-control" value="45 acres" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="farmType"><i class="fas fa-tractor"></i> Farming Type</label>
+                                <input type="text" id="farmType" class="form-control" value="Commercial Crop Farming" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="incomeSource"><i class="fas fa-money-bill-wave"></i> Main Income Source</label>
+                                <input type="text" id="incomeSource" class="form-control" value="Crop Production" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="profile-btn primary" onclick="enableEditMode()">
+                            <i class="fas fa-edit"></i> Edit Information
+                        </button>
+                        <button class="profile-btn secondary" onclick="saveProfile()" style="display: none;" id="saveBtn">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                        <button class="profile-btn secondary" onclick="cancelEdit()" style="display: none;" id="cancelBtn">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+
+                <!-- My Farms Tab -->
+                <div class="tab-content" id="farms-tab">
+                    <div class="section-title">
+                        <i class="fas fa-tractor"></i> My Farms
+                        <button class="profile-btn primary" onclick="addNewFarm()" style="margin-left: auto; padding: 0.5rem 1rem;">
+                            <i class="fas fa-plus"></i> Add New Farm
+                        </button>
+                    </div>
+
+                    <div class="farm-list">
+                        <!-- Main Farm -->
+                        <div class="farm-card">
+                            <div class="farm-header">
+                                <div class="farm-icon">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <div>
+                                    <div class="farm-name">Main Farm - Nakasongola</div>
+                                    <div class="farm-details">
+                                        <div><i class="fas fa-ruler-combined"></i> Size: 25 acres</div>
+                                        <div><i class="fas fa-seedling"></i> Main Crop: Groundnut</div>
+                                        <div><i class="fas fa-map-marker-alt"></i> Coordinates: 1.3167°N, 32.4667°E</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="farm-actions">
+                                <button class="profile-btn secondary" onclick="viewFarmDetails(1)">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="profile-btn secondary" onclick="editFarm(1)">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="profile-btn secondary" onclick="manageFarmCrops(1)">
+                                    <i class="fas fa-seedling"></i> Crops
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Secondary Farm -->
+                        <div class="farm-card">
+                            <div class="farm-header">
+                                <div class="farm-icon">
+                                    <i class="fas fa-mountain"></i>
+                                </div>
+                                <div>
+                                    <div class="farm-name">Northern Farm - Gulu</div>
+                                    <div class="farm-details">
+                                        <div><i class="fas fa-ruler-combined"></i> Size: 15 acres</div>
+                                        <div><i class="fas fa-seedling"></i> Main Crop: Maize</div>
+                                        <div><i class="fas fa-map-marker-alt"></i> Coordinates: 2.7808°N, 32.2997°E</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="farm-actions">
+                                <button class="profile-btn secondary" onclick="viewFarmDetails(2)">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="profile-btn secondary" onclick="editFarm(2)">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="profile-btn secondary" onclick="manageFarmCrops(2)">
+                                    <i class="fas fa-seedling"></i> Crops
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Small Plot -->
+                        <div class="farm-card">
+                            <div class="farm-header">
+                                <div class="farm-icon">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <div>
+                                    <div class="farm-name">Vegetable Garden - Home</div>
+                                    <div class="farm-details">
+                                        <div><i class="fas fa-ruler-combined"></i> Size: 5 acres</div>
+                                        <div><i class="fas fa-seedling"></i> Crops: Mixed Vegetables</div>
+                                        <div><i class="fas fa-map-marker-alt"></i> Home compound</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="farm-actions">
+                                <button class="profile-btn secondary" onclick="viewFarmDetails(3)">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <button class="profile-btn secondary" onclick="editFarm(3)">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="profile-btn secondary" onclick="manageFarmCrops(3)">
+                                    <i class="fas fa-seedling"></i> Crops
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-title" style="margin-top: 3rem;">
+                        <i class="fas fa-chart-bar"></i> Farm Statistics
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div style="background: var(--light-gray); padding: 1.5rem; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--primary-green);">45</div>
+                            <div style="color: #666;">Total Acres</div>
+                        </div>
+                        <div style="background: var(--light-gray); padding: 1.5rem; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--primary-green);">3</div>
+                            <div style="color: #666;">Active Farms</div>
+                        </div>
+                        <div style="background: var(--light-gray); padding: 1.5rem; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--primary-green);">5</div>
+                            <div style="color: #666;">Crop Types</div>
+                        </div>
+                        <div style="background: var(--light-gray); padding: 1.5rem; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: 700; color: var(--primary-green);">85%</div>
+                            <div style="color: #666;">Soil Health Index</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crops & Progress Tab -->
+                <div class="tab-content" id="crops-tab">
+                    <div class="section-title">
+                        <i class="fas fa-seedling"></i> Current Crops & Progress
+                    </div>
+
+                    <div class="crop-progress">
+                        <!-- Crop 1 -->
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <div>
+                                    <strong>Groundnut (Serenut 2)</strong>
+                                    <div style="font-size: 0.9rem; color: #666;">Planted: Mar 6, 2025 | 2 acres</div>
+                                </div>
+                                <div>65%</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: #666; margin-top: 0.5rem;">
+                                <span>Planting</span>
+                                <span>Vegetative</span>
+                                <span>Flowering</span>
+                                <span>Podding</span>
+                                <span>Harvest</span>
+                            </div>
+                        </div>
+
+                        <!-- Crop 2 -->
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <div>
+                                    <strong>Maize (Longe 5)</strong>
+                                    <div style="font-size: 0.9rem; color: #666;">Planted: Feb 20, 2025 | 3 acres</div>
+                                </div>
+                                <div>80%</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: #666; margin-top: 0.5rem;">
+                                <span>Planting</span>
+                                <span>Vegetative</span>
+                                <span>Flowering</span>
+                                <span>Grain Fill</span>
+                                <span>Harvest</span>
+                            </div>
+                        </div>
+
+                        <!-- Crop 3 -->
+                        <div class="progress-item">
+                            <div class="progress-header">
+                                <div>
+                                    <strong>Beans (Nabe 4)</strong>
+                                    <div style="font-size: 0.9rem; color: #666;">Planted: Mar 1, 2025 | 1.5 acres</div>
+                                </div>
+                                <div>40%</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 40%;"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: #666; margin-top: 0.5rem;">
+                                <span>Planting</span>
+                                <span>Vegetative</span>
+                                <span>Flowering</span>
+                                <span>Podding</span>
+                                <span>Harvest</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-title" style="margin-top: 3rem;">
+                        <i class="fas fa-calendar-alt"></i> Upcoming Activities
+                    </div>
+
+                    <div style="background: var(--light-gray); padding: 1.5rem; border-radius: 10px; margin-top: 1.5rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="width: 40px; height: 40px; background: var(--primary-green); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-cloud-rain"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight: 600;">Heavy Rainfall Expected</div>
+                                <div style="color: #666;">April 25-27 | Prepare drainage systems</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="width: 40px; height: 40px; background: var(--accent-yellow); color: var(--dark-gray); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight: 600;">Groundnut Weeding</div>
+                                <div style="color: #666;">April 15-18 | Manual weeding recommended</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 40px; height: 40px; background: var(--accent-blue); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight: 600;">Irrigation Schedule</div>
+                                <div style="color: #666;">Tomorrow, 6-8 AM | 5000 liters per acre</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Tab -->
+                <div class="tab-content" id="activity-tab">
+                    <div class="section-title">
+                        <i class="fas fa-history"></i> Recent Activity
+                    </div>
+
+                    <div class="timeline">
+                        <!-- Today -->
+                        <div class="timeline-item">
+                            <div class="timeline-date">
+                                <i class="far fa-clock"></i> Today, 2 hours ago
+                            </div>
+                            <div class="timeline-content">
+                                <strong>Weather Alert Viewed</strong>
+                                <div style="color: #666; margin-top: 0.5rem;">You viewed the heavy rainfall alert for April 25-27</div>
+                            </div>
+                        </div>
+
+                        <!-- Yesterday -->
+                        <div class="timeline-item">
+                            <div class="timeline-date">
+                                <i class="far fa-clock"></i> Yesterday
+                            </div>
+                            <div class="timeline-content">
+                                <strong>Expert Consultation</strong>
+                                <div style="color: #666; margin-top: 0.5rem;">You had a chat consultation with Dr. Sarah Kintu about soil management</div>
+                            </div>
+                        </div>
+
+                        <!-- 3 days ago -->
+                        <div class="timeline-item">
+                            <div class="timeline-date">
+                                <i class="far fa-clock"></i> 3 days ago
+                            </div>
+                            <div class="timeline-content">
+                                <strong>Crop Data Updated</strong>
+                                <div style="color: #666; margin-top: 0.5rem;">Updated growth stage for maize crop to "Flowering"</div>
+                            </div>
+                        </div>
+
+                        <!-- 1 week ago -->
+                        <div class="timeline-item">
+                            <div class="timeline-date">
+                                <i class="far fa-clock"></i> 1 week ago
+                            </div>
+                            <div class="timeline-content">
+                                <strong>Farm Added</strong>
+                                <div style="color: #666; margin-top: 0.5rem;">Added new farm "Vegetable Garden - Home" to your profile</div>
+                            </div>
+                        </div>
+
+                        <!-- 2 weeks ago -->
+                        <div class="timeline-item">
+                            <div class="timeline-date">
+                                <i class="far fa-clock"></i> 2 weeks ago
+                            </div>
+                            <div class="timeline-content">
+                                <strong>Profile Completion</strong>
+                                <div style="color: #666; margin-top: 0.5rem;">Completed your farming profile (100%)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-title" style="margin-top: 3rem;">
+                        <i class="fas fa-chart-line"></i> Activity Statistics
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                        <div style="background: var(--light-gray); padding: 1.5rem; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-green);">24</div>
+                            <div style="color: #666;">Logins (30 days)</div>
+                        </div>
+                        <div style="background: var(--light-gray); padding: 1.5rem; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-green);">8</div>
+                            <div style="color: #666;">Expert Consults</div>
+                        </div>
+                        <div style="background: var(--light-gray); padding: 1.5rem; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-green);">15</div>
+                            <div style="color: #666;">Reports Generated</div>
+                        </div>
+                        <div style="background: var(--light-gray); padding: 1.5rem; border-radius: 10px; text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-green);">92%</div>
+                            <div style="color: #666;">AI Recommendations Used</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div class="tab-content" id="settings-tab">
+                    <div class="section-title">
+                        <i class="fas fa-cog"></i> Account Settings
+                    </div>
+
+                    <div class="settings-list">
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <i class="fas fa-globe settings-icon"></i>
+                                <div>
+                                    <div style="font-weight: 600;">Language</div>
+                                    <div style="color: #666; font-size: 0.9rem;">English (Primary)</div>
+                                </div>
+                            </div>
+                            <button class="profile-btn secondary" onclick="changeLanguage()">
+                                Change
+                            </button>
+                        </div>
+
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <i class="fas fa-palette settings-icon"></i>
+                                <div>
+                                    <div style="font-weight: 600;">Theme</div>
+                                    <div style="color: #666; font-size: 0.9rem;">Light Mode</div>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" onchange="toggleTheme()">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <i class="fas fa-bell settings-icon"></i>
+                                <div>
+                                    <div style="font-weight: 600;">Notification Sound</div>
+                                    <div style="color: #666; font-size: 0.9rem;">Enabled</div>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked onchange="toggleNotificationSound()">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <i class="fas fa-download settings-icon"></i>
+                                <div>
+                                    <div style="font-weight: 600;">Auto-download Reports</div>
+                                    <div style="color: #666; font-size: 0.9rem;">Disabled</div>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" onchange="toggleAutoDownload()">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <i class="fas fa-sync-alt settings-icon"></i>
+                                <div>
+                                    <div style="font-weight: 600;">Auto-sync Data</div>
+                                    <div style="color: #666; font-size: 0.9rem;">Every 6 hours</div>
+                                </div>
+                            </div>
+                            <button class="profile-btn secondary" onclick="changeSyncFrequency()">
+                                Change
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="section-title" style="margin-top: 3rem;">
+                        <i class="fas fa-trash-alt"></i> Data Management
+                    </div>
+
+                    <div style="background: #ffebee; padding: 1.5rem; border-radius: 10px; margin-top: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <i class="fas fa-exclamation-triangle" style="color: var(--accent-red); font-size: 1.5rem;"></i>
+                            <div>
+                                <div style="font-weight: 600;">Danger Zone</div>
+                                <div style="color: #666; font-size: 0.9rem;">These actions are irreversible</div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 1rem;">
+                            <button class="profile-btn secondary" onclick="exportAllData()" style="background: #f5f5f5;">
+                                <i class="fas fa-file-export"></i> Export All Data
+                            </button>
+                            <button class="profile-btn secondary" onclick="clearActivityHistory()" style="background: #fff3cd; color: #856404;">
+                                <i class="fas fa-history"></i> Clear Activity History
+                            </button>
+                            <button class="profile-btn secondary" onclick="deleteAccount()" style="background: var(--accent-red); color: white;">
+                                <i class="fas fa-trash"></i> Delete Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Tab -->
+                <div class="tab-content" id="security-tab">
+                    <div class="section-title">
+                        <i class="fas fa-shield-alt"></i> Security Settings
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title" style="font-size: 1.2rem;"><i class="fas fa-key"></i> Change Password</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="currentPassword"><i class="fas fa-lock"></i> Current Password</label>
+                                <input type="password" id="currentPassword" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword"><i class="fas fa-lock"></i> New Password</label>
+                                <input type="password" id="newPassword" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword"><i class="fas fa-lock"></i> Confirm New Password</label>
+                                <input type="password" id="confirmPassword" class="form-control">
+                            </div>
+                        </div>
+                        <button class="profile-btn primary" onclick="changePassword()">
+                            <i class="fas fa-key"></i> Update Password
+                        </button>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title" style="font-size: 1.2rem;"><i class="fas fa-mobile-alt"></i> Two-Factor Authentication</h3>
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 1.5rem; background: var(--light-gray); border-radius: 10px;">
+                            <div>
+                                <div style="font-weight: 600;">SMS Verification</div>
+                                <div style="color: #666; font-size: 0.9rem;">Adds extra security to your account</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" onchange="toggleTwoFactor()">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title" style="font-size: 1.2rem;"><i class="fas fa-desktop"></i> Active Sessions</h3>
+                        <div style="background: var(--light-gray); padding: 1.5rem; border-radius: 10px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 1rem; border-bottom: 1px solid #ddd;">
+                                <div>
+                                    <div style="font-weight: 600;">Current Session</div>
+                                    <div style="color: #666; font-size: 0.9rem;">Chrome on Windows • Nakasongola, Uganda</div>
+                                    <div style="color: #666; font-size: 0.8rem;">Active now</div>
+                                </div>
+                                <button class="profile-btn secondary" style="padding: 0.5rem 1rem;">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </div>
+                            
+                            <div style="margin-top: 1rem;">
+                                <div style="font-weight: 600; margin-bottom: 0.5rem;">Other Active Sessions</div>
+                                <div style="color: #666; font-size: 0.9rem;">Mobile App • 2 hours ago</div>
+                                <button class="profile-btn secondary" onclick="logoutAllSessions()" style="margin-top: 1rem; padding: 0.5rem 1rem;">
+                                    <i class="fas fa-sign-out-alt"></i> Logout All Other Sessions
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Avatar Upload -->
+    <div class="modal" id="avatarModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Update Profile Picture</h3>
+                <button class="modal-close" onclick="closeAvatarModal()">&times;</button>
+            </div>
+            <div style="text-align: center; padding: 2rem;">
+                <div style="width: 150px; height: 150px; border-radius: 50%; background: var(--light-gray); margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #666;">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <button class="profile-btn primary" onclick="uploadPhoto()" style="margin-bottom: 1rem;">
+                        <i class="fas fa-upload"></i> Upload Photo
+                    </button>
+                    <div style="color: #666; font-size: 0.9rem;">Recommended: Square image, at least 400x400 pixels</div>
+                </div>
+                <button class="profile-btn secondary" onclick="closeAvatarModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>Healthy Harvest</span>
+                </div>
+                <p style="color: #aaa; margin-top: 1rem;">Your personal farming profile and account management center.</p>
+                <p style="color: #aaa; margin-top: 0.5rem;">UICT | Farmer Support System</p>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="help.html"><i class="fas fa-question-circle"></i> Help Center</a></li>
+                    <li><a href="contact.html"><i class="fas fa-users"></i> Contact Experts</a></li>
+                    <li><a href="history.html"><i class="fas fa-history"></i> Weather History</a></li>
+                    <li><a href="glossary.html"><i class="fas fa-book"></i> Glossary</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Account</h3>
+                <ul>
+                    <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a href="notifications.html"><i class="fas fa-bell"></i> Notifications</a></li>
+                    <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Profile Management
+        let isEditMode = false;
+        let originalData = {};
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeLoggedInUser();
+
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Setup tabs
+            setupTabs();
+            
+            // Save original data
+            saveOriginalData();
+        });
+
+        function initializeLoggedInUser() {
+            const isLoggedIn = localStorage.getItem('healthyHarvestLoggedIn') === 'true';
+            const currentUser = JSON.parse(localStorage.getItem('healthyHarvestCurrentUser') || 'null');
+
+            if (!isLoggedIn || !currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const displayName = currentUser.fullName || currentUser.phone || 'Healthy Harvest User';
+            const nameParts = displayName.split(' ').filter(Boolean);
+            const firstName = nameParts[0] || displayName;
+            const lastName = nameParts.slice(1).join(' ');
+            const initials = nameParts.slice(0, 2).map(part => part.charAt(0).toUpperCase()).join('');
+            const district = currentUser.district
+                ? currentUser.district.charAt(0).toUpperCase() + currentUser.district.slice(1)
+                : '';
+
+            document.getElementById('profileHeaderUserName').innerHTML = `<i class="fas fa-user"></i> ${displayName}`;
+            document.getElementById('profileDisplayName').textContent = displayName;
+            document.getElementById('profileAvatarInitials').textContent = initials || 'HH';
+            document.getElementById('firstName').value = firstName;
+            document.getElementById('lastName').value = lastName;
+            document.getElementById('phone').value = currentUser.phone || '';
+            document.getElementById('district').value = district;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Mobile menu
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mainNav = document.getElementById('mainNav');
+            const userNav = document.getElementById('userNav');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                userNav.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('header')) {
+                    mainNav.classList.remove('active');
+                    userNav.classList.remove('active');
+                }
+            });
+        }
+
+        // Setup tab functionality
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = tab.dataset.tab;
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+        }
+
+        // Save original form data
+        function saveOriginalData() {
+            const formControls = document.querySelectorAll('.form-control[readonly]');
+            formControls.forEach(control => {
+                originalData[control.id] = control.value;
+            });
+        }
+
+        // Enable edit mode
+        function enableEditMode() {
+            isEditMode = true;
+            
+            // Remove readonly attribute
+            const formControls = document.querySelectorAll('.form-control[readonly]');
+            formControls.forEach(control => {
+                control.removeAttribute('readonly');
+                control.style.background = 'white';
+                control.style.cursor = 'text';
+            });
+            
+            // Show save and cancel buttons
+            document.getElementById('saveBtn').style.display = 'inline-block';
+            document.getElementById('cancelBtn').style.display = 'inline-block';
+            
+            // Hide edit button
+            event.target.style.display = 'none';
+            
+            showToast('Edit mode enabled. Make your changes and click Save.');
+        }
+
+        // Cancel edit
+        function cancelEdit() {
+            isEditMode = false;
+            
+            // Restore original values
+            Object.keys(originalData).forEach(id => {
+                const control = document.getElementById(id);
+                if (control) {
+                    control.value = originalData[id];
+                }
+            });
+            
+            // Add readonly attribute back
+            const formControls = document.querySelectorAll('.form-control');
+            formControls.forEach(control => {
+                control.setAttribute('readonly', true);
+                control.style.background = 'var(--light-gray)';
+                control.style.cursor = 'not-allowed';
+            });
+            
+            // Show edit button, hide save and cancel
+            document.querySelector('.profile-btn.primary').style.display = 'inline-block';
+            document.getElementById('saveBtn').style.display = 'none';
+            document.getElementById('cancelBtn').style.display = 'none';
+            
+            showToast('Edit cancelled. No changes were saved.');
+        }
+
+        // Save profile
+        function saveProfile() {
+            // Validate form
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            
+            if (!firstName || !lastName || !email || !phone) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            
+            if (!validatePhone(phone)) {
+                alert('Please enter a valid phone number.');
+                return;
+            }
+            
+            // In a real app, this would send data to backend
+            // For now, just show success message
+            
+            // Update original data
+            saveOriginalData();
+            
+            // Exit edit mode
+            isEditMode = false;
+            const formControls = document.querySelectorAll('.form-control');
+            formControls.forEach(control => {
+                control.setAttribute('readonly', true);
+                control.style.background = 'var(--light-gray)';
+                control.style.cursor = 'not-allowed';
+            });
+            
+            // Show edit button, hide save and cancel
+            document.querySelector('.profile-btn.primary').style.display = 'inline-block';
+            document.getElementById('saveBtn').style.display = 'none';
+            document.getElementById('cancelBtn').style.display = 'none';
+            
+            showToast('Profile updated successfully!');
+        }
+
+        // Email validation
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Phone validation
+        function validatePhone(phone) {
+            // Simple validation - at least 10 characters
+            return phone.length >= 10;
+        }
+
+        // Open avatar upload modal
+        function openAvatarUpload() {
+            document.getElementById('avatarModal').classList.add('active');
+        }
+
+        // Close avatar modal
+        function closeAvatarModal() {
+            document.getElementById('avatarModal').classList.remove('active');
+        }
+
+        // Upload photo
+        function uploadPhoto() {
+            alert('In a real application, this would open a file picker to upload a profile picture.');
+            closeAvatarModal();
+        }
+
+        // Edit profile (general)
+        function editProfile() {
+            // Switch to personal info tab
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelector('[data-tab="personal"]').classList.add('active');
+            
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('personal-tab').classList.add('active');
+            
+            // Enable edit mode
+            setTimeout(() => {
+                enableEditMode();
+            }, 300);
+        }
+
+        // Download data
+        function downloadData() {
+            alert('Preparing data export...\n\nIn a real application, this would generate and download a ZIP file containing all your farming data.');
+        }
+
+        // Share profile
+        function shareProfile() {
+            alert('Share profile feature\n\nIn a real application, this would allow you to share your farming profile with experts or other farmers.');
+        }
+
+        // Add new farm
+        function addNewFarm() {
+            alert('Add new farm form\n\nIn a real application, this would open a form to add details about a new farm.');
+        }
+
+        // View farm details
+        function viewFarmDetails(farmId) {
+            alert(`Viewing farm ${farmId} details\n\nIn a real application, this would show detailed information about the selected farm.`);
+        }
+
+        // Edit farm
+        function editFarm(farmId) {
+            alert(`Editing farm ${farmId}\n\nIn a real application, this would open an edit form for the selected farm.`);
+        }
+
+        // Manage farm crops
+        function manageFarmCrops(farmId) {
+            alert(`Managing crops for farm ${farmId}\n\nIn a real application, this would show crop management tools for the selected farm.`);
+        }
+
+        // Change password
+        function changePassword() {
+            const current = document.getElementById('currentPassword').value;
+            const newPass = document.getElementById('newPassword').value;
+            const confirm = document.getElementById('confirmPassword').value;
+            
+            if (!current || !newPass || !confirm) {
+                alert('Please fill in all password fields.');
+                return;
+            }
+            
+            if (newPass !== confirm) {
+                alert('New passwords do not match.');
+                return;
+            }
+            
+            if (newPass.length < 8) {
+                alert('New password must be at least 8 characters long.');
+                return;
+            }
+            
+            // In a real app, this would validate and update password
+            alert('Password updated successfully!');
+            
+            // Clear fields
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }
+
+        // Toggle two-factor authentication
+        function toggleTwoFactor() {
+            const isEnabled = event.target.checked;
+            if (isEnabled) {
+                alert('Two-factor authentication enabled.\n\nIn a real application, this would send a verification code to your phone.');
+            } else {
+                alert('Two-factor authentication disabled.');
+            }
+        }
+
+        // Logout all sessions
+        function logoutAllSessions() {
+            if (confirm('Are you sure you want to logout from all other devices?')) {
+                alert('Logged out from all other sessions.\n\nIn a real application, this would invalidate all other access tokens.');
+            }
+        }
+
+        // Export all data
+        function exportAllData() {
+            if (confirm('This will export all your farming data. Continue?')) {
+                alert('Exporting all data...\n\nIn a real application, this would generate a comprehensive report and download it.');
+            }
+        }
+
+        // Clear activity history
+        function clearActivityHistory() {
+            if (confirm('Are you sure you want to clear your activity history? This cannot be undone.')) {
+                alert('Activity history cleared.\n\nIn a real application, this would remove all activity logs.');
+            }
+        }
+
+        // Delete account
+        function deleteAccount() {
+            if (confirm('WARNING: This will permanently delete your account and all associated data. This action cannot be undone. Are you absolutely sure?')) {
+                const verification = prompt('Type "DELETE" to confirm account deletion:');
+                if (verification === 'DELETE') {
+                    alert('Account deletion requested.\n\nIn a real application, this would schedule account deletion after a 30-day grace period.');
+                }
+            }
+        }
+
+        // Toggle theme
+        function toggleTheme() {
+            const isDark = event.target.checked;
+            if (isDark) {
+                document.body.style.backgroundColor = '#1a1a1a';
+                document.body.style.color = '#ffffff';
+                showToast('Dark mode enabled');
+            } else {
+                document.body.style.backgroundColor = '#f9f9f9';
+                document.body.style.color = 'var(--dark-gray)';
+                showToast('Light mode enabled');
+            }
+        }
+
+        // Toggle notification sound
+        function toggleNotificationSound() {
+            const isEnabled = event.target.checked;
+            showToast(`Notification sound ${isEnabled ? 'enabled' : 'disabled'}`);
+        }
+
+        // Toggle auto-download
+        function toggleAutoDownload() {
+            const isEnabled = event.target.checked;
+            showToast(`Auto-download reports ${isEnabled ? 'enabled' : 'disabled'}`);
+        }
+
+        // Change language
+        function changeLanguage() {
+            alert('Language selection\n\nIn a real application, this would show available languages for the interface.');
+        }
+
+        // Change sync frequency
+        function changeSyncFrequency() {
+            alert('Sync frequency settings\n\nIn a real application, this would allow you to choose how often data syncs with the server.');
+        }
+
+        // Show toast notification
+        function showToast(message) {
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Remove toast after 3 seconds
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+    </script>
+    <script src="shared-footer.js"></script>
+</body>
+</html>

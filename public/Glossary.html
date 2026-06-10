@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agricultural Glossary - Healthy Harvest</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --lighter-green: #c8e6c9;
+            --accent-yellow: #ffd54f;
+            --accent-red: #ef5350;
+            --accent-blue: #2196f3;
+            --dark-gray: #333;
+            --light-gray: #f5f5f5;
+            --border-color: #ddd;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--primary-green), var(--light-green));
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .main-nav a:hover, .main-nav a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .user-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-nav a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .user-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .notification-badge {
+            background-color: var(--accent-red);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Navigation Tabs */
+        .glossary-tabs {
+            display: flex;
+            background: white;
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+            gap: 0.5rem;
+        }
+
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--light-gray);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            background: var(--lighter-green);
+        }
+
+        .tab-btn.active {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        /* Search Bar */
+        .search-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            padding-left: 3.5rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 50px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-green);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-green);
+            font-size: 1.2rem;
+        }
+
+        .search-results {
+            text-align: center;
+            margin-top: 1rem;
+            color: #666;
+        }
+
+        /* Alphabet Navigation */
+        .alphabet-nav {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .alphabet-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .letter-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--light-gray);
+            color: var(--dark-gray);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .letter-btn:hover {
+            background: var(--lighter-green);
+            transform: translateY(-2px);
+        }
+
+        .letter-btn.active {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .letter-btn.all {
+            width: auto;
+            padding: 0 1rem;
+        }
+
+        /* Terms Grid */
+        .terms-section {
+            margin: 3rem 0;
+        }
+
+        .terms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .term-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+            border-left: 5px solid var(--primary-green);
+        }
+
+        .term-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .term-card.weather {
+            border-left-color: var(--accent-blue);
+        }
+
+        .term-card.farming {
+            border-left-color: var(--primary-green);
+        }
+
+        .term-card.soil {
+            border-left-color: #795548;
+        }
+
+        .term-card.tech {
+            border-left-color: var(--accent-yellow);
+        }
+
+        .term-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .term-icon {
+            font-size: 2rem;
+            color: var(--primary-green);
+            flex-shrink: 0;
+        }
+
+        .term-card.weather .term-icon {
+            color: var(--accent-blue);
+        }
+
+        .term-card.soil .term-icon {
+            color: #795548;
+        }
+
+        .term-card.tech .term-icon {
+            color: var(--accent-yellow);
+        }
+
+        .term-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .term-category {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: var(--lighter-green);
+            color: var(--primary-green);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .term-card.weather .term-category {
+            background: rgba(33, 150, 243, 0.1);
+            color: var(--accent-blue);
+        }
+
+        .term-card.soil .term-category {
+            background: rgba(121, 85, 72, 0.1);
+            color: #795548;
+        }
+
+        .term-card.tech .term-category {
+            background: rgba(255, 213, 79, 0.1);
+            color: #FF9800;
+        }
+
+        .term-definition {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .term-example {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border-left: 3px solid var(--primary-green);
+        }
+
+        .term-example strong {
+            color: var(--primary-green);
+        }
+
+        /* Calculators Section */
+        .calculators-section {
+            margin: 4rem 0;
+        }
+
+        .calculators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .calculator-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-top: 5px solid var(--accent-blue);
+        }
+
+        .calculator-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+        }
+
+        .calculator-icon {
+            font-size: 2rem;
+            color: var(--accent-blue);
+        }
+
+        .calculator-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-gray);
+        }
+
+        .calculator-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-green);
+            outline: none;
+        }
+
+        .calculate-btn {
+            padding: 1rem;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+
+        .calculate-btn:hover {
+            background: var(--light-green);
+        }
+
+        .result-container {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: var(--lighter-green);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .result-container.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .result-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark-gray);
+            margin: 0.5rem 0;
+        }
+
+        .result-details {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Quick Reference */
+        .reference-section {
+            margin: 4rem 0;
+        }
+
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .reference-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .reference-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .reference-list {
+            list-style: none;
+        }
+
+        .reference-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .reference-list li:last-child {
+            border-bottom: none;
+        }
+
+        .reference-list strong {
+            color: var(--primary-green);
+            min-width: 120px;
+            display: inline-block;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-gray);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-yellow);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .main-nav, .user-nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--primary-green);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+            
+            .main-nav.active, .user-nav.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .terms-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .calculators-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .glossary-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .alphabet-list {
+                gap: 0.3rem;
+            }
+            
+            .letter-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            header, footer, .glossary-tabs, .search-section, .alphabet-nav, .calculate-btn {
+                display: none !important;
+            }
+            
+            .container {
+                padding: 0;
+            }
+            
+            .page-header {
+                color: black;
+                background: none;
+                box-shadow: none;
+                padding: 1rem 0;
+            }
+            
+            .term-card, .calculator-card, .reference-card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo">
+            <i class="fas fa-seedling"></i>
+            <span>Healthy Harvest</span>
+        </a>
+        
+        <nav class="main-nav">
+            <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="help.html"><i class="fas fa-question-circle"></i> Help</a>
+            <a href="contact.html"><i class="fas fa-users"></i> Contact Experts</a>
+            <a href="history.html"><i class="fas fa-history"></i> Weather History</a>
+            <a href="glossary.html" class="active"><i class="fas fa-book"></i> Glossary</a>
+        </nav>
+        
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="user-nav" id="userNav">
+            <div style="position: relative;">
+                <a href="#"><i class="fas fa-user"></i> John Farmer</a>
+            </div>
+            <div style="position: relative;">
+                <a href="#"><i class="fas fa-bell"></i></a>
+                <span class="notification-badge">2</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1><i class="fas fa-book"></i> Agricultural Glossary & Calculators</h1>
+            <p>Learn farming terminology, understand weather terms, and use practical calculators for better farming decisions.</p>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="glossary-tabs">
+            <button class="tab-btn active" data-category="all">
+                <i class="fas fa-globe"></i> All Terms
+            </button>
+            <button class="tab-btn" data-category="weather">
+                <i class="fas fa-cloud-sun"></i> Weather Terms
+            </button>
+            <button class="tab-btn" data-category="farming">
+                <i class="fas fa-tractor"></i> Farming Terms
+            </button>
+            <button class="tab-btn" data-category="soil">
+                <i class="fas fa-mountain"></i> Soil Science
+            </button>
+            <button class="tab-btn" data-category="tech">
+                <i class="fas fa-robot"></i> Tech & AI Terms
+            </button>
+            <button class="tab-btn" data-category="calculators">
+                <i class="fas fa-calculator"></i> Calculators
+            </button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-section">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search for agricultural terms, definitions, or calculations...">
+            </div>
+            <div class="search-results">
+                <span id="resultCount">Showing 24 terms</span>
+            </div>
+        </div>
+
+        <!-- Alphabet Navigation -->
+        <div class="alphabet-nav">
+            <h3 style="color: var(--primary-green); margin-bottom: 0.5rem;">Browse by Letter</h3>
+            <div class="alphabet-list" id="alphabetList">
+                <!-- Letters will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Terms Grid -->
+        <div class="terms-section">
+            <div class="terms-grid" id="termsGrid">
+                <!-- Terms will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Calculators Section -->
+        <div class="calculators-section">
+            <h2 style="font-size: 2rem; color: var(--primary-green); margin-bottom: 2rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-calculator"></i> Farming Calculators
+            </h2>
+            
+            <div class="calculators-grid">
+                <!-- Seed Calculator -->
+                <div class="calculator-card">
+                    <div class="calculator-header">
+                        <i class="fas fa-seedling calculator-icon"></i>
+                        <h3 class="calculator-title">Seed Calculator</h3>
+                    </div>
+                    <form class="calculator-form" id="seedCalculator">
+                        <div class="form-group">
+                            <label for="cropType"><i class="fas fa-leaf"></i> Crop Type</label>
+                            <select id="cropType" class="form-control">
+                                <option value="maize">Maize</option>
+                                <option value="beans">Beans</option>
+                                <option value="groundnut">Groundnut</option>
+                                <option value="rice">Rice</option>
+                                <option value="wheat">Wheat</option>
+                                <option value="sorghum">Sorghum</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="fieldArea"><i class="fas fa-ruler-combined"></i> Field Area (Acres)</label>
+                            <input type="number" id="fieldArea" class="form-control" value="1" min="0.1" step="0.1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="spacing"><i class="fas fa-arrows-alt-h"></i> Plant Spacing (cm)</label>
+                            <input type="number" id="spacing" class="form-control" value="30" min="10" step="5">
+                        </div>
+                        
+                        <button type="button" class="calculate-btn" onclick="calculateSeeds()">
+                            <i class="fas fa-calculator"></i> Calculate Seeds Needed
+                        </button>
+                    </form>
+                    
+                    <div class="result-container" id="seedResult">
+                        <div class="result-title">Seed Requirement</div>
+                        <div class="result-value" id="seedValue">0 kg</div>
+                        <div class="result-details" id="seedDetails">
+                            <p><strong>Seeds per acre:</strong> <span id="seedsPerAcre">0</span></p>
+                            <p><strong>Plant population:</strong> <span id="plantPopulation">0</span> plants</p>
+                            <p><strong>Germination rate:</strong> 85-95% (recommended)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fertilizer Calculator -->
+                <div class="calculator-card">
+                    <div class="calculator-header">
+                        <i class="fas fa-vial calculator-icon"></i>
+                        <h3 class="calculator-title">Fertilizer Calculator</h3>
+                    </div>
+                    <form class="calculator-form" id="fertilizerCalculator">
+                        <div class="form-group">
+                            <label for="fertCrop"><i class="fas fa-leaf"></i> Crop Type</label>
+                            <select id="fertCrop" class="form-control">
+                                <option value="maize">Maize</option>
+                                <option value="beans">Beans</option>
+                                <option value="groundnut">Groundnut</option>
+                                <option value="rice">Rice</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="fertArea"><i class="fas fa-ruler-combined"></i> Field Area (Acres)</label>
+                            <input type="number" id="fertArea" class="form-control" value="1" min="0.1" step="0.1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="fertType"><i class="fas fa-flask"></i> Fertilizer Type</label>
+                            <select id="fertType" class="form-control">
+                                <option value="npk">NPK (17:17:17)</option>
+                                <option value="urea">Urea</option>
+                                <option value="dap">DAP</option>
+                                <option value="can">CAN</option>
+                                <option value="organic">Organic Compost</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="growthStage"><i class="fas fa-chart-line"></i> Growth Stage</label>
+                            <select id="growthStage" class="form-control">
+                                <option value="planting">Planting</option>
+                                <option value="vegetative">Vegetative</option>
+                                <option value="flowering">Flowering</option>
+                                <option value="fruiting">Fruiting</option>
+                            </select>
+                        </div>
+                        
+                        <button type="button" class="calculate-btn" onclick="calculateFertilizer()">
+                            <i class="fas fa-calculator"></i> Calculate Fertilizer
+                        </button>
+                    </form>
+                    
+                    <div class="result-container" id="fertResult">
+                        <div class="result-title">Fertilizer Requirement</div>
+                        <div class="result-value" id="fertValue">0 kg</div>
+                        <div class="result-details" id="fertDetails">
+                            <p><strong>Application rate:</strong> <span id="appRate">0</span> kg/acre</p>
+                            <p><strong>Application time:</strong> <span id="appTime">-</span></p>
+                            <p><strong>NPK Ratio:</strong> <span id="npkRatio">-:-:-</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Water Requirement Calculator -->
+                <div class="calculator-card">
+                    <div class="calculator-header">
+                        <i class="fas fa-tint calculator-icon"></i>
+                        <h3 class="calculator-title">Water Requirement</h3>
+                    </div>
+                    <form class="calculator-form" id="waterCalculator">
+                        <div class="form-group">
+                            <label for="waterCrop"><i class="fas fa-leaf"></i> Crop Type</label>
+                            <select id="waterCrop" class="form-control">
+                                <option value="maize">Maize</option>
+                                <option value="beans">Beans</option>
+                                <option value="groundnut">Groundnut</option>
+                                <option value="rice">Rice</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="waterArea"><i class="fas fa-ruler-combined"></i> Field Area (Acres)</label>
+                            <input type="number" id="waterArea" class="form-control" value="1" min="0.1" step="0.1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="soilType"><i class="fas fa-mountain"></i> Soil Type</label>
+                            <select id="soilType" class="form-control">
+                                <option value="sandy">Sandy</option>
+                                <option value="loamy">Loamy</option>
+                                <option value="clay">Clay</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cropStage"><i class="fas fa-seedling"></i> Crop Stage</label>
+                            <select id="cropStage" class="form-control">
+                                <option value="seedling">Seedling</option>
+                                <option value="vegetative">Vegetative</option>
+                                <option value="flowering">Flowering</option>
+                                <option value="maturity">Maturity</option>
+                            </select>
+                        </div>
+                        
+                        <button type="button" class="calculate-btn" onclick="calculateWater()">
+                            <i class="fas fa-calculator"></i> Calculate Water Needs
+                        </button>
+                    </form>
+                    
+                    <div class="result-container" id="waterResult">
+                        <div class="result-title">Water Requirement</div>
+                        <div class="result-value" id="waterValue">0 liters/day</div>
+                        <div class="result-details" id="waterDetails">
+                            <p><strong>Daily need:</strong> <span id="dailyNeed">0</span> mm/day</p>
+                            <p><strong>Irrigation frequency:</strong> Every <span id="irrigationFreq">0</span> days</p>
+                            <p><strong>Total per irrigation:</strong> <span id="totalWater">0</span> liters</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Reference Section -->
+        <div class="reference-section">
+            <h2 style="font-size: 2rem; color: var(--primary-green); margin-bottom: 2rem; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-clipboard-list"></i> Quick Reference Tables
+            </h2>
+            
+            <div class="reference-grid">
+                <div class="reference-card">
+                    <h3 class="reference-title"><i class="fas fa-thermometer-half"></i> Optimal Temperatures</h3>
+                    <ul class="reference-list">
+                        <li><strong>Maize:</strong> 18-32°C</li>
+                        <li><strong>Beans:</strong> 15-25°C</li>
+                        <li><strong>Groundnut:</strong> 25-30°C</li>
+                        <li><strong>Rice:</strong> 20-35°C</li>
+                        <li><strong>Wheat:</strong> 10-24°C</li>
+                        <li><strong>Cassava:</strong> 25-29°C</li>
+                    </ul>
+                </div>
+                
+                <div class="reference-card">
+                    <h3 class="reference-title"><i class="fas fa-cloud-rain"></i> Rainfall Requirements</h3>
+                    <ul class="reference-list">
+                        <li><strong>Maize:</strong> 500-800mm</li>
+                        <li><strong>Beans:</strong> 300-500mm</li>
+                        <li><strong>Groundnut:</strong> 500-600mm</li>
+                        <li><strong>Rice:</strong> 1000-1500mm</li>
+                        <li><strong>Wheat:</strong> 450-650mm</li>
+                        <li><strong>Cassava:</strong> 1000-1500mm</li>
+                    </ul>
+                </div>
+                
+                <div class="reference-card">
+                    <h3 class="reference-title"><i class="fas fa-calendar-alt"></i> Growing Seasons</h3>
+                    <ul class="reference-list">
+                        <li><strong>Maize:</strong> 90-120 days</li>
+                        <li><strong>Beans:</strong> 70-90 days</li>
+                        <li><strong>Groundnut:</strong> 90-110 days</li>
+                        <li><strong>Rice:</strong> 110-150 days</li>
+                        <li><strong>Wheat:</strong> 120-150 days</li>
+                        <li><strong>Cassava:</strong> 8-24 months</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">
+                    <i class="fas fa-seedling"></i>
+                    <span>Healthy Harvest</span>
+                </div>
+                <p style="color: #aaa; margin-top: 1rem;">Your comprehensive guide to agricultural terminology and practical farming calculations.</p>
+                <p style="color: #aaa; margin-top: 0.5rem;">UICT | Farmer Support System</p>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="help.html"><i class="fas fa-question-circle"></i> Help Center</a></li>
+                    <li><a href="contact.html"><i class="fas fa-users"></i> Contact Experts</a></li>
+                    <li><a href="history.html"><i class="fas fa-history"></i> Weather History</a></li>
+                    <li><a href="glossary.html"><i class="fas fa-book"></i> Glossary</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Learning Resources</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-graduation-cap"></i> Farming Courses</a></li>
+                    <li><a href="#"><i class="fas fa-video"></i> Video Tutorials</a></li>
+                    <li><a href="#"><i class="fas fa-file-pdf"></i> PDF Guides</a></li>
+                    <li><a href="#"><i class="fas fa-mobile-alt"></i> Mobile Apps</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Research Papers</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Agricultural Terms Database
+        const glossaryTerms = [
+            // Weather Terms
+            {
+                term: "Precipitation",
+                definition: "Any form of water that falls from clouds and reaches the ground, including rain, snow, sleet, and hail.",
+                category: "weather",
+                letter: "P",
+                example: "The farm received 25mm of precipitation yesterday, which is optimal for the newly planted crops."
+            },
+            {
+                term: "Evapotranspiration",
+                definition: "The combined process of water evaporation from soil and plant surfaces and transpiration from plants.",
+                category: "weather",
+                letter: "E",
+                example: "High evapotranspiration rates during dry seasons require increased irrigation frequency."
+            },
+            {
+                term: "Growing Degree Days (GDD)",
+                definition: "A measure of heat accumulation used to predict plant development rates and growth stages.",
+                category: "weather",
+                letter: "G",
+                example: "Maize requires approximately 1200-1500 GDD from planting to maturity."
+            },
+            {
+                term: "Frost Date",
+                definition: "The average date of the first or last frost in a growing season, critical for crop planning.",
+                category: "weather",
+                letter: "F",
+                example: "The last spring frost date determines when it's safe to plant frost-sensitive crops."
+            },
+            {
+                term: "Drought",
+                definition: "An extended period of abnormally low rainfall, leading to water shortage for crops and livestock.",
+                category: "weather",
+                letter: "D",
+                example: "The region is experiencing a severe drought, with rainfall 60% below seasonal averages."
+            },
+            {
+                term: "Humidity",
+                definition: "The amount of water vapor in the air, affecting plant transpiration and disease development.",
+                category: "weather",
+                letter: "H",
+                example: "High humidity levels above 80% can promote fungal diseases in many crops."
+            },
+
+            // Farming Terms
+            {
+                term: "Crop Rotation",
+                definition: "Growing different crops in sequence on the same land to improve soil health and reduce pests.",
+                category: "farming",
+                letter: "C",
+                example: "Farmers practice maize-beans-groundnut rotation to maintain soil fertility."
+            },
+            {
+                term: "Intercropping",
+                definition: "Growing two or more crops simultaneously on the same field to maximize land use efficiency.",
+                category: "farming",
+                letter: "I",
+                example: "Intercropping maize with beans provides natural nitrogen fixation for the maize."
+            },
+            {
+                term: "Mulching",
+                definition: "Covering soil with organic or inorganic material to conserve moisture and suppress weeds.",
+                category: "farming",
+                letter: "M",
+                example: "Using straw mulch reduces water evaporation by up to 70% during dry periods."
+            },
+            {
+                term: "Harvest Index",
+                definition: "The ratio of grain yield to total plant biomass, indicating crop efficiency.",
+                category: "farming",
+                letter: "H",
+                example: "Modern maize varieties have a harvest index of 0.5-0.6, meaning half the biomass is grain."
+            },
+            {
+                term: "Germination",
+                definition: "The process by which a seed sprouts and begins to grow into a new plant.",
+                category: "farming",
+                letter: "G",
+                example: "Optimal soil temperature for maize germination is 18-21°C."
+            },
+            {
+                term: "Transpiration",
+                definition: "The process of water movement through plants and its evaporation from leaves, stems, and flowers.",
+                category: "farming",
+                letter: "T",
+                example: "Transpiration rates increase during hot, dry, and windy conditions."
+            },
+
+            // Soil Science Terms
+            {
+                term: "Soil pH",
+                definition: "A measure of soil acidity or alkalinity, affecting nutrient availability to plants.",
+                category: "soil",
+                letter: "S",
+                example: "Most crops grow best in soil with pH 6.0-7.0, while blueberries prefer acidic soil (pH 4.5-5.5)."
+            },
+            {
+                term: "Cation Exchange Capacity (CEC)",
+                definition: "The soil's ability to hold and exchange nutrients, indicating its fertility potential.",
+                category: "soil",
+                letter: "C",
+                example: "Clay soils typically have higher CEC than sandy soils, meaning they can hold more nutrients."
+            },
+            {
+                term: "Organic Matter",
+                definition: "Decomposed plant and animal materials in soil that improve structure and fertility.",
+                category: "soil",
+                letter: "O",
+                example: "Adding compost increases soil organic matter, improving water retention and nutrient availability."
+            },
+            {
+                term: "Water Holding Capacity",
+                definition: "The soil's ability to retain water for plant use between irrigation or rainfall events.",
+                category: "soil",
+                letter: "W",
+                example: "Loamy soils have optimal water holding capacity, retaining moisture without waterlogging."
+            },
+            {
+                term: "Soil Texture",
+                definition: "The relative proportions of sand, silt, and clay particles in soil.",
+                category: "soil",
+                letter: "S",
+                example: "Sandy soils drain quickly but have low nutrient retention, while clay soils hold water but may drain poorly."
+            },
+            {
+                term: "Nitrogen Fixation",
+                definition: "The process by which certain plants or bacteria convert atmospheric nitrogen into forms usable by plants.",
+                category: "soil",
+                letter: "N",
+                example: "Legumes like beans and groundnuts fix nitrogen through symbiotic relationships with rhizobia bacteria."
+            },
+
+            // Tech & AI Terms
+            {
+                term: "Precision Agriculture",
+                definition: "Using technology like GPS, sensors, and data analytics to optimize field-level management.",
+                category: "tech",
+                letter: "P",
+                example: "Precision agriculture allows farmers to apply water and fertilizers only where needed, reducing waste."
+            },
+            {
+                term: "Remote Sensing",
+                definition: "Using satellite or drone imagery to monitor crop health, soil conditions, and weather patterns.",
+                category: "tech",
+                letter: "R",
+                example: "Remote sensing detects early signs of pest infestation before visible symptoms appear."
+            },
+            {
+                term: "Internet of Things (IoT)",
+                definition: "Network of physical devices with sensors that collect and exchange agricultural data.",
+                category: "tech",
+                letter: "I",
+                example: "IoT sensors monitor soil moisture, temperature, and humidity in real-time for smart irrigation."
+            },
+            {
+                term: "Machine Learning",
+                definition: "AI algorithms that learn from agricultural data to make predictions and recommendations.",
+                category: "tech",
+                letter: "M",
+                example: "Machine learning models predict optimal planting dates based on historical weather patterns."
+            },
+            {
+                term: "Decision Support System (DSS)",
+                definition: "Computer-based systems that help farmers make informed decisions using data analysis.",
+                category: "tech",
+                letter: "D",
+                example: "The DSS recommended delaying harvest based on predicted rainfall for optimal grain quality."
+            },
+            {
+                term: "Variable Rate Technology (VRT)",
+                definition: "Automated systems that adjust input applications based on spatial variability within fields.",
+                category: "tech",
+                letter: "V",
+                example: "VRT applies different fertilizer rates across a field based on soil nutrient maps."
+            }
+        ];
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Initialize alphabet navigation
+            initializeAlphabet();
+            
+            // Load all terms initially
+            displayTerms(glossaryTerms);
+            
+            // Update result count
+            updateResultCount(glossaryTerms.length);
+        });
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Tab buttons
+            document.querySelectorAll('.tab-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update active tab
+                    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filter terms
+                    const category = this.dataset.category;
+                    filterTermsByCategory(category);
+                });
+            });
+            
+            // Search input
+            document.getElementById('searchInput').addEventListener('input', function() {
+                searchTerms(this.value);
+            });
+            
+            // Mobile menu
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mainNav = document.getElementById('mainNav');
+            const userNav = document.getElementById('userNav');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                userNav.classList.toggle('active');
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('header')) {
+                    mainNav.classList.remove('active');
+                    userNav.classList.remove('active');
+                }
+            });
+        }
+
+        // Initialize alphabet navigation
+        function initializeAlphabet() {
+            const alphabetList = document.getElementById('alphabetList');
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+            
+            // Add "All" button
+            const allBtn = document.createElement('button');
+            allBtn.className = 'letter-btn all active';
+            allBtn.textContent = 'All Terms';
+            allBtn.onclick = () => filterTermsByLetter('all');
+            alphabetList.appendChild(allBtn);
+            
+            // Add letter buttons
+            alphabet.forEach(letter => {
+                const button = document.createElement('button');
+                button.className = 'letter-btn';
+                button.textContent = letter;
+                button.onclick = () => filterTermsByLetter(letter);
+                alphabetList.appendChild(button);
+            });
+        }
+
+        // Display terms in grid
+        function displayTerms(terms) {
+            const termsGrid = document.getElementById('termsGrid');
+            termsGrid.innerHTML = '';
+            
+            if (terms.length === 0) {
+                termsGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #666;">
+                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h3>No terms found</h3>
+                        <p>Try a different search term or browse all categories</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            terms.forEach(term => {
+                const termCard = document.createElement('div');
+                termCard.className = `term-card ${term.category}`;
+                termCard.innerHTML = `
+                    <div class="term-header">
+                        <i class="fas fa-book-open term-icon"></i>
+                        <div>
+                            <h3 class="term-title">${term.term}</h3>
+                            <span class="term-category">${getCategoryName(term.category)}</span>
+                        </div>
+                    </div>
+                    <p class="term-definition">${term.definition}</p>
+                    ${term.example ? `<div class="term-example"><strong>Example:</strong> ${term.example}</div>` : ''}
+                `;
+                termsGrid.appendChild(termCard);
+            });
+        }
+
+        // Get category display name
+        function getCategoryName(category) {
+            const names = {
+                'weather': 'Weather & Climate',
+                'farming': 'Farming Practices',
+                'soil': 'Soil Science',
+                'tech': 'Technology & AI',
+                'all': 'All Categories'
+            };
+            return names[category] || category;
+        }
+
+        // Filter terms by category
+        function filterTermsByCategory(category) {
+            if (category === 'all' || category === 'calculators') {
+                displayTerms(glossaryTerms);
+                document.getElementById('alphabetList').style.display = 'flex';
+                updateResultCount(glossaryTerms.length);
+            } else {
+                const filtered = glossaryTerms.filter(term => term.category === category);
+                displayTerms(filtered);
+                document.getElementById('alphabetList').style.display = 'flex';
+                updateResultCount(filtered.length);
+            }
+            
+            // Reset alphabet buttons
+            document.querySelectorAll('.letter-btn').forEach(btn => {
+                if (btn.textContent === 'All Terms') {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // Filter terms by letter
+        function filterTermsByLetter(letter) {
+            // Update active letter button
+            document.querySelectorAll('.letter-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            // Reset active tab
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.dataset.category === 'all') {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            if (letter === 'all') {
+                displayTerms(glossaryTerms);
+                updateResultCount(glossaryTerms.length);
+            } else {
+                const filtered = glossaryTerms.filter(term => term.letter === letter);
+                displayTerms(filtered);
+                updateResultCount(filtered.length);
+            }
+        }
+
+        // Search terms
+        function searchTerms(query) {
+            const searchTerm = query.toLowerCase().trim();
+            
+            if (!searchTerm) {
+                const activeTab = document.querySelector('.tab-btn.active');
+                filterTermsByCategory(activeTab.dataset.category);
+                return;
+            }
+            
+            const filtered = glossaryTerms.filter(term => 
+                term.term.toLowerCase().includes(searchTerm) ||
+                term.definition.toLowerCase().includes(searchTerm) ||
+                term.example?.toLowerCase().includes(searchTerm)
+            );
+            
+            displayTerms(filtered);
+            document.getElementById('alphabetList').style.display = 'none';
+            updateResultCount(filtered.length);
+        }
+
+        // Update result count
+        function updateResultCount(count) {
+            document.getElementById('resultCount').textContent = `Showing ${count} term${count !== 1 ? 's' : ''}`;
+        }
+
+        // Calculator Functions
+        function calculateSeeds() {
+            const cropType = document.getElementById('cropType').value;
+            const fieldArea = parseFloat(document.getElementById('fieldArea').value);
+            const spacing = parseFloat(document.getElementById('spacing').value);
+            
+            // Seed rates per acre (kg/acre) for different crops
+            const seedRates = {
+                'maize': 20,
+                'beans': 30,
+                'groundnut': 40,
+                'rice': 25,
+                'wheat': 30,
+                'sorghum': 15
+            };
+            
+            // Calculate seeds needed
+            const baseRate = seedRates[cropType] || 25;
+            const seedsNeeded = fieldArea * baseRate;
+            
+            // Calculate plant population
+            const plantsPerAcre = (4046.86 / (spacing * spacing)) * fieldArea; // Convert spacing from cm to m
+            
+            // Update results
+            document.getElementById('seedValue').textContent = `${seedsNeeded.toFixed(1)} kg`;
+            document.getElementById('seedsPerAcre').textContent = `${baseRate} kg`;
+            document.getElementById('plantPopulation').textContent = `${Math.round(plantsPerAcre).toLocaleString()}`;
+            
+            // Show results
+            document.getElementById('seedResult').classList.add('show');
+        }
+
+        function calculateFertilizer() {
+            const crop = document.getElementById('fertCrop').value;
+            const area = parseFloat(document.getElementById('fertArea').value);
+            const fertType = document.getElementById('fertType').value;
+            const growthStage = document.getElementById('growthStage').value;
+            
+            // Fertilizer rates (kg/acre) by crop and fertilizer type
+            const rates = {
+                'maize': { 'npk': 200, 'urea': 150, 'dap': 100, 'can': 120, 'organic': 2000 },
+                'beans': { 'npk': 100, 'urea': 80, 'dap': 80, 'can': 90, 'organic': 1500 },
+                'groundnut': { 'npk': 120, 'urea': 100, 'dap': 90, 'can': 100, 'organic': 1800 },
+                'rice': { 'npk': 180, 'urea': 140, 'dap': 110, 'can': 130, 'organic': 2200 }
+            };
+            
+            // Application times by growth stage
+            const applicationTimes = {
+                'planting': 'At planting',
+                'vegetative': '3-4 weeks after planting',
+                'flowering': 'During flowering stage',
+                'fruiting': 'During fruit development'
+            };
+            
+            // NPK ratios
+            const npkRatios = {
+                'npk': '17:17:17',
+                'urea': '46:0:0',
+                'dap': '18:46:0',
+                'can': '27:0:0',
+                'organic': '2:1:1'
+            };
+            
+            // Calculate fertilizer needed
+            const baseRate = rates[crop]?.[fertType] || 150;
+            const fertilizerNeeded = area * baseRate;
+            
+            // Update results
+            document.getElementById('fertValue').textContent = `${fertilizerNeeded.toFixed(1)} kg`;
+            document.getElementById('appRate').textContent = `${baseRate} kg`;
+            document.getElementById('appTime').textContent = applicationTimes[growthStage];
+            document.getElementById('npkRatio').textContent = npkRatios[fertType];
+            
+            // Show results
+            document.getElementById('fertResult').classList.add('show');
+        }
+
+        function calculateWater() {
+            const crop = document.getElementById('waterCrop').value;
+            const area = parseFloat(document.getElementById('waterArea').value);
+            const soilType = document.getElementById('soilType').value;
+            const cropStage = document.getElementById('cropStage').value;
+            
+            // Water requirements (mm/day) by crop and stage
+            const waterRequirements = {
+                'maize': { 'seedling': 2, 'vegetative': 4, 'flowering': 6, 'maturity': 3 },
+                'beans': { 'seedling': 1.5, 'vegetative': 3, 'flowering': 4, 'maturity': 2 },
+                'groundnut': { 'seedling': 2, 'vegetative': 3.5, 'flowering': 5, 'maturity': 2.5 },
+                'rice': { 'seedling': 3, 'vegetative': 6, 'flowering': 8, 'maturity': 4 }
+            };
+            
+            // Soil type multipliers (affects irrigation frequency)
+            const soilMultipliers = {
+                'sandy': 0.7,  // More frequent irrigation
+                'loamy': 1.0,  // Standard
+                'clay': 1.3    // Less frequent irrigation
+            };
+            
+            // Calculate daily water need
+            const baseRequirement = waterRequirements[crop]?.[cropStage] || 3;
+            const dailyNeed = baseRequirement * area; // mm/day for the area
+            
+            // Convert mm/day to liters/day (1 mm = 10 m³/ha = 10,000 liters/ha)
+            // 1 acre = 0.4047 ha
+            const litersPerDay = dailyNeed * 10 * 1000 * (area * 0.4047);
+            
+            // Calculate irrigation frequency (days between irrigation)
+            const irrigationFrequency = Math.round(soilMultipliers[soilType] * 3); // Base 3 days
+            
+            // Calculate total water per irrigation
+            const totalWater = litersPerDay * irrigationFrequency;
+            
+            // Update results
+            document.getElementById('waterValue').textContent = `${litersPerDay.toFixed(0)} liters/day`;
+            document.getElementById('dailyNeed').textContent = `${baseRequirement} mm`;
+            document.getElementById('irrigationFreq').textContent = irrigationFrequency;
+            document.getElementById('totalWater').textContent = `${totalWater.toFixed(0)} liters`;
+            
+            // Show results
+            document.getElementById('waterResult').classList.add('show');
+        }
+    </script>
+    <script src="shared-footer.js"></script>
+</body>
+</html>

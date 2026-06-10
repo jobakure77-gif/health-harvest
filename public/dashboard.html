@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Healthy Harvest</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard">
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">🌱</div>
+                <h1>Healthy Harvest</h1>
+            </div>
+            
+            <div class="user-info">
+                <div class="user-avatar" id="dashboardUserAvatar">HH</div>
+                <div class="user-meta">
+                    <h3 id="dashboardWelcomeText">Welcome, Healthy Harvest User</h3>
+                    <p id="dashboardDistrictText">District not set</p>
+                </div>
+                <div class="notification-badge">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-count">2</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container dashboard-main">
+        <section class="dashboard-hero">
+            <div class="hero-copy">
+                <span class="hero-kicker">Farmer Command Center</span>
+                <h2>Track your farm, respond faster, and make smarter decisions every day.</h2>
+                <p>Your dashboard brings together alerts, advice, and farm records so you can act quickly when field conditions change.</p>
+                <div class="hero-actions">
+                    <a href="advice.html" class="btn btn-primary">Get Fresh Advice</a>
+                    <a href="diagnose.html" class="btn btn-outline">Diagnose a Plant</a>
+                </div>
+            </div>
+            <div class="hero-panel">
+                <div class="hero-panel-label">Today on your farm</div>
+                <div class="hero-panel-grid">
+                    <div class="hero-panel-item">
+                        <span class="hero-panel-value">2</span>
+                        <span class="hero-panel-text">Active alerts</span>
+                    </div>
+                    <div class="hero-panel-item">
+                        <span class="hero-panel-value">78%</span>
+                        <span class="hero-panel-text">Season progress</span>
+                    </div>
+                    <div class="hero-panel-item">
+                        <span class="hero-panel-value">Serenut 2</span>
+                        <span class="hero-panel-text">Current variety</span>
+                    </div>
+                    <div class="hero-panel-item">
+                        <span class="hero-panel-value">5 Days</span>
+                        <span class="hero-panel-text">To expected rain</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="dashboard-stats">
+            <article class="stat-card farm">
+                <div>
+                    <p class="stat-label">Farm Size</p>
+                    <h3>2 Acres</h3>
+                    <span class="stat-note">Managed groundnut plot</span>
+                </div>
+                <div class="stat-icon-shell">
+                    <i class="fas fa-ruler-combined"></i>
+                </div>
+            </article>
+            <article class="stat-card variety">
+                <div>
+                    <p class="stat-label">Groundnut Variety</p>
+                    <h3>Serenut 2</h3>
+                    <span class="stat-note">Recommended for your area</span>
+                </div>
+                <div class="stat-icon-shell">
+                    <i class="fas fa-seedling"></i>
+                </div>
+            </article>
+            <article class="stat-card planting">
+                <div>
+                    <p class="stat-label">Planting Date</p>
+                    <h3>12 March 2025</h3>
+                    <span class="stat-note">Keep monitoring growth stage</span>
+                </div>
+                <div class="stat-icon-shell">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+            </article>
+        </section>
+
+        <section class="dashboard-section">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">Quick Actions</span>
+                    <h2>Start a task</h2>
+                </div>
+                <p>Jump straight into the tools you use most.</p>
+            </div>
+            <div class="dashboard-grid">
+            <a href="diagnose.html" class="dashboard-card">
+                <div class="card-icon diagnose">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>Diagnose Disease</h3>
+                <p>Upload plant photos for instant diagnosis</p>
+            </a>
+            
+            <a href="advice.html" class="dashboard-card">
+                <div class="card-icon advice">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3>Get Advice</h3>
+                <p>Personalized farming recommendations</p>
+            </a>
+            
+            <a href="weather.html" class="dashboard-card">
+                <div class="card-icon weather">
+                    <i class="fas fa-cloud-sun"></i>
+                </div>
+                <h3>Weather Forecast</h3>
+                <p>7-day weather and planting advice</p>
+            </a>
+            
+            <a href="market.html" class="dashboard-card">
+                <div class="card-icon market">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Market Prices</h3>
+                <p>Real-time market information</p>
+            </a>
+            </div>
+        </section>
+
+        <!-- Alerts Section -->
+        <section class="dashboard-section alerts-section">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">Urgent Updates</span>
+                    <h2>Recent Alerts</h2>
+                </div>
+            </div>
+            <div class="alert-list">
+                <div class="alert-item warning">
+                    <div class="alert-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <strong>Rainfall Expected</strong>
+                        <p>Rainfall expected in 5 days. Prepare your fields accordingly.</p>
+                    </div>
+                </div>
+                
+                <div class="alert-item danger">
+                    <div class="alert-icon">
+                        <i class="fas fa-skull-crossbones"></i>
+                    </div>
+                    <div>
+                        <strong>High Pest Risk</strong>
+                        <p>High pest risk detected in your area. Consider preventive measures.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Advisory -->
+        <section class="dashboard-section alerts-section">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">Recommendations</span>
+                    <h2>Recent Advisory</h2>
+                </div>
+            </div>
+            <div class="alert-list">
+                <div class="alert-item info">
+                    <div class="alert-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div>
+                        <strong>Planting Advisory</strong>
+                        <p>Best planting window: March 10-15. Recommended variety: Serenut 4</p>
+                    </div>
+                </div>
+                
+                <div class="alert-item info">
+                    <div class="alert-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div>
+                        <strong>Fertilizer Application</strong>
+                        <p>Apply NPK fertilizer (100kg/ha) 2 weeks after planting</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Farm Summary -->
+        <section class="dashboard-section alerts-section">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">Overview</span>
+                    <h2>My Farm Summary</h2>
+                </div>
+            </div>
+            <div class="summary-grid">
+                <div class="summary-card summary-green">
+                    <h3>Farm Size</h3>
+                    <p>2 Acres</p>
+                    <span>Good for focused monitoring and timely field work</span>
+                </div>
+                
+                <div class="summary-card summary-blue">
+                    <h3>Groundnut Variety</h3>
+                    <p>Serenut 2</p>
+                    <span>Balanced choice for local conditions and yield stability</span>
+                </div>
+                
+                <div class="summary-card summary-amber">
+                    <h3>Planting Date</h3>
+                    <p>12 March 2025</p>
+                    <span>Use this to time irrigation, fertilizer, and harvest planning</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="container bottom-nav-inner">
+            <a href="index.html" class="bottom-nav-link active">
+                <i class="fas fa-home"></i>
+                <div>Home</div>
+            </a>
+            <a href="advice.html" class="bottom-nav-link">
+                <i class="fas fa-lightbulb"></i>
+                <div>Advice</div>
+            </a>
+            <a href="profile.html" class="bottom-nav-link">
+                <i class="fas fa-user"></i>
+                <div>Profile</div>
+            </a>
+            <a href="#" class="bottom-nav-link">
+                <i class="fas fa-question-circle"></i>
+                <div>Help</div>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        (function() {
+            const isLoggedIn = localStorage.getItem('healthyHarvestLoggedIn') === 'true';
+            const currentUser = JSON.parse(localStorage.getItem('healthyHarvestCurrentUser') || 'null');
+
+            if (!isLoggedIn || !currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const displayName = currentUser.fullName || currentUser.phone || 'Healthy Harvest User';
+            const district = currentUser.district
+                ? currentUser.district.charAt(0).toUpperCase() + currentUser.district.slice(1)
+                : 'District not set';
+            const initials = displayName
+                .split(' ')
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(part => part.charAt(0).toUpperCase())
+                .join('');
+
+            document.getElementById('dashboardUserAvatar').textContent = initials || 'HH';
+            document.getElementById('dashboardWelcomeText').textContent = `Welcome, ${displayName}`;
+            document.getElementById('dashboardDistrictText').textContent = district;
+        })();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthy Harvest - Get Advisory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f9f1;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header Styles */
+        .header {
+            background-color: white;
+            color: #000;
+            padding: 15px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .logo i {
+            font-size: 1.8rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .nav-links a {
+            color: #000;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s, background-color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #2d5a27;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #4a7c3a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            padding: 10px 16px;
+            background-color: transparent;
+            border: 1px solid #d6d6d6;
+            border-radius: 6px;
+            color: #000;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            color: #2d5a27;
+            border-color: #2d5a27;
+            background-color: #f4fbf3;
+        }
+        
+        /* Main Content */
+        .page-title {
+            color: #2d5a27;
+            margin: 25px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .page-title i {
+            font-size: 1.8rem;
+        }
+        
+        /* Advisory Form */
+        .advisory-form-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .form-title {
+            color: #2d5a27;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f4e3;
+        }
+        
+        .form-step {
+            margin-bottom: 30px;
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #4a7c3a;
+            font-weight: 600;
+        }
+        
+        .step-number {
+            background-color: #4a7c3a;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #444;
+        }
+        
+        select, input, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        select:focus, input:focus, textarea:focus {
+            border-color: #4a7c3a;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 124, 58, 0.1);
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background-color: #f9fcf8;
+            border: 1px solid #e0ebdc;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .checkbox-item:hover {
+            background-color: #e8f4e3;
+            border-color: #c1e0b4;
+        }
+        
+        .checkbox-item input {
+            width: auto;
+        }
+        
+        .checkbox-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+        
+        .checkbox-text i {
+            color: #4a7c3a;
+        }
+        
+        .form-actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 14px 35px;
+            background-color: #4a7c3a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn:hover {
+            background-color: #3a6530;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 124, 58, 0.2);
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        /* Results Section */
+        .results-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 30px;
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e8f4e3;
+        }
+        
+        .results-title {
+            color: #2d5a27;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .results-meta {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .advice-category {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #f9fcf8;
+            border-radius: 8px;
+            border-left: 4px solid #4a7c3a;
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #2d5a27;
+        }
+        
+        .category-icon {
+            font-size: 1.5rem;
+        }
+        
+        .advice-list {
+            list-style-type: none;
+        }
+        
+        .advice-list li {
+            margin-bottom: 10px;
+            padding-left: 10px;
+            position: relative;
+        }
+        
+        .advice-list li:before {
+            content: "•";
+            color: #4a7c3a;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .results-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background-color: #f0f7ed;
+            border: 1px solid #c1e0b4;
+            border-radius: 6px;
+            color: #2d5a27;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .action-btn:hover {
+            background-color: #e0ebdc;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #2d5a27;
+            color: white;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-links {
+            list-style-type: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-links a {
+            color: #c1e0b4;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #3a6530;
+            color: #c1e0b4;
+            font-size: 14px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .results-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+        }
+        
+        /* Step Indicator */
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            width: 120px;
+        }
+        
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e0ebdc;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+        }
+        
+        .step.active .step-circle {
+            background-color: #4a7c3a;
+            color: white;
+        }
+        
+        .step.completed .step-circle {
+            background-color: #2d5a27;
+            color: white;
+        }
+        
+        .step-line {
+            height: 3px;
+            background-color: #e0ebdc;
+            position: absolute;
+            top: 20px;
+            left: 60px;
+            right: 60px;
+            z-index: 1;
+        }
+        
+        .step-line.completed {
+            background-color: #2d5a27;
+        }
+        
+        /* Quick Advisory Option */
+        .quick-advisory-toggle {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: #4a7c3a;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .quick-advisory-form {
+            display: none;
+            background-color: #f9fcf8;
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px dashed #c1e0b4;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+               <div class="logo-icon">🌱</div>
+                <span>Healthy Harvest</span>
+            </div>
+            
+            <div class="nav-links">
+                <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="diagnose.html"><i class="fas fa-stethoscope"></i> Disease Diagnosis</a>
+                <a href="weather.html"><i class="fas fa-cloud-sun"></i> Weather</a>
+                <a href="market.html"><i class="fas fa-chart-line"></i> Market</a>
+                <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+            </div>
+            
+            <div class="user-actions">
+                <div class="user-profile">
+                    <div class="user-avatar" id="userAvatar">HH</div>
+                    <span id="userName">Healthy Harvest User</span>
+                </div>
+                <button type="button" class="logout-btn" id="logoutButton">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Page Title -->
+        <h1 class="page-title">
+            <i class="fas fa-hands-helping"></i>
+            Get Farming Advisory
+        </h1>
+        
+        <!-- Quick Advisory Toggle -->
+        <div class="quick-advisory-toggle">
+            <button class="toggle-btn" id="toggleQuickAdvisory">
+                <i class="fas fa-bolt"></i> Switch to Quick Advisory Mode
+            </button>
+        </div>
+        
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+            <div class="step active" id="step1-indicator">
+                <div class="step-circle">1</div>
+                <span>Farm Details</span>
+            </div>
+            <div class="step-line" id="line1-2"></div>
+            <div class="step" id="step2-indicator">
+                <div class="step-circle">2</div>
+                <span>Select Issues</span>
+            </div>
+            <div class="step-line" id="line2-3"></div>
+            <div class="step" id="step3-indicator">
+                <div class="step-circle">3</div>
+                <span>Get Advice</span>
+            </div>
+        </div>
+        
+        <!-- Quick Advisory Form -->
+        <div class="quick-advisory-form" id="quickAdvisoryForm">
+            <h3 class="form-title">Quick Advisory Tool</h3>
+            
+            <div class="form-group">
+                <label>Select Crop Stage:</label>
+                <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+                    <button class="btn crop-stage-btn" data-stage="planning">Planning</button>
+                    <button class="btn crop-stage-btn" data-stage="planting">Planting</button>
+                    <button class="btn crop-stage-btn" data-stage="growing">Growing</button>
+                    <button class="btn crop-stage-btn" data-stage="harvesting">Harvesting</button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Current Issues (select all that apply):</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="quick-issues" value="leaf-spots">
+                        <span class="checkbox-text">
+                            <i class="fas fa-leaf"></i> Leaf Spots/Yellowing
+                        </span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="quick-issues" value="pest">
+                        <span class="checkbox-text">
+                            <i class="fas fa-bug"></i> Pest Infestation
+                        </span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="quick-issues" value="growth">
+                        <span class="checkbox-text">
+                            <i class="fas fa-seedling"></i> Stunted Growth
+                        </span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="quick-issues" value="flower">
+                        <span class="checkbox-text">
+                            <i class="fas fa-spa"></i> Flower/Fruit Issues
+                        </span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Your Location:</label>
+                <input type="text" id="quick-location" value="Nakasongola District" readonly>
+            </div>
+            
+            <div class="form-actions">
+                <button class="btn" id="generateQuickAdvice">
+                    <i class="fas fa-magic"></i> Generate Quick Advice
+                </button>
+                <button class="btn btn-secondary" id="backToDetailed">
+                    <i class="fas fa-arrow-left"></i> Back to Detailed Form
+                </button>
+            </div>
+        </div>
+        
+        <!-- Main Advisory Form -->
+        <div class="advisory-form-container" id="mainAdvisoryForm">
+            <h2 class="form-title">Detailed Advisory Form</h2>
+            
+            <!-- Step 1: Farm Details -->
+            <div class="form-step" id="step1">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <h3>Farm Details</h3>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Location:</label>
+                    <select id="location">
+                        <option value="">Select District</option>
+                        <option value="nakasongola" selected>Nakasongola District</option>
+                        <option value="masindi">Masindi District</option>
+                        <option value="luwero">Luwero District</option>
+                        <option value="kabalore">Kabalore District</option>
+                        <option value="hoima">Hoima District</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="farm-size">Farm Size:</label>
+                    <select id="farm-size">
+                        <option value="">Select Size</option>
+                        <option value="0-1">Less than 1 acre</option>
+                        <option value="1-2" selected>1-2 acres</option>
+                        <option value="2-5">2-5 acres</option>
+                        <option value="5-10">5-10 acres</option>
+                        <option value="10+">More than 10 acres</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="variety">Groundnut Variety:</label>
+                    <select id="variety">
+                        <option value="">Select Variety</option>
+                        <option value="serenut2" selected>Serenut 2</option>
+                        <option value="serenut4">Serenut 4</option>
+                        <option value="serenut14R">Serenut 14R</option>
+                        <option value="redbeauty">Red Beauty</option>
+                        <option value="local">Local Variety</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="planting-date">Planting Date:</label>
+                    <input type="date" id="planting-date" value="2025-03-12">
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn" id="nextStep1">
+                        Next: Select Issues <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Step 2: Issues Selection -->
+            <div class="form-step" id="step2" style="display: none;">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <h3>What Do You Need Help With?</h3>
+                </div>
+                
+                <p style="margin-bottom: 20px; color: #666;">Select all issues that apply to your farm:</p>
+                
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="issue" value="disease">
+                        <span class="checkbox-text">
+                            <i class="fas fa-virus"></i> Disease Management
+                        </span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="issue" value="pest">
+                        <span class="checkbox-text">
+                            <i class="fas fa-bug"></i> Pest Control
+                        </span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="issue" value="weather">
+                        <span class="checkbox-text">
+                            <i class="fas fa-cloud-sun-rain"></i> Weather & Planting Schedule
+                        </span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="issue" value="fertilizer">
+                        <span class="checkbox-text">
+                            <i class="fas fa-flask"></i> Fertilizer & Soil Advice
+                        </span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="issue" value="irrigation">
+                        <span class="checkbox-text">
+                            <i class="fas fa-tint"></i> Irrigation Management
+                        </span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="issue" value="harvest">
+                        <span class="checkbox-text">
+                            <i class="fas fa-tractor"></i> Harvest & Post-Harvest
+                        </span>
+                    </label>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn btn-secondary" id="prevStep2">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button class="btn" id="nextStep2">
+                        Next: Additional Details <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Step 3: Additional Details -->
+            <div class="form-step" id="step3" style="display: none;">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <h3>Additional Information (Optional)</h3>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Describe Your Issue in Detail:</label>
+                    <textarea id="description" rows="4" placeholder="e.g., 'Yellow spots on leaves appeared 2 weeks after planting' or 'When should I apply fertilizer for best results?'"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Upload Images (Optional):</label>
+                    <div style="border: 2px dashed #c1e0b4; border-radius: 8px; padding: 30px; text-align: center; margin-top: 10px;">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 2.5rem; color: #4a7c3a; margin-bottom: 15px;"></i>
+                        <p>Drag and drop images here or <span style="color: #4a7c3a; cursor: pointer; text-decoration: underline;">browse</span></p>
+                        <p style="font-size: 14px; color: #666; margin-top: 10px;">Upload images of affected plants for better diagnosis (max 5 images)</p>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn btn-secondary" id="prevStep3">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button class="btn" id="getAdvice">
+                        <i class="fas fa-hands-helping"></i> Get Personalized Advice
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Results Section -->
+        <div class="results-container" id="resultsSection">
+            <div class="results-header">
+                <div>
+                    <h2 class="results-title">
+                        <i class="fas fa-clipboard-check"></i> Personalized Advisory
+                    </h2>
+                    <div class="results-meta" id="resultsMeta">
+                        Based on: Nakasongola District | Serenut 2 | 2 acres | Planting Stage
+                    </div>
+                </div>
+                <div style="color: #4a7c3a; font-weight: bold;">
+                    <i class="fas fa-calendar-alt"></i> Generated: <span id="currentDate"></span>
+                </div>
+            </div>
+            
+            <div class="advice-category">
+                <div class="category-header">
+                    <i class="fas fa-exclamation-triangle category-icon"></i>
+                    <h3>ALERTS & WARNINGS</h3>
+                </div>
+                <ul class="advice-list" id="alertsList">
+                    <!-- Populated by JavaScript -->
+                </ul>
+            </div>
+            
+            <div class="advice-category">
+                <div class="category-header">
+                    <i class="fas fa-seedling category-icon"></i>
+                    <h3>SOIL & FERTILIZER ADVICE</h3>
+                </div>
+                <ul class="advice-list" id="soilAdviceList">
+                    <!-- Populated by JavaScript -->
+                </ul>
+            </div>
+            
+            <div class="advice-category">
+                <div class="category-header">
+                    <i class="fas fa-bug category-icon"></i>
+                    <h3>PEST & DISEASE MANAGEMENT</h3>
+                </div>
+                <ul class="advice-list" id="pestAdviceList">
+                    <!-- Populated by JavaScript -->
+                </ul>
+            </div>
+            
+            <div class="advice-category">
+                <div class="category-header">
+                    <i class="fas fa-tint category-icon"></i>
+                    <h3>IRRIGATION SCHEDULE</h3>
+                </div>
+                <ul class="advice-list" id="irrigationAdviceList">
+                    <!-- Populated by JavaScript -->
+                </ul>
+            </div>
+            
+            <div class="advice-category" style="background-color: #e8f4e3; border-left-color: #2d5a27;">
+                <div class="category-header">
+                    <i class="fas fa-calendar-check category-icon"></i>
+                    <h3>NEXT ACTIONS & TIMELINE</h3>
+                </div>
+                <ul class="advice-list" id="timelineList">
+                    <!-- Populated by JavaScript -->
+                </ul>
+            </div>
+            
+            <div class="results-actions">
+                <a href="#" class="action-btn" id="savePDF">
+                    <i class="fas fa-file-pdf"></i> Save as PDF
+                </a>
+                <a href="#" class="action-btn">
+                    <i class="fas fa-share-alt"></i> Share with Extension Officer
+                </a>
+                <a href="#" class="action-btn">
+                    <i class="fas fa-bookmark"></i> Bookmark this Advice
+                </a>
+                <a href="#" class="action-btn" id="printAdvice">
+                    <i class="fas fa-print"></i> Print
+                </a>
+                <a href="#" class="action-btn" id="newAdvisory">
+                    <i class="fas fa-plus"></i> New Advisory Request
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Healthy Harvest</h3>
+                <p>Smart web-based advisory system for groundnut farmers in Uganda.</p>
+                <p>Partnership with UICT & Ministry of Agriculture</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Disease Diagnosis</a></li>
+                    <li><a href="#">Weather Advisory</a></li>
+                    <li><a href="#">Market Information</a></li>
+                    <li><a href="#">Contact Support</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-phone"></i> +256 700 123 456</li>
+                    <li><i class="fas fa-envelope"></i> support@healthyharvest.ug</li>
+                    <li><i class="fas fa-map-marker-alt"></i> UICT, Nakawa, Kampala</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2025 Healthy Harvest Advisory System. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const mainAdvisoryForm = document.getElementById('mainAdvisoryForm');
+        const quickAdvisoryForm = document.getElementById('quickAdvisoryForm');
+        const toggleQuickAdvisoryBtn = document.getElementById('toggleQuickAdvisory');
+        const backToDetailedBtn = document.getElementById('backToDetailed');
+        const generateQuickAdviceBtn = document.getElementById('generateQuickAdvice');
+        
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const step3 = document.getElementById('step3');
+        const resultsSection = document.getElementById('resultsSection');
+        
+        const nextStep1Btn = document.getElementById('nextStep1');
+        const nextStep2Btn = document.getElementById('nextStep2');
+        const prevStep2Btn = document.getElementById('prevStep2');
+        const prevStep3Btn = document.getElementById('prevStep3');
+        const getAdviceBtn = document.getElementById('getAdvice');
+        
+        const step1Indicator = document.getElementById('step1-indicator');
+        const step2Indicator = document.getElementById('step2-indicator');
+        const step3Indicator = document.getElementById('step3-indicator');
+        const line1_2 = document.getElementById('line1-2');
+        const line2_3 = document.getElementById('line2-3');
+        
+        const resultsMeta = document.getElementById('resultsMeta');
+        const currentDateElement = document.getElementById('currentDate');
+        
+        const alertsList = document.getElementById('alertsList');
+        const soilAdviceList = document.getElementById('soilAdviceList');
+        const pestAdviceList = document.getElementById('pestAdviceList');
+        const irrigationAdviceList = document.getElementById('irrigationAdviceList');
+        const timelineList = document.getElementById('timelineList');
+        
+        const newAdvisoryBtn = document.getElementById('newAdvisory');
+        const printAdviceBtn = document.getElementById('printAdvice');
+        const savePDFBtn = document.getElementById('savePDF');
+        const userNameElement = document.getElementById('userName');
+        const userAvatarElement = document.getElementById('userAvatar');
+        const logoutButton = document.getElementById('logoutButton');
+
+        const isLoggedIn = localStorage.getItem('healthyHarvestLoggedIn') === 'true';
+        const currentUser = JSON.parse(localStorage.getItem('healthyHarvestCurrentUser') || 'null');
+
+        if (!isLoggedIn || !currentUser) {
+            alert('Please login first to access farming advice.');
+            window.location.href = 'login.html';
+        }
+
+        if (currentUser) {
+            const displayName = currentUser.fullName || currentUser.phone || 'Healthy Harvest User';
+            userNameElement.textContent = displayName;
+
+            const initials = displayName
+                .split(' ')
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(part => part.charAt(0).toUpperCase())
+                .join('');
+
+            userAvatarElement.textContent = initials || 'HH';
+        }
+        
+        // Toggle between quick and detailed advisory forms
+        toggleQuickAdvisoryBtn.addEventListener('click', () => {
+            if (mainAdvisoryForm.style.display !== 'none') {
+                mainAdvisoryForm.style.display = 'none';
+                quickAdvisoryForm.style.display = 'block';
+                toggleQuickAdvisoryBtn.innerHTML = '<i class="fas fa-file-alt"></i> Switch to Detailed Advisory Mode';
+            } else {
+                mainAdvisoryForm.style.display = 'block';
+                quickAdvisoryForm.style.display = 'none';
+                toggleQuickAdvisoryBtn.innerHTML = '<i class="fas fa-bolt"></i> Switch to Quick Advisory Mode';
+            }
+        });
+        
+        backToDetailedBtn.addEventListener('click', () => {
+            mainAdvisoryForm.style.display = 'block';
+            quickAdvisoryForm.style.display = 'none';
+            toggleQuickAdvisoryBtn.innerHTML = '<i class="fas fa-bolt"></i> Switch to Quick Advisory Mode';
+        });
+        
+        // Step Navigation for Detailed Form
+        nextStep1Btn.addEventListener('click', () => {
+            step1.style.display = 'none';
+            step2.style.display = 'block';
+            updateStepIndicator(2);
+        });
+        
+        nextStep2Btn.addEventListener('click', () => {
+            step2.style.display = 'none';
+            step3.style.display = 'block';
+            updateStepIndicator(3);
+        });
+        
+        prevStep2Btn.addEventListener('click', () => {
+            step2.style.display = 'none';
+            step1.style.display = 'block';
+            updateStepIndicator(1);
+        });
+        
+        prevStep3Btn.addEventListener('click', () => {
+            step3.style.display = 'none';
+            step2.style.display = 'block';
+            updateStepIndicator(2);
+        });
+        
+        // Update step indicator
+        function updateStepIndicator(step) {
+            // Reset all steps
+            step1Indicator.classList.remove('active', 'completed');
+            step2Indicator.classList.remove('active', 'completed');
+            step3Indicator.classList.remove('active', 'completed');
+            line1_2.classList.remove('completed');
+            line2_3.classList.remove('completed');
+            
+            if (step === 1) {
+                step1Indicator.classList.add('active');
+            } else if (step === 2) {
+                step1Indicator.classList.add('completed');
+                step2Indicator.classList.add('active');
+                line1_2.classList.add('completed');
+            } else if (step === 3) {
+                step1Indicator.classList.add('completed');
+                step2Indicator.classList.add('completed');
+                step3Indicator.classList.add('active');
+                line1_2.classList.add('completed');
+                line2_3.classList.add('completed');
+            }
+        }
+        
+        // Generate advice from detailed form
+        getAdviceBtn.addEventListener('click', () => {
+            // Get form values
+            const location = document.getElementById('location').options[document.getElementById('location').selectedIndex].text;
+            const farmSize = document.getElementById('farm-size').options[document.getElementById('farm-size').selectedIndex].text;
+            const variety = document.getElementById('variety').options[document.getElementById('variety').selectedIndex].text;
+            const plantingDate = document.getElementById('planting-date').value;
+            
+            // Get selected issues
+            const selectedIssues = [];
+            document.querySelectorAll('input[name="issue"]:checked').forEach(checkbox => {
+                selectedIssues.push(checkbox.value);
+            });
+            
+            // Update results metadata
+            const formattedDate = new Date(plantingDate).toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            resultsMeta.textContent = `Based on: ${location} | ${variety} | ${farmSize} | Planted on ${formattedDate}`;
+            
+            // Generate current date
+            const now = new Date();
+            currentDateElement.textContent = now.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            // Generate advice based on selected issues
+            generateAdvice(selectedIssues, location);
+            
+            // Hide form and show results
+            mainAdvisoryForm.style.display = 'none';
+            resultsSection.style.display = 'block';
+            
+            // Scroll to results
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Generate advice from quick form
+        generateQuickAdviceBtn.addEventListener('click', () => {
+            // Get selected crop stage
+            const cropStageBtns = document.querySelectorAll('.crop-stage-btn');
+            let selectedStage = 'planting'; // default
+            cropStageBtns.forEach(btn => {
+                if (btn.classList.contains('active')) {
+                    selectedStage = btn.getAttribute('data-stage');
+                }
+            });
+            
+            // Get selected issues
+            const selectedIssues = [];
+            document.querySelectorAll('input[name="quick-issues"]:checked').forEach(checkbox => {
+                selectedIssues.push(checkbox.value);
+            });
+            
+            // Update results metadata
+            const location = document.getElementById('quick-location').value;
+            resultsMeta.textContent = `Based on: ${location} | Quick Advisory | ${selectedStage.charAt(0).toUpperCase() + selectedStage.slice(1)} Stage`;
+            
+            // Generate current date
+            const now = new Date();
+            currentDateElement.textContent = now.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            // Generate advice
+            generateAdvice(selectedIssues, location, true, selectedStage);
+            
+            // Hide form and show results
+            quickAdvisoryForm.style.display = 'none';
+            resultsSection.style.display = 'block';
+            
+            // Scroll to results
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Generate advice content
+        function generateAdvice(issues, location, isQuick = false, cropStage = 'planting') {
+            // Clear previous advice
+            alertsList.innerHTML = '';
+            soilAdviceList.innerHTML = '';
+            pestAdviceList.innerHTML = '';
+            irrigationAdviceList.innerHTML = '';
+            timelineList.innerHTML = '';
+            
+            // Define advice based on issues and location
+            const allAdvice = {
+                alerts: [
+                    "High rainfall expected in 3 days. Delay fungicide application until after rain.",
+                    "Monitor for aphids - current weather conditions favor their spread.",
+                    "Soil moisture levels are optimal for planting in your area."
+                ],
+                
+                soil: [
+                    "Apply DAP fertilizer at 100kg/acre before planting.",
+                    "Maintain soil pH between 6.0-6.5 for optimal growth.",
+                    "Incorporate organic matter to improve soil structure."
+                ],
+                
+                pest: [
+                    "Apply neem oil spray if pests are detected.",
+                    "Monitor for aphids weekly - they're common vectors for rosette disease.",
+                    "Remove and destroy infected plants to prevent disease spread."
+                ],
+                
+                irrigation: [
+                    "Water every 5-7 days during flowering stage.",
+                    "Reduce irrigation 2 weeks before harvesting.",
+                    "Avoid over-watering to prevent fungal diseases."
+                ],
+                
+                timeline: [
+                    "Apply first fungicide in 14 days.",
+                    "Next weeding recommended in 3 weeks.",
+                    "Harvest expected in 90-120 days from planting."
+                ]
+            };
+            
+            // Customize advice based on selected issues
+            if (issues.includes('disease') || issues.includes('leaf-spots')) {
+                allAdvice.alerts.push("Yellow leaf spot detected in your area - consider preventive fungicide.");
+                allAdvice.pest.push("For fungal diseases, apply Mancozeb at 2g/liter of water.");
+            }
+            
+            if (issues.includes('pest') || issues.includes('pest')) {
+                allAdvice.pest.push("Set up yellow sticky traps to monitor pest populations.");
+                allAdvice.alerts.push("High pest risk reported in Nakasongola this season.");
+            }
+            
+            if (issues.includes('weather')) {
+                allAdvice.alerts.push("Expect moderate rainfall next week - plan field activities accordingly.");
+                allAdvice.irrigation.push("Reduce irrigation if rainfall exceeds 20mm in a week.");
+            }
+            
+            if (issues.includes('fertilizer')) {
+                allAdvice.soil.push("Top dress with Urea fertilizer 30 days after planting.");
+                allAdvice.soil.push("Conduct soil test for precise fertilizer recommendations.");
+            }
+            
+            if (issues.includes('irrigation')) {
+                allAdvice.irrigation.push("Use drip irrigation for water efficiency.");
+                allAdvice.irrigation.push("Irrigate early morning to reduce evaporation loss.");
+            }
+            
+            if (issues.includes('harvest')) {
+                allAdvice.timeline.push("Harvest when 70-80% of pods are mature.");
+                allAdvice.timeline.push("Dry harvested nuts to 8% moisture content for safe storage.");
+            }
+            
+            // For quick advisory based on crop stage
+            if (isQuick) {
+                if (cropStage === 'planning') {
+                    allAdvice.alerts.push("Soil testing recommended before planting.");
+                    allAdvice.timeline.push("Prepare land 2 weeks before planting date.");
+                } else if (cropStage === 'growing') {
+                    allAdvice.alerts.push("Critical growth stage - ensure proper nutrient supply.");
+                    allAdvice.timeline.push("Apply second dose of fertilizer in 30 days.");
+                } else if (cropStage === 'harvesting') {
+                    allAdvice.alerts.push("Check weather forecast before harvesting.");
+                    allAdvice.timeline.push("Harvest during dry weather to reduce post-harvest losses.");
+                }
+            }
+            
+            // Populate the advice lists
+            allAdvice.alerts.forEach(alert => {
+                const li = document.createElement('li');
+                li.textContent = alert;
+                alertsList.appendChild(li);
+            });
+            
+            allAdvice.soil.forEach(advice => {
+                const li = document.createElement('li');
+                li.textContent = advice;
+                soilAdviceList.appendChild(li);
+            });
+            
+            allAdvice.pest.forEach(advice => {
+                const li = document.createElement('li');
+                li.textContent = advice;
+                pestAdviceList.appendChild(li);
+            });
+            
+            allAdvice.irrigation.forEach(advice => {
+                const li = document.createElement('li');
+                li.textContent = advice;
+                irrigationAdviceList.appendChild(li);
+            });
+            
+            allAdvice.timeline.forEach(advice => {
+                const li = document.createElement('li');
+                li.textContent = advice;
+                timelineList.appendChild(li);
+            });
+        }
+        
+        // Add active class to crop stage buttons
+        document.querySelectorAll('.crop-stage-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.crop-stage-btn').forEach(b => {
+                    b.classList.remove('active');
+                    b.style.backgroundColor = '#4a7c3a';
+                });
+                this.classList.add('active');
+                this.style.backgroundColor = '#2d5a27';
+            });
+        });
+        
+        // Set first crop stage button as active by default
+        document.querySelector('.crop-stage-btn').classList.add('active');
+        document.querySelector('.crop-stage-btn').style.backgroundColor = '#2d5a27';
+        
+        // New advisory button
+        newAdvisoryBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Reset form
+            step1.style.display = 'block';
+            step2.style.display = 'none';
+            step3.style.display = 'none';
+            resultsSection.style.display = 'none';
+            mainAdvisoryForm.style.display = 'block';
+            
+            // Reset step indicator
+            updateStepIndicator(1);
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Print advice
+        printAdviceBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.print();
+        });
+        
+        // Save as PDF (simulated)
+        savePDFBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('PDF download would start in a real application. This is a simulation.');
+            // In a real app, you would generate and download a PDF here
+        });
+
+        logoutButton.addEventListener('click', function() {
+            localStorage.removeItem('healthyHarvestLoggedIn');
+            localStorage.removeItem('healthyHarvestCurrentUser');
+            window.location.href = 'login.html';
+        });
+        
+        // Initialize step indicator
+        updateStepIndicator(1);
+    </script>
+</body>
+</html>

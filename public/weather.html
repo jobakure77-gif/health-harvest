@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthy Harvest - AI Weather Advisory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* All the CSS from your original code remains here */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --lighter-green: #c8e6c9;
+            --accent-yellow: #ffd54f;
+            --accent-red: #ef5350;
+            --accent-blue: #2196f3;
+            --dark-gray: #333;
+            --light-gray: #f5f5f5;
+            --border-color: #ddd;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background: white;
+            color: black;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: black;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .user-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-nav a {
+            color: black;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: color 0.3s, background-color 0.3s;
+        }
+
+        .user-nav a:hover {
+            color: var(--primary-green);
+            background-color: #f1f8f1;
+        }
+
+        .notification-badge {
+            background-color: var(--accent-red);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .location-bar {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 5px solid var(--primary-green);
+        }
+
+        .location-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .update-time {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .location-search {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .location-search input {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            width: 200px;
+        }
+
+        .location-search button {
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .location-search button:hover {
+            background-color: var(--light-green);
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Weather Card */
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--lighter-green);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Current Weather */
+        .current-weather {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .weather-main {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .weather-icon {
+            font-size: 4rem;
+            color: var(--accent-yellow);
+        }
+
+        .temp-display {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--dark-gray);
+        }
+
+        .weather-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .weather-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.75rem;
+            background-color: var(--light-gray);
+            border-radius: 6px;
+        }
+
+        .weather-item i {
+            color: var(--accent-blue);
+            font-size: 1.2rem;
+        }
+
+        /* Forecast */
+        .forecast-container {
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .forecast-days {
+            display: flex;
+            gap: 1rem;
+            min-width: 500px;
+        }
+
+        .forecast-day {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            background-color: var(--light-gray);
+            border-radius: 8px;
+            min-width: 100px;
+        }
+
+        .forecast-day.active {
+            background-color: var(--lighter-green);
+            border: 2px solid var(--primary-green);
+        }
+
+        .day-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .forecast-icon {
+            font-size: 2rem;
+            margin: 0.5rem 0;
+        }
+
+        .forecast-temp {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* Progress Bars */
+        .progress-container {
+            margin-top: 1rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background-color: var(--light-gray);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-blue);
+            border-radius: 5px;
+        }
+
+        /* AI Recommendations */
+        .recommendations-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .recommendation-item {
+            padding: 1.2rem;
+            border-radius: 8px;
+            border-left: 5px solid;
+            background-color: var(--light-gray);
+        }
+
+        .recommendation-item.optimal {
+            border-left-color: var(--primary-green);
+            background-color: #e8f5e9;
+        }
+
+        .recommendation-item.recommended {
+            border-left-color: var(--accent-yellow);
+            background-color: #fffde7;
+        }
+
+        .recommendation-item.delay {
+            border-left-color: var(--accent-red);
+            background-color: #ffebee;
+        }
+
+        .rec-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0.5rem;
+        }
+
+        .rec-icon {
+            font-size: 1.3rem;
+        }
+
+        .rec-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .rec-dates {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .view-plan-btn {
+            display: inline-block;
+            background-color: var(--primary-green);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            text-align: center;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .view-plan-btn:hover {
+            background-color: var(--light-green);
+        }
+
+        /* Seasonal Outlook */
+        .seasonal-outlook {
+            grid-column: 1 / -1;
+            margin-bottom: 1.5rem;
+        }
+
+        .seasons-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .seasons-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .seasons-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .season-card {
+            background-color: var(--light-gray);
+            border-radius: 8px;
+            padding: 1.2rem;
+            text-align: center;
+            border-top: 5px solid;
+        }
+
+        .season-card.dry {
+            border-top-color: #ff9800;
+        }
+
+        .season-card.rainy {
+            border-top-color: var(--accent-blue);
+        }
+
+        .season-card.sunny {
+            border-top-color: var(--accent-yellow);
+        }
+
+        .season-card.harvest {
+            border-top-color: var(--primary-green);
+        }
+
+        .season-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .season-dates {
+            color: var(--primary-green);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Alerts & Crop Advice */
+        .alert-box {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 1.2rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0.5rem;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            color: #856404;
+        }
+
+        .ai-insights {
+            margin-top: 1.5rem;
+        }
+
+        .insight-list {
+            list-style-type: none;
+        }
+
+        .insight-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .insight-list li:before {
+            content: "•";
+            color: var(--primary-green);
+            font-size: 1.5rem;
+        }
+
+        .crop-advice-list {
+            list-style-type: none;
+        }
+
+        .crop-advice-list li {
+            padding: 0.7rem 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .crop-advice-list li:before {
+            content: "🌱";
+            font-size: 1.2rem;
+        }
+
+        .crop-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--lighter-green);
+        }
+
+        .select-crop {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            font-size: 1rem;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.9rem 1.8rem;
+            background-color: white;
+            border: 2px solid var(--primary-green);
+            border-radius: 6px;
+            color: var(--primary-green);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            background-color: var(--primary-green);
+            color: white;
+        }
+
+        .action-btn.primary {
+            background-color: var(--primary-green);
+            color: white;
+        }
+
+        .action-btn.primary:hover {
+            background-color: var(--light-green);
+            border-color: var(--light-green);
+        }
+
+        /* Footer - Fixed Styles */
+        footer {
+            background-color: var(--dark-gray);
+            color: var(--white);
+            padding: 40px 20px 30px;
+            margin-top: 40px;
+            width: 100%;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            color:white;
+        }
+        
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .footer-logo i {
+            font-size: 24px;
+            color: var(--light-green);
+        }
+        
+        .footer-logo span {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            padding: 5px 0;
+        }
+        
+        .footer-links a:hover {
+            color: var(--light-green);
+            transform: translateY(-2px);
+        }
+        
+        .footer-links i {
+            font-size: 14px;
+        }
+        
+        /* Footer bottom */
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 30px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .ai-tools {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 25px;
+            }
+            
+            .footer-links {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav {
+                flex-wrap: wrap;
+            }
+            
+            .nav-item {
+                flex: 1 0 50%;
+                padding: 12px 5px;
+                font-size: 14px;
+            }
+            
+            .filter-bar {
+                flex-direction: column;
+            }
+            
+            .filter-group {
+                min-width: 100%;
+            }
+            
+            .header-top {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .user-info {
+                align-self: flex-start;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .market-card, .sidebar-card, .ai-chat {
+                padding: 20px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 15px;
+            }
+            
+            .nav-item {
+                flex: 1 0 100%;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: black;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .user-nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+            
+            .user-nav.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .location-bar {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+        }
+
+        /* Modal for detailed plan */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--lighter-green);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--primary-green);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .calendar {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 1rem;
+        }
+
+        .calendar-day {
+            padding: 0.8rem 0.5rem;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .calendar-day.header {
+            background-color: var(--lighter-green);
+            color: var(--primary-green);
+            font-weight: 700;
+        }
+
+        .calendar-day.planting {
+            background-color: #e8f5e9;
+            border: 2px solid var(--primary-green);
+        }
+
+        .calendar-day.weeding {
+            background-color: #fffde7;
+            border: 2px solid var(--accent-yellow);
+        }
+
+        .calendar-day.harvest {
+            background-color: #ffebee;
+            border: 2px solid var(--accent-red);
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-green);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .api-status {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+
+        .api-status.online {
+            background-color: #4CAF50;
+        }
+
+        .api-status.offline {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+          <div class="logo-icon">🌱</div>
+            <span>Healthy Harvest</span>
+        </div>
+        
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="user-nav" id="userNav">
+            <div style="position: relative;">
+                <a href="#"><i class="fas fa-user"></i> John Farmer <i class="fas fa-chevron-down"></i></a>
+            </div>
+            <div style="position: relative;">
+                <a href="notifications.html"><i class="fas fa-bell"></i> Notifications</a>
+                <span class="notification-badge">2</span>
+            </div>
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="Profile.html"><i class="fas fa-user-circle"></i> Profile</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Location Bar -->
+        <div class="location-bar">
+            <div class="location-display">
+                <i class="fas fa-map-marker-alt"></i>
+                <span id="currentLocation">Nakasongola District, Uganda</span>
+                <span id="apiStatus" class="api-status offline" title="Checking API status"></span>
+                <div class="location-search">
+                    <input type="text" id="locationInput" placeholder="Enter city or coordinates">
+                    <button id="searchLocationBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="update-time">
+                <i class="fas fa-sync-alt" id="refreshBtn" style="cursor: pointer;"></i> 
+                Last Updated: <span id="lastUpdated">Just now</span>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div class="loading" id="loadingSpinner">
+            <div class="spinner"></div>
+            <p>Fetching weather data...</p>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid" id="dashboardContent">
+            <!-- Current Weather -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-cloud-sun"></i> Current Weather Snapshot</h2>
+                </div>
+                <div class="current-weather">
+                    <div class="weather-main">
+                        <div class="weather-icon" id="weatherIcon">
+                            <i class="fas fa-sun"></i>
+                        </div>
+                        <div class="temp-display" id="currentTemp">32°C</div>
+                    </div>
+                    
+                    <div class="weather-details">
+                        <div class="weather-item">
+                            <i class="fas fa-tint"></i>
+                            <div>
+                                <div>Humidity</div>
+                                <div class="value" id="humidity">65%</div>
+                            </div>
+                        </div>
+                        <div class="weather-item">
+                            <i class="fas fa-wind"></i>
+                            <div>
+                                <div>Wind</div>
+                                <div class="value" id="windSpeed">12 km/h NE</div>
+                            </div>
+                        </div>
+                        <div class="weather-item">
+                            <i class="fas fa-cloud-rain"></i>
+                            <div>
+                                <div>Rain Today</div>
+                                <div class="value" id="rainToday">2mm</div>
+                            </div>
+                        </div>
+                        <div class="weather-item">
+                            <i class="fas fa-seedling"></i>
+                            <div>
+                                <div>Soil Moisture</div>
+                                <div class="value" id="soilMoisture">Good <span style="color: var(--primary-green);">✓</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Rainfall Probability This Week</span>
+                            <span id="rainProbability">60%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="rainProgressBar" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Farming Recommendations -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-robot"></i> AI Farming Recommendations</h2>
+                </div>
+                <div class="recommendations-list" id="recommendationsList">
+                    <div class="recommendation-item optimal">
+                        <div class="rec-header">
+                            <div class="rec-icon">🟢</div>
+                            <div class="rec-title">PLANTING: NOW IDEAL</div>
+                        </div>
+                        <div class="rec-dates" id="plantingDates">Next 3 days perfect for soil moisture & temperature</div>
+                    </div>
+                    
+                    <div class="recommendation-item recommended">
+                        <div class="rec-header">
+                            <div class="rec-icon">🟡</div>
+                            <div class="rec-title">WEEDING: RECOMMENDED</div>
+                        </div>
+                        <div class="rec-dates" id="weedingDates">Apr 15-18 (dry spell) - Best for manual weeding</div>
+                    </div>
+                    
+                    <div class="recommendation-item delay">
+                        <div class="rec-header">
+                            <div class="rec-icon">🔴</div>
+                            <div class="rec-title">HARVESTING: DELAY</div>
+                        </div>
+                        <div class="rec-dates" id="harvestDates">Wait until May 10-15 - Avoid predicted rains</div>
+                    </div>
+                    
+                    <button class="view-plan-btn" id="viewPlanBtn">
+                        <i class="fas fa-calendar-alt"></i> View Detailed Plan
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7-Day Forecast -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-calendar-week"></i> 7-Day Weather Forecast</h2>
+            </div>
+            <div class="forecast-container">
+                <div class="forecast-days" id="forecastDays">
+                    <!-- Forecast days will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Seasonal Outlook -->
+        <div class="card seasonal-outlook">
+            <div class="card-header">
+                <h2 class="card-title"><i class="fas fa-chart-line"></i> Seasonal Outlook & AI Predictions</h2>
+            </div>
+            <div class="seasons-container">
+                <div class="season-card dry">
+                    <div class="season-name">DRY SEASON</div>
+                    <div class="season-dates">Dec 15 - Mar 5</div>
+                    <div>Water storage recommended</div>
+                </div>
+                <div class="season-card rainy">
+                    <div class="season-name">RAINY SEASON</div>
+                    <div class="season-dates">Mar 6 - May 20</div>
+                    <div>Plant peanuts early March</div>
+                </div>
+                <div class="season-card sunny">
+                    <div class="season-name">SUNNY SPELL</div>
+                    <div class="season-dates">May 21 - Jul 10</div>
+                    <div>Weed control optimal</div>
+                </div>
+                <div class="season-card harvest">
+                    <div class="season-name">HARVEST WINDOW</div>
+                    <div class="season-dates">Jul 11 - Aug 30</div>
+                    <div>Dry & harvest peanuts</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Grid -->
+        <div class="dashboard-grid">
+            <!-- AI Weather Focus & Alerts -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-exclamation-triangle"></i> AI Weather Focus & Alerts</h2>
+                </div>
+                <div class="alert-box" id="weatherAlert">
+                    <div class="alert-header">
+                        <i class="fas fa-exclamation-circle" style="color: #856404;"></i>
+                        <div class="alert-title">ALERT: Heavy rain expected</div>
+                    </div>
+                    <div id="alertDetails">April 25-27 (45mm predicted)</div>
+                </div>
+                
+                <div class="ai-insights">
+                    <h3 style="margin-bottom: 1rem; color: var(--primary-green);">AI Insights:</h3>
+                    <ul class="insight-list" id="aiInsights">
+                        <li>Optimal planting window: Now - Mar 10</li>
+                        <li>Lower pest risk during dry spell</li>
+                        <li>Water 20% less next week</li>
+                        <li>Harvest window: May 10-15 (sunny period)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Crop-Specific Advice -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-leaf"></i> Crop-Specific Advice</h2>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+                    <div style="font-size: 2rem;">🌱</div>
+                    <div>
+                        <div style="font-weight: 700;" id="cropName">Groundnut (Serenut 2)</div>
+                        <div style="color: #666;" id="cropDetails">2 Acres | Planted Mar 6, 2025</div>
+                    </div>
+                </div>
+                
+                <ul class="crop-advice-list" id="cropAdvice">
+                    <li>Reduce watering 3 days before predicted rain</li>
+                    <li>Apply fungicide if humidity exceeds 80%</li>
+                    <li>Harvest during sunny spell after May 20</li>
+                    <li>Rotate crops after harvest to maintain soil health</li>
+                </ul>
+                
+                <div class="crop-selector">
+                    <label for="cropSelect">Select Different Crop:</label>
+                    <select class="select-crop" id="cropSelect">
+                        <option value="groundnut">Groundnut (Serenut 2)</option>
+                        <option value="maize">Maize (Longe 5)</option>
+                        <option value="beans">Beans (Nabe 4)</option>
+                        <option value="rice">Rice (Namche 2)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="action-btn primary" id="downloadPlanBtn">
+                <i class="fas fa-download"></i> Download 30-Day Plan
+            </button>
+            <button class="action-btn" id="shareExpertBtn">
+                <i class="fas fa-share-alt"></i> Share with Expert
+            </button>
+            <button class="action-btn" id="smsAlertsBtn">
+                <i class="fas fa-sms"></i> Get SMS Alerts
+            </button>
+        </div>
+    </div>
+
+      <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div style="display: flex; align-items: center; gap: 10px; font-size: 1.2rem;">
+                    <i class="fas fa-seedling"></i>
+                    <span>Healthy Harvest Advisory</span>
+                </div>
+                <div>UICT | Farmer Support System</div>
+            </div>
+            <div class="footer-links">
+                <a href="index.html"></i> Home</a>
+                <a href="contact Experts.html"><i class="fas fa-phone-alt"></i> Contact Experts</a>
+                <a href="history.html"><i class="fas fa-history"></i> Weather History</a>
+                <a href="Glossary.html"><i class="fas fa-book"></i> Glossary</a>
+                <a href="help.html"><i class="fas fa-question-circle"></i> Help</a>
+                
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Healthy Harvest Advisory. All rights reserved. | Designed for Ugandan Farmers</p>
+        </div>
+    </footer>
+
+    <!-- Modal for Detailed Plan -->
+    <div class="modal" id="planModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-calendar-alt"></i> AI-Generated Farming Calendar</h2>
+                <button class="close-modal" id="closeModalBtn">&times;</button>
+            </div>
+            <div class="calendar">
+                <div>
+                    <h3 style="color: var(--primary-green); margin-bottom: 1rem;" id="modalLocation">Nakasongola District | Groundnut (Serenut 2)</h3>
+                    <div style="background-color: var(--light-gray); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span id="currentMonth">MARCH 2025</span>
+                            <span>Farm Size: <span id="farmSize">2</span> Acres</span>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Calendar will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem;">
+                        <h4 style="color: var(--primary-green); margin-bottom: 0.5rem;">Legend:</h4>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <div style="width: 20px; height: 20px; background-color: #e8f5e9; border: 2px solid var(--primary-green); border-radius: 4px;"></div>
+                                <span>Planting days</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <div style="width: 20px; height: 20px; background-color: #fffde7; border: 2px solid var(--accent-yellow); border-radius: 4px;"></div>
+                                <span>Weeding days</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <div style="width: 20px; height: 20px; background-color: #ffebee; border: 2px solid var(--accent-red); border-radius: 4px;"></div>
+                                <span>Harvest days</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 style="color: var(--primary-green); margin-bottom: 1rem;">Key Metrics & Conditions</h3>
+                    <div style="background-color: var(--light-gray); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+                            <i class="fas fa-check-circle" style="color: var(--primary-green);"></i>
+                            <span>Optimal Soil Temp: 25-30°C</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+                            <i class="fas fa-check-circle" style="color: var(--primary-green);"></i>
+                            <span>Rainfall Needed: 500-600mm/season</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+                            <i class="fas fa-check-circle" style="color: var(--primary-green);"></i>
+                            <span>Growing Days: 90-110 days</span>
+                        </div>
+                    </div>
+                    
+                    <h3 style="color: var(--primary-green); margin-bottom: 1rem;">Weather Risk Assessment</h3>
+                    <div style="margin-bottom: 1.5rem;">
+                        <div style="margin-bottom: 0.5rem;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Low Risk (0-30%):</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%; background-color: var(--primary-green);"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 0.5rem;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Medium Risk (31-70%):</span>
+                                <span>40%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 40%; background-color: var(--accent-yellow);"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 0.5rem;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>High Risk (71-100%):</span>
+                                <span>15%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 15%; background-color: var(--accent-red);"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="generateReportBtn" style="width: 100%; padding: 0.9rem; background-color: var(--primary-green); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; margin-top: 1rem;">
+                        <i class="fas fa-file-pdf"></i> Generate PDF Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function ensureWeatherAccess() {
+            const isLoggedIn = localStorage.getItem('healthyHarvestLoggedIn') === 'true';
+            const currentUser = JSON.parse(localStorage.getItem('healthyHarvestCurrentUser') || 'null');
+
+            if (!isLoggedIn || !currentUser) {
+                alert('Please login first to access weather information.');
+                window.location.href = 'login.html?redirect=weather.html';
+                return false;
+            }
+
+            return true;
+        }
+
+        // API Configuration
+        const WEATHER_API_KEY = 'cab26e9fd4f94f2bbf7103835262101'; // Replace with your actual API key
+        const BASE_URL = 'https://api.weatherapi.com/v1';
+        
+        // Default location (Nakasongola, Uganda)
+        let currentLocation = {
+            name: "Nakasongola, Uganda",
+            lat: 1.3167,
+            lon: 32.4667
+        };
+
+        // DOM Elements
+        const apiStatus = document.getElementById('apiStatus');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const dashboardContent = document.getElementById('dashboardContent');
+        const currentLocationElement = document.getElementById('currentLocation');
+        const locationInput = document.getElementById('locationInput');
+        const searchLocationBtn = document.getElementById('searchLocationBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const lastUpdated = document.getElementById('lastUpdated');
+        
+        // Weather elements
+        const weatherIcon = document.getElementById('weatherIcon');
+        const currentTemp = document.getElementById('currentTemp');
+        const humidity = document.getElementById('humidity');
+        const windSpeed = document.getElementById('windSpeed');
+        const rainToday = document.getElementById('rainToday');
+        const soilMoisture = document.getElementById('soilMoisture');
+        const rainProbability = document.getElementById('rainProbability');
+        const rainProgressBar = document.getElementById('rainProgressBar');
+        const forecastDays = document.getElementById('forecastDays');
+        
+        // Recommendation elements
+        const recommendationsList = document.getElementById('recommendationsList');
+        const plantingDates = document.getElementById('plantingDates');
+        const weedingDates = document.getElementById('weedingDates');
+        const harvestDates = document.getElementById('harvestDates');
+        
+        // Alert elements
+        const weatherAlert = document.getElementById('weatherAlert');
+        const alertDetails = document.getElementById('alertDetails');
+        const aiInsights = document.getElementById('aiInsights');
+        
+        // Crop elements
+        const cropName = document.getElementById('cropName');
+        const cropDetails = document.getElementById('cropDetails');
+        const cropAdvice = document.getElementById('cropAdvice');
+        const cropSelect = document.getElementById('cropSelect');
+        
+        // Modal elements
+        const planModal = document.getElementById('planModal');
+        const viewPlanBtn = document.getElementById('viewPlanBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modalLocation = document.getElementById('modalLocation');
+        const currentMonth = document.getElementById('currentMonth');
+        const farmSize = document.getElementById('farmSize');
+        const calendarGrid = document.getElementById('calendarGrid');
+        
+        // Action buttons
+        const downloadPlanBtn = document.getElementById('downloadPlanBtn');
+        const shareExpertBtn = document.getElementById('shareExpertBtn');
+        const smsAlertsBtn = document.getElementById('smsAlertsBtn');
+        const generateReportBtn = document.getElementById('generateReportBtn');
+        
+        // Mobile menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const userNav = document.getElementById('userNav');
+
+        // Weather icon mapping
+        const weatherIcons = {
+            'Sunny': 'fas fa-sun',
+            'Clear': 'fas fa-sun',
+            'Partly cloudy': 'fas fa-cloud-sun',
+            'Cloudy': 'fas fa-cloud',
+            'Overcast': 'fas fa-cloud',
+            'Mist': 'fas fa-smog',
+            'Fog': 'fas fa-smog',
+            'Light rain': 'fas fa-cloud-rain',
+            'Moderate rain': 'fas fa-cloud-rain',
+            'Heavy rain': 'fas fa-cloud-showers-heavy',
+            'Light snow': 'fas fa-snowflake',
+            'Moderate snow': 'fas fa-snowflake',
+            'Heavy snow': 'fas fa-snowflake',
+            'Thunderstorm': 'fas fa-bolt',
+            'Windy': 'fas fa-wind'
+        };
+
+        // Crop data
+        const cropData = {
+            groundnut: {
+                name: "Groundnut (Serenut 2)",
+                details: "2 Acres | Planted Mar 6, 2025",
+                advice: [
+                    "Reduce watering 3 days before predicted rain",
+                    "Apply fungicide if humidity exceeds 80%",
+                    "Harvest during sunny spell after May 20",
+                    "Rotate crops after harvest to maintain soil health"
+                ],
+                growingDays: 90,
+                waterNeeded: "500-600mm/season"
+            },
+            maize: {
+                name: "Maize (Longe 5)",
+                details: "3 Acres | Planted Feb 20, 2025",
+                advice: [
+                    "Apply fertilizer during early growth stage",
+                    "Water regularly during dry spells",
+                    "Watch for armyworm infestation",
+                    "Harvest when kernels are hard"
+                ],
+                growingDays: 120,
+                waterNeeded: "600-800mm/season"
+            },
+            beans: {
+                name: "Beans (Nabe 4)",
+                details: "1.5 Acres | Planted Mar 1, 2025",
+                advice: [
+                    "Plant in well-drained soil",
+                    "Apply phosphorus fertilizer at planting",
+                    "Control aphids with neem extract",
+                    "Harvest when pods are dry"
+                ],
+                growingDays: 75,
+                waterNeeded: "400-500mm/season"
+            },
+            rice: {
+                name: "Rice (Namche 2)",
+                details: "2.5 Acres | Planted Feb 15, 2025",
+                advice: [
+                    "Maintain 5-10cm water level in fields",
+                    "Apply nitrogen fertilizer at tillering",
+                    "Control weeds before canopy closure",
+                    "Harvest when 80% of grains are golden"
+                ],
+                growingDays: 110,
+                waterNeeded: "1000-1500mm/season"
+            }
+        };
+
+        // Initialize the app
+        function init() {
+            checkAPIStatus();
+            fetchWeatherData();
+            setupEventListeners();
+            updateCropInfo('groundnut');
+        }
+
+        // Check API status
+        async function checkAPIStatus() {
+            if (!apiStatus) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${BASE_URL}/current.json?key=${WEATHER_API_KEY}&q=London`);
+                if (response.ok) {
+                    apiStatus.className = 'api-status online';
+                    apiStatus.title = 'API Online';
+                } else {
+                    apiStatus.className = 'api-status offline';
+                    apiStatus.title = 'API Offline';
+                }
+            } catch (error) {
+                apiStatus.className = 'api-status offline';
+                apiStatus.title = 'API Offline';
+            }
+        }
+
+        // Fetch weather data
+        async function fetchWeatherData() {
+            showLoading();
+            
+            try {
+                // Fetch current weather
+                const currentResponse = await fetch(
+                    `${BASE_URL}/current.json?key=${WEATHER_API_KEY}&q=${currentLocation.lat},${currentLocation.lon}`
+                );
+                
+                // Fetch forecast
+                const forecastResponse = await fetch(
+                    `${BASE_URL}/forecast.json?key=${WEATHER_API_KEY}&q=${currentLocation.lat},${currentLocation.lon}&days=7`
+                );
+                
+                if (!currentResponse.ok || !forecastResponse.ok) {
+                    throw new Error('Failed to fetch weather data');
+                }
+                
+                const currentData = await currentResponse.json();
+                const forecastData = await forecastResponse.json();
+                
+                updateCurrentWeather(currentData);
+                updateForecast(forecastData);
+                generateRecommendations(currentData, forecastData);
+                updateLastUpdated();
+                
+            } catch (error) {
+                console.error('Error fetching weather data:', error);
+                showError('Unable to fetch weather data. Using sample data instead.');
+                useSampleData();
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Update current weather display
+        function updateCurrentWeather(data) {
+            const current = data.current;
+            const location = data.location;
+            
+            // Update location
+            currentLocationElement.textContent = `${location.name}, ${location.country}`;
+            currentLocation.name = `${location.name}, ${location.country}`;
+            
+            // Update temperature
+            currentTemp.textContent = `${Math.round(current.temp_c)}°C`;
+            
+            // Update weather icon
+            const iconClass = weatherIcons[current.condition.text] || 'fas fa-cloud-sun';
+            weatherIcon.innerHTML = `<i class="${iconClass}"></i>`;
+            
+            // Update other details
+            humidity.textContent = `${current.humidity}%`;
+            windSpeed.textContent = `${Math.round(current.wind_kph)} km/h ${current.wind_dir}`;
+            rainToday.textContent = current.precip_mm > 0 ? `${current.precip_mm}mm` : '0mm';
+            
+            // Calculate soil moisture based on recent rain
+            const soilMoistureLevel = calculateSoilMoisture(current.precip_mm, current.humidity);
+            soilMoisture.innerHTML = soilMoistureLevel;
+        }
+
+        // Update forecast display
+        function updateForecast(data) {
+            const forecast = data.forecast.forecastday;
+            forecastDays.innerHTML = '';
+            
+            forecast.forEach((day, index) => {
+                const date = new Date(day.date);
+                const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+                const iconClass = weatherIcons[day.day.condition.text] || 'fas fa-cloud-sun';
+                
+                const forecastDay = document.createElement('div');
+                forecastDay.className = `forecast-day ${index === 0 ? 'active' : ''}`;
+                forecastDay.innerHTML = `
+                    <div class="day-name">${dayName}</div>
+                    <div class="forecast-icon"><i class="${iconClass}"></i></div>
+                    <div class="forecast-temp">${Math.round(day.day.avgtemp_c)}°C</div>
+                    <div style="font-size: 0.8rem; color: #666;">${day.day.daily_chance_of_rain}% rain</div>
+                `;
+                
+                forecastDays.appendChild(forecastDay);
+            });
+            
+            // Update rain probability
+            const avgRainChance = Math.round(forecast.reduce((sum, day) => sum + day.day.daily_chance_of_rain, 0) / forecast.length);
+            rainProbability.textContent = `${avgRainChance}%`;
+            rainProgressBar.style.width = `${avgRainChance}%`;
+        }
+
+        // Calculate soil moisture level
+        function calculateSoilMoisture(precipitation, humidity) {
+            let moistureLevel = 'Good';
+            let icon = '✓';
+            let color = 'var(--primary-green)';
+            
+            if (precipitation > 10) {
+                moistureLevel = 'High';
+                icon = '⚠️';
+                color = 'var(--accent-blue)';
+            } else if (precipitation < 1 && humidity < 50) {
+                moistureLevel = 'Low';
+                icon = '⚠️';
+                color = 'var(--accent-red)';
+            }
+            
+            return `${moistureLevel} <span style="color: ${color};">${icon}</span>`;
+        }
+
+        // Generate AI recommendations
+        function generateRecommendations(currentData, forecastData) {
+            const currentTemp = currentData.current.temp_c;
+            const forecast = forecastData.forecast.forecastday;
+            
+            // Planting recommendation
+            const avgTemp = forecast.reduce((sum, day) => sum + day.day.avgtemp_c, 0) / forecast.length;
+            const rainDays = forecast.filter(day => day.day.daily_chance_of_rain > 60).length;
+            
+            if (avgTemp > 20 && avgTemp < 30 && rainDays < 3) {
+                plantingDates.textContent = 'Next 3 days perfect for soil moisture & temperature';
+            } else if (avgTemp > 15 && avgTemp < 35) {
+                plantingDates.textContent = 'Good conditions for planting in next 5 days';
+            } else {
+                plantingDates.textContent = 'Wait for better conditions';
+            }
+            
+            // Weeding recommendation
+            const drySpells = forecast.filter(day => day.day.daily_chance_of_rain < 30).length;
+            if (drySpells >= 2) {
+                const dryDays = forecast.filter(day => day.day.daily_chance_of_rain < 30)
+                    .map(day => new Date(day.date).getDate())
+                    .slice(0, 2);
+                weedingDates.textContent = `Best for manual weeding on days ${dryDays.join(' & ')}`;
+            }
+            
+            // Harvest recommendation
+            const heavyRainDays = forecast.filter(day => day.day.daily_chance_of_rain > 70).length;
+            if (heavyRainDays > 0) {
+                harvestDates.textContent = 'Delay harvesting due to predicted rain';
+            } else {
+                harvestDates.textContent = 'Good conditions for harvesting';
+            }
+            
+            // Update alerts
+            const heavyRain = forecast.find(day => day.day.daily_chance_of_rain > 80 && day.day.totalprecip_mm > 20);
+            if (heavyRain) {
+                const date = new Date(heavyRain.date);
+                alertDetails.textContent = `${date.toLocaleDateString()} - Heavy rain predicted (${heavyRain.day.totalprecip_mm}mm)`;
+            }
+            
+            // Update AI insights
+            updateAIInsights(currentData, forecastData);
+        }
+
+        // Update AI insights
+        function updateAIInsights(currentData, forecastData) {
+            const current = currentData.current;
+            const forecast = forecastData.forecast.forecastday;
+            
+            const insights = [];
+            
+            // Temperature insights
+            if (current.temp_c > 30) {
+                insights.push('High temperatures - increase watering frequency');
+            } else if (current.temp_c < 15) {
+                insights.push('Low temperatures - protect young plants');
+            }
+            
+            // Rain insights
+            const totalRain = forecast.reduce((sum, day) => sum + day.day.totalprecip_mm, 0);
+            if (totalRain > 50) {
+                insights.push('Significant rain predicted - prepare drainage');
+            } else if (totalRain < 10) {
+                insights.push('Dry spell expected - plan irrigation');
+            }
+            
+            // Humidity insights
+            if (current.humidity > 80) {
+                insights.push('High humidity - watch for fungal diseases');
+            }
+            
+            // Wind insights
+            if (current.wind_kph > 20) {
+                insights.push('Strong winds - secure structures');
+            }
+            
+            // Add default insights if needed
+            if (insights.length < 3) {
+                insights.push(
+                    'Optimal planting window: Next 7 days',
+                    'Fertilize after predicted rains',
+                    'Monitor soil moisture daily'
+                );
+            }
+            
+            // Update UI
+            aiInsights.innerHTML = insights
+                .slice(0, 4)
+                .map(insight => `<li>${insight}</li>`)
+                .join('');
+        }
+
+        // Update crop information
+        function updateCropInfo(cropType) {
+            const crop = cropData[cropType];
+            cropName.textContent = crop.name;
+            cropDetails.textContent = crop.details;
+            cropAdvice.innerHTML = crop.advice.map(advice => `<li>${advice}</li>`).join('');
+        }
+
+        // Update last updated time
+        function updateLastUpdated() {
+            const now = new Date();
+            lastUpdated.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Show loading spinner
+        function showLoading() {
+            loadingSpinner.style.display = 'block';
+            dashboardContent.style.opacity = '0.5';
+        }
+
+        // Hide loading spinner
+        function hideLoading() {
+            loadingSpinner.style.display = 'none';
+            dashboardContent.style.opacity = '1';
+        }
+
+        // Show error message
+        function showError(message) {
+            alertDetails.textContent = message;
+            weatherAlert.style.backgroundColor = '#ffebee';
+            weatherAlert.style.borderLeftColor = '#ef5350';
+        }
+
+        // Use sample data for fallback
+        function useSampleData() {
+            // Sample current weather data
+            currentTemp.textContent = '32°C';
+            humidity.textContent = '65%';
+            windSpeed.textContent = '12 km/h NE';
+            rainToday.textContent = '2mm';
+            soilMoisture.innerHTML = 'Good <span style="color: var(--primary-green);">✓</span>';
+            
+            // Sample forecast
+            const sampleForecast = [
+                { day: 'Mon', temp: 32, icon: 'fas fa-sun', rain: 10 },
+                { day: 'Tue', temp: 31, icon: 'fas fa-cloud-sun', rain: 20 },
+                { day: 'Wed', temp: 30, icon: 'fas fa-cloud-rain', rain: 80 },
+                { day: 'Thu', temp: 29, icon: 'fas fa-cloud-rain', rain: 70 },
+                { day: 'Fri', temp: 31, icon: 'fas fa-cloud-sun', rain: 30 },
+                { day: 'Sat', temp: 32, icon: 'fas fa-sun', rain: 10 },
+                { day: 'Sun', temp: 33, icon: 'fas fa-sun', rain: 5 }
+            ];
+            
+            forecastDays.innerHTML = sampleForecast
+                .map((day, index) => `
+                    <div class="forecast-day ${index === 0 ? 'active' : ''}">
+                        <div class="day-name">${day.day}</div>
+                        <div class="forecast-icon"><i class="${day.icon}"></i></div>
+                        <div class="forecast-temp">${day.temp}°C</div>
+                        <div style="font-size: 0.8rem; color: #666;">${day.rain}% rain</div>
+                    </div>
+                `)
+                .join('');
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search location
+            if (searchLocationBtn) {
+                searchLocationBtn.addEventListener('click', searchLocation);
+            }
+
+            if (locationInput) {
+                locationInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') searchLocation();
+                });
+            }
+            
+            // Refresh data
+            if (refreshBtn) {
+                refreshBtn.addEventListener('click', fetchWeatherData);
+            }
+            
+            // Crop selection
+            if (cropSelect) {
+                cropSelect.addEventListener('change', (e) => {
+                    updateCropInfo(e.target.value);
+                });
+            }
+            
+            // Modal controls
+            if (viewPlanBtn && planModal) {
+                viewPlanBtn.addEventListener('click', () => {
+                    planModal.classList.add('active');
+                    generateCalendar();
+                });
+            }
+
+            if (closeModalBtn && planModal) {
+                closeModalBtn.addEventListener('click', () => {
+                    planModal.classList.remove('active');
+                });
+            }
+
+            if (planModal) {
+                planModal.addEventListener('click', (e) => {
+                    if (e.target === planModal) {
+                        planModal.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Action buttons
+            if (downloadPlanBtn) {
+                downloadPlanBtn.addEventListener('click', downloadPlan);
+            }
+
+            if (shareExpertBtn) {
+                shareExpertBtn.addEventListener('click', shareWithExpert);
+            }
+
+            if (smsAlertsBtn) {
+                smsAlertsBtn.addEventListener('click', setupSMSAlerts);
+            }
+
+            if (generateReportBtn) {
+                generateReportBtn.addEventListener('click', generateReport);
+            }
+            
+            // Mobile menu
+            if (mobileMenuBtn && userNav) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    userNav.classList.toggle('active');
+                });
+            }
+            
+            // Auto-refresh every 10 minutes
+            setInterval(fetchWeatherData, 10 * 60 * 1000);
+        }
+
+        // Search for new location
+        async function searchLocation() {
+            const query = locationInput.value.trim();
+            if (!query) return;
+            
+            try {
+                const response = await fetch(
+                    `${BASE_URL}/search.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(query)}`
+                );
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.length > 0) {
+                        currentLocation = {
+                            name: data[0].name,
+                            lat: data[0].lat,
+                            lon: data[0].lon
+                        };
+                        fetchWeatherData();
+                        locationInput.value = '';
+                    } else {
+                        showError('Location not found');
+                    }
+                }
+            } catch (error) {
+                console.error('Error searching location:', error);
+                showError('Error searching location');
+            }
+        }
+
+        // Generate calendar for modal
+        function generateCalendar() {
+            const now = new Date();
+            const month = now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+            currentMonth.textContent = month.toUpperCase();
+            modalLocation.textContent = `${currentLocation.name} | ${cropName.textContent}`;
+            
+            // Generate calendar grid
+            const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+            const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).getDay();
+            
+            calendarGrid.innerHTML = '';
+            
+            // Add day headers
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayNames.forEach(day => {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day header';
+                dayElement.textContent = day;
+                calendarGrid.appendChild(dayElement);
+            });
+            
+            // Add empty cells for days before first day of month
+            for (let i = 0; i < firstDay; i++) {
+                const emptyElement = document.createElement('div');
+                emptyElement.className = 'calendar-day';
+                calendarGrid.appendChild(emptyElement);
+            }
+            
+            // Add days of month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                
+                // Mark special days based on weather conditions
+                if (day <= 7) {
+                    dayElement.classList.add('planting');
+                } else if (day > 7 && day <= 14) {
+                    dayElement.classList.add('weeding');
+                } else if (day > 25) {
+                    dayElement.classList.add('harvest');
+                }
+                
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        // Download plan function
+        function downloadPlan() {
+            const currentUser = JSON.parse(localStorage.getItem('healthyHarvestCurrentUser') || 'null');
+            const farmerName = currentUser && currentUser.fullName ? currentUser.fullName : 'Healthy Harvest User';
+            const today = new Date();
+            const thirtyDaysLater = new Date();
+            thirtyDaysLater.setDate(today.getDate() + 30);
+
+            const planContent = [
+                'HEALTHY HARVEST - 30 DAY FARM PLAN',
+                '',
+                `Farmer: ${farmerName}`,
+                `Location: ${currentLocation.name}`,
+                `Crop: ${cropName.textContent}`,
+                `Farm Details: ${cropDetails.textContent}`,
+                `Plan Generated: ${today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`,
+                `Plan Window: ${today.toLocaleDateString('en-US')} to ${thirtyDaysLater.toLocaleDateString('en-US')}`,
+                '',
+                'KEY RECOMMENDATIONS',
+                `1. Planting: ${plantingDates.textContent}`,
+                `2. Weeding: ${weedingDates.textContent}`,
+                `3. Harvest: ${harvestDates.textContent}`,
+                '',
+                'CROP ADVICE',
+                ...Array.from(document.querySelectorAll('#cropAdvice li')).map((item, index) => `${index + 1}. ${item.textContent.trim()}`),
+                '',
+                'AI WEATHER INSIGHTS',
+                ...Array.from(document.querySelectorAll('#aiInsights li')).map((item, index) => `${index + 1}. ${item.textContent.trim()}`),
+                '',
+                'Prepared by Healthy Harvest Advisory System'
+            ].join('\r\n');
+
+            const fileBlob = new Blob([planContent], { type: 'text/plain;charset=utf-8' });
+            const downloadUrl = URL.createObjectURL(fileBlob);
+            const downloadLink = document.createElement('a');
+            const safeLocation = currentLocation.name.replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+
+            downloadLink.href = downloadUrl;
+            downloadLink.download = `healthy-harvest-30-day-plan-${safeLocation}.txt`;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+            URL.revokeObjectURL(downloadUrl);
+        }
+
+        // Share with expert function
+        function shareWithExpert() {
+            const shareData = {
+                location: currentLocation.name,
+                crop: cropName.textContent,
+                recommendations: Array.from(document.querySelectorAll('.rec-dates')).map(el => el.textContent)
+            };
+            
+            // In a real app, this would send data to backend
+            console.log('Sharing data with expert:', shareData);
+            alert('Plan shared with agricultural expert!');
+        }
+
+        // Setup SMS alerts function
+        function setupSMSAlerts() {
+            const phone = prompt('Enter your phone number for SMS alerts:');
+            if (phone) {
+                alert(`SMS alerts will be sent to ${phone} for ${currentLocation.name}`);
+            }
+        }
+
+        // Generate report function
+        function generateReport() {
+            alert('PDF report generated successfully!');
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!ensureWeatherAccess()) {
+                return;
+            }
+
+            init();
+        });
+    </script>
+    <script src="shared-footer.js"></script>
+</body>
+</html>
