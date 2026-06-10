@@ -14,7 +14,7 @@ const uploadAny = multer({ storage: multer.memoryStorage() });
 
 const VISION_PROVIDERS = {
     qwen: {
-        apiKeyEnv: 'QWEN_API_KEY',
+        apiKeyEnv: ['QWEN_API_KEY', 'QWEN_API_KEY_ALT'],
         apiBaseEnv: 'QWEN_API_BASE',
         modelEnv: 'QWEN_MODEL',
         defaultBase: 'https://openrouter.ai/api/v1',
@@ -52,11 +52,14 @@ const VISION_PROVIDERS = {
 function getVisionProviderConfig(provider) {
     const config = VISION_PROVIDERS[provider];
     if (!config) return null;
-    const apiKey = process.env[config.apiKeyEnv];
-    if (!apiKey) return null;
+
+    const apiKeyEnvs = Array.isArray(config.apiKeyEnv) ? config.apiKeyEnv : [config.apiKeyEnv];
+    const apiKeys = apiKeyEnvs.map((envName) => process.env[envName]).filter(Boolean);
+    if (apiKeys.length === 0) return null;
+
     const apiBase = (process.env[config.apiBaseEnv] || config.defaultBase).replace(/\/+$/, '').trim();
     const model = process.env[config.modelEnv] || config.defaultModel;
-    return { apiKey, apiBase, model, providerName: config.providerName, extraParams: config.extraParams || {} };
+    return { apiKeys, apiBase, model, providerName: config.providerName, extraParams: config.extraParams || {} };
 }
 
 async function analyzeImageWithProvider(provider, imageBuffer, mimeType) {
@@ -100,68 +103,77 @@ Your response must strictly match this JSON schema:
   } | null
 }`;
 
-    let response;
-    try {
-        response = await axios.post(
-            `${config.apiBase}/chat/completions`,
-            {
-                model: config.model,
-                messages: [
-                    {
-                        role: 'system',
-                        content: systemPrompt,
-                    },
-                    {
-                        role: 'user',
-                        content: [
-                            {
-                                type: 'text',
-                                text: 'Please validate and diagnose this image.',
-                            },
-                            {
-                                type: 'image_url',
-                                image_url: { url: imageUrl },
-                            },
-                        ],
-                    },
-                ],
-                // Spread any provider-specific extra params (e.g. Nemotron reasoning)
-                ...config.extraParams,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${config.apiKey}`,
-                    'Content-Type': 'application/json',
+    let lastError = null;
+
+    for (const apiKey of config.apiKeys) {
+        try {
+            const response = await axios.post(
+                `${config.apiBase}/chat/completions`,
+                {
+                    model: config.model,
+                    messages: [
+                        {
+                            role: 'system',
+                            content: systemPrompt,
+                        },
+                        {
+                            role: 'user',
+                            content: [
+                                {
+                                    type: 'text',
+                                    text: 'Please validate and diagnose this image.',
+                                },
+                                {
+                                    type: 'image_url',
+                                    image_url: { url: imageUrl },
+                                },
+                            ],
+                        },
+                    ],
+                    // Spread any provider-specific extra params (e.g. Nemotron reasoning)
+                    ...config.extraParams,
                 },
-                timeout: 60000, // Nemotron reasoning can take longer
+                {
+                    headers: {
+                        Authorization: `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json',
+                    },
+                    timeout: 60000, // Nemotron reasoning can take longer
+                }
+            );
+
+            const message = response.data.choices[0].message;
+            // Log Nemotron chain-of-thought reasoning if present
+            if (message.reasoning_content) {
+                console.log(`[${provider}] Reasoning: ${message.reasoning_content.slice(0, 200)}...`);
             }
-        );
-    } catch (axiosErr) {
-        if (axiosErr.response) {
-            const status = axiosErr.response.status;
-            const details = typeof axiosErr.response.data === 'string'
-                ? axiosErr.response.data
-                : JSON.stringify(axiosErr.response.data);
-            throw new Error(`${provider} API request failed (${status}): ${details}`);
+            const content = message.content.trim();
+            let result;
+            try {
+                const jsonString = content.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
+                result = JSON.parse(jsonString);
+            } catch (e) {
+                console.error(`Failed to parse ${provider} JSON response:`, content);
+                throw new Error(`Invalid response format from ${provider} AI.`);
+            }
+            return result;
+        } catch (axiosErr) {
+            lastError = axiosErr;
+            console.warn(`[${provider}] API key failed, trying next available key if any:`, axiosErr.message);
+            if (apiKey === config.apiKeys[config.apiKeys.length - 1]) {
+                if (axiosErr.response) {
+                    const status = axiosErr.response.status;
+                    const details = typeof axiosErr.response.data === 'string'
+                        ? axiosErr.response.data
+                        : JSON.stringify(axiosErr.response.data);
+                    throw new Error(`${provider} API request failed (${status}): ${details}`);
+                }
+                throw axiosErr;
+            }
         }
-        throw axiosErr;
     }
 
-    const message = response.data.choices[0].message;
-    // Log Nemotron chain-of-thought reasoning if present
-    if (message.reasoning_content) {
-        console.log(`[${provider}] Reasoning: ${message.reasoning_content.slice(0, 200)}...`);
-    }
-    const content = message.content.trim();
-    let result;
-    try {
-        const jsonString = content.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
-        result = JSON.parse(jsonString);
-    } catch (e) {
-        console.error(`Failed to parse ${provider} JSON response:`, content);
-        throw new Error(`Invalid response format from ${provider} AI.`);
-    }
-    return result;
+    throw new Error(`${provider} API request failed with no available keys.`);
 }
 
 async function analyzeImageWithQwen(imageBuffer, mimeType) {
